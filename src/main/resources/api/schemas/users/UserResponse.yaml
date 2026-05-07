@@ -1,0 +1,30 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    example: "123e4567-e89b-12d3-a456-426614174000"
+  firstName:
+    type: string
+    example: Juan Carlos
+  lastName:
+    type: string
+    example: Pérez
+  documentTypeId:
+    type: integer
+    format: int64
+    example: 1
+  documentNumber:
+    type: string
+    example: "71234567"
+  userEmail:
+    type: string
+    format: email
+    example: juan.perez@email.com
+  userImageUrl:
+    type: string
+    format: uri
+    example: "https://miservidor.com/avatar.jpg"
+  emailVerified:
+    type: boolean
+    example: false

@@ -1,0 +1,15 @@
+type: object
+required:
+  - email
+  - password
+properties:
+  email:
+    type: string
+    format: email
+    description: Correo electrónico del usuario
+    example: "juan.perez@email.com"
+  password:
+    type: string
+    format: password
+    description: Contraseña en texto plano
+    example: "MiClaveSegura123!"

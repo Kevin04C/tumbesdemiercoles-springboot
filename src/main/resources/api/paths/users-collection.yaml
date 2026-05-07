@@ -1,0 +1,33 @@
+post:
+  tags:
+    - Usuarios
+  summary: Crear usuario
+  operationId: createUser
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/users/UserRequest.yaml'
+  responses:
+    '201':
+      description: Creado exitosamente
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/users/UserResponse.yaml'
+
+get:
+  tags:
+    - Usuarios
+  summary: Listar usuarios
+  operationId: getAllUsers
+  responses:
+    '200':
+      description: Lista obtenida
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/users/UserResponse.yaml'

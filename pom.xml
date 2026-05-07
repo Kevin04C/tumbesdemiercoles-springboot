@@ -34,10 +34,34 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <version>3.4.3</version>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.12.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.5.Final</version>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-flyway</artifactId>
@@ -163,6 +187,36 @@
 					</execution>
 				</executions>
 			</plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.4.0</version>
+
+                <configuration>
+                    <inputSpec>${project.basedir}/src/main/resources/api/openapi.yaml</inputSpec>
+                    <generatorName>spring</generatorName>
+                    <apiPackage>com.tumbesdemiercoles.api.controllers.interfaces</apiPackage>
+                    <modelPackage>com.tumbesdemiercoles.api.controllers.dto</modelPackage>
+                    <configOptions>
+                        <interfaceOnly>true</interfaceOnly>
+                        <reactive>true</reactive>
+                        <useSpringBoot3>true</useSpringBoot3>
+                        <useTags>true</useTags>
+                        <openApiNullable>false</openApiNullable>
+                        <skipDefaultInterface>true</skipDefaultInterface>
+                        <useServerWebExchange>false</useServerWebExchange>
+                    </configOptions>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
