@@ -1,6 +1,6 @@
 type: object
 properties:
-  id:
+  userId:
     type: string
     format: uuid
     example: "123e4567-e89b-12d3-a456-426614174000"
@@ -10,13 +10,6 @@ properties:
   lastName:
     type: string
     example: Pérez
-  documentTypeId:
-    type: integer
-    format: int64
-    example: 1
-  documentNumber:
-    type: string
-    example: "71234567"
   userEmail:
     type: string
     format: email

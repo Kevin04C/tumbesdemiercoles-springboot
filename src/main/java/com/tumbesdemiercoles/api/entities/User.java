@@ -14,35 +14,29 @@ import org.springframework.data.relational.core.mapping.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("users")
+@Table("account")
 public class User extends AuditableEntity{
 
   @Id
-  @Column("UserID")
+  @Column("user_id")
   private UUID userId;
 
-  @Column("FirstName")
+  @Column("first_name")
   private String firstName;
 
-  @Column("LastName")
+  @Column("last_name")
   private String lastName;
 
-  @Column("DocumentTypeID")
-  private Long documentTypeId;
-
-  @Column("DocumentNumber")
-  private String documentNumber;
-
-  @Column("UserEmail")
+  @Column("email")
   private String userEmail;
 
-  @Column("UserImageUrl")
+  @Column("image_url")
   private String userImageUrl;
 
-  @Column("EmailVerified")
+  @Column("is_email_verified")
   private Boolean emailVerified;
 
-  @Column("PasswordHash")
+  @Column("password_hash")
   private String passwordHash;
 
 }

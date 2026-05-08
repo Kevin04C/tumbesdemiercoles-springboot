@@ -2,8 +2,6 @@ type: object
 required:
   - firstName
   - lastName
-  - documentTypeId
-  - documentNumber
   - userEmail
   - password
 properties:
@@ -13,13 +11,6 @@ properties:
   lastName:
     type: string
     example: Pérez
-  documentTypeId:
-    type: integer
-    format: int64
-    example: 1
-  documentNumber:
-    type: string
-    example: "71234567"
   userEmail:
     type: string
     format: email

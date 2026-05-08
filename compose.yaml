@@ -1,9 +1,10 @@
 services:
-  postgres:
-    image: 'postgres:latest'
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_service
+    restart: always
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      PGADMIN_DEFAULT_EMAIL: tu-correo@ejemplo.com
+      PGADMIN_DEFAULT_PASSWORD: tu_password_seguro
     ports:
-      - '5432'
+      - "8080:80"
