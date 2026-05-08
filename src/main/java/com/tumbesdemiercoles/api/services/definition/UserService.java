@@ -11,5 +11,7 @@ public interface UserService {
   Mono<User> getUserById(UUID id);
   Mono<User> getUserByCorreo(String correo);
   Flux<User> getAllUsers();
+  Mono<User> updateUser(UUID id, User user);
+  Mono<Void> deleteUser(UUID id);
 
 }

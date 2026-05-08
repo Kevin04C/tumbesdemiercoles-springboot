@@ -22,6 +22,16 @@ public class UserServiceImpl  implements UserService {
   }
 
   @Override
+  public Mono<User> updateUser(UUID id, User user) {
+    return null;
+  }
+
+  @Override
+  public Mono<Void> deleteUser(UUID id) {
+    return null;
+  }
+
+  @Override
   public Mono<User> getUserById(UUID id) {
     return userRepository.findById(id);
   }
