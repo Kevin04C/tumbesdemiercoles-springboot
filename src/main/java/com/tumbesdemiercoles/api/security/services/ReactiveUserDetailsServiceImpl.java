@@ -1,7 +1,7 @@
 package com.tumbesdemiercoles.api.security.services;
 
-import com.litanocg.digitalcourse.repositories.UserRepository;
-import com.litanocg.digitalcourse.security.model.UserPrincipal;
+import com.tumbesdemiercoles.api.repository.UserRepository;
+import com.tumbesdemiercoles.api.security.model.UserPrincipal;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;

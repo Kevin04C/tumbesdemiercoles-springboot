@@ -51,23 +51,23 @@ public class AccountSecurityService {
    * @param email El email del usuario que solicita el restablecimiento de contraseña.
    * @return Mono vacío cuando se ha enviado el email de restablecimiento.
    */
-  public Mono<Void> requestPasswordReset(String email) {
-    return userService.findUserEntityByEmail(email)
-        .switchIfEmpty(Mono.error(new UserNotFoundException(
-            UserServiceText.userNotFoundForEmail + email)))
-        .flatMap(user -> {
-          try {
-            String token = jwtUtil.generatePasswordResetToken(
-                user.getUserId(), user.getPasswordHash());
-            return emailService.sendPasswordReset(user.getUserEmail(), token);
-          } catch (Exception ex) {
-            ex.printStackTrace();
-            return Mono.error(ex);
-          }
-        })
-        .doOnError(Throwable::printStackTrace)
-        .then();
-  }
+//  public Mono<Void> requestPasswordReset(String email) {
+//    return userService.findUserEntityByEmail(email)
+//        .switchIfEmpty(Mono.error(new UserNotFoundException(
+//            UserServiceText.userNotFoundForEmail + email)))
+//        .flatMap(user -> {
+//          try {
+//            String token = jwtUtil.generatePasswordResetToken(
+//                user.getUserId(), user.getPasswordHash());
+//            return emailService.sendPasswordReset(user.getUserEmail(), token);
+//          } catch (Exception ex) {
+//            ex.printStackTrace();
+//            return Mono.error(ex);
+//          }
+//        })
+//        .doOnError(Throwable::printStackTrace)
+//        .then();
+//  }
 
   /**
    * Verifica la validez de un token de usuario
@@ -77,22 +77,22 @@ public class AccountSecurityService {
    * @param token El token de usuario a verificar.
    * @return Mono de TokenStatusResponse con el estado del token.
    */
-  public Mono<TokenStatusResponse> verifyUserToken(String token) {
-
-    return Mono.defer(() -> {
-      try {
-        JwtUtil.ParsedReset parsed = jwtUtil.parsePasswordResetToken(token);
-        return Mono.just(new TokenStatusResponse(
-            UserServiceText.tokenStatusValid, parsed.userId()));
-
-      } catch (JwtException e) {
-        log.error(UserServiceText.errorValidToken, e);
-        return Mono.error(new ResponseStatusException(
-            HttpStatus.BAD_REQUEST, UserServiceText.tokenInvalidOrExpired));
-      }
-    });
-
-  }
+//  public Mono<TokenStatusResponse> verifyUserToken(String token) {
+//
+//    return Mono.defer(() -> {
+//      try {
+//        JwtUtil.ParsedReset parsed = jwtUtil.parsePasswordResetToken(token);
+//        return Mono.just(new TokenStatusResponse(
+//            UserServiceText.tokenStatusValid, parsed.userId()));
+//
+//      } catch (JwtException e) {
+//        log.error(UserServiceText.errorValidToken, e);
+//        return Mono.error(new ResponseStatusException(
+//            HttpStatus.BAD_REQUEST, UserServiceText.tokenInvalidOrExpired));
+//      }
+//    });
+//
+//  }
 
   /**
    * Restablece la contraseña de un usuario utilizando un token de restablecimiento.
@@ -101,33 +101,33 @@ public class AccountSecurityService {
    * @param newPassword La nueva contraseña del usuario.
    * @return Mono vacío cuando la contraseña ha sido restablecida exitosamente.
    */
-  public Mono<Void> resetPassword(String token, String newPassword) {
-    return Mono.fromCallable(() -> jwtUtil.parsePasswordResetToken(token))
-        .flatMap(parsed ->
-            userService.findUserEntityById(parsed.userId())
-                .switchIfEmpty(Mono.error(new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, UserServiceText.tokenInvalidOrExpired)))
-                .flatMap(user -> {
-                  String expected = jwtUtil.generatePasswordResetToken(
-                      user.getUserId(), user.getPasswordHash());
-                  String expectedPhf = jwtUtil.parsePasswordResetToken(expected).phf();
-
-                  if (!expectedPhf.equals(parsed.phf())) {
-                    return Mono.error(new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST,
-                        UserServiceText.tokenInvalidOrUsed));
-                  }
-
-                  user.setPasswordHash(passwordEncoder.encode(newPassword));
-                  user.setUpdatedAt(java.time.LocalDateTime.now());
-                  return userService.saveUserEntity(user).then();
-                })
-        )
-        .onErrorMap(JwtException.class,
-            e -> new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                UserServiceText.tokenInvalidOrExpired, e
-            ));
-  }
+//  public Mono<Void> resetPassword(String token, String newPassword) {
+//    return Mono.fromCallable(() -> jwtUtil.parsePasswordResetToken(token))
+//        .flatMap(parsed ->
+//            userService.findUserEntityById(parsed.userId())
+//                .switchIfEmpty(Mono.error(new ResponseStatusException(
+//                    HttpStatus.BAD_REQUEST, UserServiceText.tokenInvalidOrExpired)))
+//                .flatMap(user -> {
+//                  String expected = jwtUtil.generatePasswordResetToken(
+//                      user.getUserId(), user.getPasswordHash());
+//                  String expectedPhf = jwtUtil.parsePasswordResetToken(expected).phf();
+//
+//                  if (!expectedPhf.equals(parsed.phf())) {
+//                    return Mono.error(new ResponseStatusException(
+//                        HttpStatus.BAD_REQUEST,
+//                        UserServiceText.tokenInvalidOrUsed));
+//                  }
+//
+//                  user.setPasswordHash(passwordEncoder.encode(newPassword));
+//                  user.setUpdatedAt(java.time.LocalDateTime.now());
+//                  return userService.saveUserEntity(user).then();
+//                })
+//        )
+//        .onErrorMap(JwtException.class,
+//            e -> new ResponseStatusException(
+//                HttpStatus.BAD_REQUEST,
+//                UserServiceText.tokenInvalidOrExpired, e
+//            ));
+//  }
 
 }

@@ -1,7 +1,7 @@
 package com.tumbesdemiercoles.api.security.services;
 
-import com.litanocg.digitalcourse.security.configuration.EmailProps;
-import com.litanocg.digitalcourse.security.utils.EmailMessages;
+import com.tumbesdemiercoles.api.security.configuration.EmailProps;
+import com.tumbesdemiercoles.api.security.utils.EmailMessages;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;

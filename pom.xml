@@ -47,11 +47,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
-            <version>3.0.3</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -192,40 +191,6 @@
 					</execution>
 				</executions>
 			</plugin>
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.4.0</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api/openapi.yaml</inputSpec>
-                            <generatorName>spring</generatorName>
-                            <apiPackage>com.tumbesdemiercoles.api.controllers.interfaces</apiPackage>
-                            <modelPackage>com.tumbesdemiercoles.api.controllers.dto</modelPackage>
-                            <configOptions>
-                                <useRecords>true</useRecords>
-
-                                <library>spring-boot</library>
-
-                                <useSpringBoot4>true</useSpringBoot4>
-                                <useJakartaEe>true</useJakartaEe>
-
-                                <serializationLibrary>jackson</serializationLibrary>
-
-                                <interfaceOnly>true</interfaceOnly>
-                                <reactive>true</reactive>
-                                <openApiNullable>false</openApiNullable>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
 		</plugins>
 	</build>
 
