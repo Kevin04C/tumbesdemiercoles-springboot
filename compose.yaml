@@ -7,4 +7,4 @@ services:
       PGADMIN_DEFAULT_EMAIL: tu-correo@ejemplo.com
       PGADMIN_DEFAULT_PASSWORD: tu_password_seguro
     ports:
-      - "8080:80"
+      - "8081:80"
