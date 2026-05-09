@@ -1,10 +1,12 @@
 package com.tumbesdemiercoles.api.user.infrastructure.entity;
 
+import com.tumbesdemiercoles.api.shared.infrastructure.entity.AuditableEntity;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -14,14 +16,14 @@ import org.springframework.data.relational.core.mapping.Table;
  * Solo existe para hablar con la base de datos.
  */
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("account")
+@Table("user")
 public class UserEntity extends AuditableEntity {
 
   @Id
-  @Column("user_id")
+  @Column("id")
   private UUID id;
 
   @Column("first_name")

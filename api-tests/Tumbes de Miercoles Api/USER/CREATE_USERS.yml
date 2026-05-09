@@ -6,6 +6,15 @@ info:
 http:
   method: POST
   url: "{{url}}/api/v1/users"
+  body:
+    type: json
+    data: |-
+      {
+        "firstName":"chanchito feliz",
+        "lastName":"popop",
+        "email":"chanchitoFeliz1645_15@hotmail.es",
+        "password":"franz123"
+      }
   auth: inherit
 
 settings:

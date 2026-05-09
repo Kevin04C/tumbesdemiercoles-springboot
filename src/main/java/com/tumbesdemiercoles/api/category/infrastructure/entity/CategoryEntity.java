@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.category.infrastructure.entity;
 
-import com.tumbesdemiercoles.api.user.infrastructure.entity.AuditableEntity;
+import com.tumbesdemiercoles.api.shared.infrastructure.entity.AuditableEntity;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

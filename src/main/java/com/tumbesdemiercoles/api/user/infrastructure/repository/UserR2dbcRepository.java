@@ -17,4 +17,6 @@ public interface UserR2dbcRepository extends ReactiveCrudRepository<UserEntity, 
 
   Flux<UserAuthorityDto> findAuthoritiesById(UUID id);
 
+  Mono<Boolean> existsByUserEmail(String email);
+
 }

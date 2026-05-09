@@ -50,4 +50,9 @@ public class UserRepositoryAdapter implements UserRepository {
     return r2dbcRepository.deleteById(id);
   }
 
+  @Override
+  public Mono<Boolean> existsByEmail(String email) {
+    return r2dbcRepository.existsByUserEmail(email);
+  }
+
 }

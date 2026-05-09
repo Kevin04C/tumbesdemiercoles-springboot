@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.permission.infrastructure.entity;
 
-import com.tumbesdemiercoles.api.user.infrastructure.entity.AuditableEntity;
+import com.tumbesdemiercoles.api.shared.infrastructure.entity.AuditableEntity;
 import java.util.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -2,40 +2,22 @@ package com.tumbesdemiercoles.api.user.infrastructure.mapper;
 
 import com.tumbesdemiercoles.api.user.domain.model.User;
 import com.tumbesdemiercoles.api.user.infrastructure.entity.UserEntity;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-/**
- * Mapper de persistencia: convierte entre User (dominio) y UserEntity (infraestructura).
- */
-@Component
-public class UserPersistenceMapper {
+@Mapper(componentModel = "spring")
+public interface UserPersistenceMapper {
 
-  public User toDomain(UserEntity entity) {
-    return User.builder()
-        .id(entity.getId())
-        .firstName(entity.getFirstName())
-        .lastName(entity.getLastName())
-        .email(entity.getUserEmail())
-        .imageUrl(entity.getUserImageUrl())
-        .emailVerified(entity.getEmailVerified())
-        .passwordHash(entity.getPasswordHash())
-        .createdAt(entity.getCreatedAt())
-        .updatedAt(entity.getUpdatedAt())
-        .statusRegistry(entity.getStatusRegistry())
-        .statusUpdatedAt(entity.getStatusUpdatedAt())
-        .build();
-  }
+  @Mapping(source = "userEmail", target = "email")
+  @Mapping(source = "userImageUrl", target = "imageUrl")
+  User toDomain(UserEntity entity);
 
-  public UserEntity toEntity(User domain) {
-    return UserEntity.builder()
-        .id(domain.getId())
-        .firstName(domain.getFirstName())
-        .lastName(domain.getLastName())
-        .userEmail(domain.getEmail())
-        .userImageUrl(domain.getImageUrl())
-        .emailVerified(domain.getEmailVerified())
-        .passwordHash(domain.getPasswordHash())
-        .build();
-  }
+  @Mapping(source = "email", target = "userEmail")
+  @Mapping(source = "imageUrl", target = "userImageUrl")
+  @Mapping(target = "createdAt", ignore = true) // Esto lo maneja Spring
+  @Mapping(target = "updatedAt", ignore = true)
+  @Mapping(target = "statusRegistry", source = "statusRegistry") // Aseguramos el mapeo
+  @Mapping(target = "statusUpdatedAt", source = "statusUpdatedAt")
+  UserEntity toEntity(User domain);
 
 }

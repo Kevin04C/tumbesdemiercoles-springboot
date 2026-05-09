@@ -1,86 +1,50 @@
 package com.tumbesdemiercoles.api.user.presentation.controller;
 
+import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import com.tumbesdemiercoles.api.user.application.usecase.CreateUserUseCase;
 import com.tumbesdemiercoles.api.user.application.usecase.GetUserUseCase;
 import com.tumbesdemiercoles.api.user.application.dto.UserRequestDto;
+import com.tumbesdemiercoles.api.user.presentation.api.UserControllerApi;
 import com.tumbesdemiercoles.api.user.presentation.dto.UserRequest;
 import com.tumbesdemiercoles.api.user.presentation.dto.UserResponse;
+import com.tumbesdemiercoles.api.user.presentation.mapper.UserWebMapper;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class UserController {
+public class UserController implements UserControllerApi {
 
   private final CreateUserUseCase createUserUseCase;
   private final GetUserUseCase getUserUseCase;
+  private final UserWebMapper webMapper;
 
-  @PostMapping
-  public Mono<ResponseEntity<UserResponse>> createUser(@RequestBody Mono<UserRequest> userRequest,
-      ServerWebExchange exchange) {
-    return userRequest
-        .map(req -> UserRequestDto.builder()
-            .firstName(req.getFirstName())
-            .lastName(req.getLastName())
-            .email(req.getEmail())
-            .password(req.getPassword())
-            .imageUrl(req.getImageUrl())
-            .build())
-        .flatMap(dto -> createUserUseCase.execute(dto))
-        .map(result -> {
-          UserResponse response = new UserResponse();
-          response.setId(result.getId());
-          response.setFirstName(result.getFirstName());
-          response.setLastName(result.getLastName());
-          response.setEmail(result.getEmail());
-          response.setImageUrl(result.getImageUrl());
-          response.setEmailVerified(result.getEmailVerified());
-          return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        });
+  @Override
+  public Mono<ApiResponse<UserResponse>> createUser(UserRequest userRequest) {
+    return Mono.just(userRequest)
+        .map(webMapper::toDto)
+        .flatMap(createUserUseCase::execute)
+        .map(webMapper::toResponse)
+        .map(response -> ApiResponse.success(response, "Usuario creado exitosamente"));
   }
 
-  @GetMapping
-  public Mono<ResponseEntity<Flux<UserResponse>>> getAllUsers(ServerWebExchange exchange) {
-    Flux<UserResponse> fluxResponses = getUserUseCase.getAll()
-        .map(result -> {
-          UserResponse response = new UserResponse();
-          response.setId(result.getId());
-          response.setFirstName(result.getFirstName());
-          response.setLastName(result.getLastName());
-          response.setEmail(result.getEmail());
-          response.setImageUrl(result.getImageUrl());
-          response.setEmailVerified(result.getEmailVerified());
-          return response;
-        });
-
-    return Mono.just(ResponseEntity.ok(fluxResponses));
+  @Override
+  public Flux<UserResponse> getAllUsers() {
+    return getUserUseCase.getAll()
+        .map(webMapper::toResponse);
   }
 
-  @GetMapping("/{id}")
-  public Mono<ResponseEntity<UserResponse>> getUserById(@PathVariable UUID id, ServerWebExchange exchange) {
-    return getUserUseCase.getById(id)
-        .map(result -> {
-          UserResponse response = new UserResponse();
-          response.setId(result.getId());
-          response.setFirstName(result.getFirstName());
-          response.setLastName(result.getLastName());
-          response.setEmail(result.getEmail());
-          response.setImageUrl(result.getImageUrl());
-          response.setEmailVerified(result.getEmailVerified());
-          return ResponseEntity.ok(response);
-        })
-        .defaultIfEmpty(ResponseEntity.notFound().build());
-  }
+//  @Override
+//  public Mono<UserResponse> getUserById(@PathVariable UUID id) {
+//    return getUserUseCase.getById(id)
+//        .map(webMapper::toResponse)
+//
+//        .switchIfEmpty(Mono.error(() -> new NotFoundException("User", "id", id.toString())));
+//  }
 }
