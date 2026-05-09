@@ -1,8 +1,0 @@
-type: object
-required:
-  - token
-properties:
-  token:
-    type: string
-    description: JWT Token para autenticación en las siguientes peticiones
-    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."

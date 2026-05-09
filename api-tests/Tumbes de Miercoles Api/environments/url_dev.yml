@@ -1,4 +1,4 @@
 name: url_dev
 variables:
   - name: url
-    value: http://localhost:3000
+    value: http://localhost:8080
