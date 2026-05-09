@@ -1,8 +1,10 @@
 package com.tumbesdemiercoles.api.security.services;
 
+import com.tumbesdemiercoles.api.user.application.dto.UserRequestDto;
+import com.tumbesdemiercoles.api.user.application.usecase.GetUserUseCase;
+import com.tumbesdemiercoles.api.user.application.usecase.UpdateUserUseCase;
 import com.tumbesdemiercoles.api.security.utils.JwtUtil;
-import com.tumbesdemiercoles.api.services.definition.UserService;
-import com.tumbesdemiercoles.api.utils.UserServiceText;
+import com.tumbesdemiercoles.api.shared.utils.UserServiceText;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +20,8 @@ import reactor.core.publisher.Mono;
 public class AccountSecurityService {
 
   private final JwtUtil jwtUtil;
-  private final UserService userService;
+  private final GetUserUseCase getUserUseCase;
+  private final UpdateUserUseCase updateUserUseCase;
   private final EmailService emailService;
   private final PasswordEncoder passwordEncoder;
 
@@ -32,10 +35,15 @@ public class AccountSecurityService {
 
     return Mono.fromCallable(() -> jwtUtil.parseEmailSubject(token))
         .flatMap(userId ->
-            userService.getUserById(userId)
+            getUserUseCase.getById(userId)
                 .flatMap(userDto -> {
-                  userDto.setEmailVerified(true);
-                  return userService.updateUser(userId, userDto);
+                  UserRequestDto updateDto = UserRequestDto.builder()
+                      .firstName(userDto.getFirstName())
+                      .lastName(userDto.getLastName())
+                      .email(userDto.getEmail())
+                      .imageUrl(userDto.getImageUrl())
+                      .build();
+                  return updateUserUseCase.execute(userId, updateDto);
                 })
         )
         .thenReturn(UserServiceText.emailVerifySuccess)

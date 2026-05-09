@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.security.configuration;
 
-import com.tumbesdemiercoles.api.repository.PermissionRepository;
+import com.tumbesdemiercoles.api.permission.infrastructure.repository.PermissionR2dbcRepository;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +16,7 @@ import reactor.core.publisher.Flux;
 @RequiredArgsConstructor
 public class CustomJwtAuthenticationConverter implements Converter<Jwt, Flux<GrantedAuthority>> {
 
-  private final PermissionRepository permissionRepository;
+  private final PermissionR2dbcRepository permissionRepository;
 
   private final Map<String, List<GrantedAuthority>> permissionsCache = new ConcurrentHashMap<>();
 

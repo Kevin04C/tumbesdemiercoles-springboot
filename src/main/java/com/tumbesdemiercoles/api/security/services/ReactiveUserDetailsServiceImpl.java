@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.security.services;
 
-import com.tumbesdemiercoles.api.repository.UserRepository;
+import com.tumbesdemiercoles.api.user.infrastructure.repository.UserR2dbcRepository;
 import com.tumbesdemiercoles.api.security.model.UserPrincipal;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.Set;
 @Primary
 public class ReactiveUserDetailsServiceImpl implements ReactiveUserDetailsService {
 
-  private final UserRepository userRepository;
+  private final UserR2dbcRepository userRepository;
 
   @Override
   public Mono<UserDetails> findByUsername(String username) {
