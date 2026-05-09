@@ -34,7 +34,7 @@ public class ReactiveUserDetailsServiceImpl implements ReactiveUserDetailsServic
 
     return userRepository.findByUserEmail(username)
         .flatMap(user ->
-            userRepository.findAuthoritiesByUserId(user.getUserId())
+            userRepository.findAuthoritiesById(user.getId())
                 .collectList()
                 .map(authorityDtos -> {
 
@@ -57,7 +57,7 @@ public class ReactiveUserDetailsServiceImpl implements ReactiveUserDetailsServic
                   }
 
                   return new UserPrincipal(
-                      String.valueOf(user.getUserId()),
+                      String.valueOf(user.getId()),
                       user.getUserEmail(),
                       user.getPasswordHash(),
                       roles,

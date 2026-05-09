@@ -34,8 +34,8 @@ public class AccountSecurityService {
   public Mono<String> verifyEmail(String token) {
 
     return Mono.fromCallable(() -> jwtUtil.parseEmailSubject(token))
-        .flatMap(userId ->
-            getUserUseCase.getById(userId)
+        .flatMap(id ->
+            getUserUseCase.getById(id)
                 .flatMap(userDto -> {
                   UserRequestDto updateDto = UserRequestDto.builder()
                       .firstName(userDto.getFirstName())
@@ -43,7 +43,7 @@ public class AccountSecurityService {
                       .email(userDto.getEmail())
                       .imageUrl(userDto.getImageUrl())
                       .build();
-                  return updateUserUseCase.execute(userId, updateDto);
+                  return updateUserUseCase.execute(id, updateDto);
                 })
         )
         .thenReturn(UserServiceText.emailVerifySuccess)

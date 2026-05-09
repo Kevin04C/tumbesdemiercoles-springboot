@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.user.domain.model;
+package com.tumbesdemiercoles.api.category.domain.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -9,24 +9,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Entidad de dominio User.
+ * Entidad de dominio Category.
  * POJO puro sin anotaciones de frameworks (ni Spring Data, ni JPA).
- * Representa el concepto de negocio "Usuario" en su forma más pura.
+ * Representa el concepto de negocio "Categoría" en su forma más pura.
  */
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Category {
 
   private UUID id;
-  private String firstName;
-  private String lastName;
-  private String email;
-  private String imageUrl;
-  private Boolean emailVerified;
-  private String passwordHash;
+  private String description;
+  private Boolean isActive;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
   private String statusRegistry;

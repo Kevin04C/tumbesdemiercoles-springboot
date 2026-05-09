@@ -41,7 +41,7 @@ public class UserController {
         .flatMap(dto -> createUserUseCase.execute(dto))
         .map(result -> {
           UserResponse response = new UserResponse();
-          response.setUserId(result.getUserId());
+          response.setId(result.getId());
           response.setFirstName(result.getFirstName());
           response.setLastName(result.getLastName());
           response.setEmail(result.getEmail());
@@ -56,7 +56,7 @@ public class UserController {
     Flux<UserResponse> fluxResponses = getUserUseCase.getAll()
         .map(result -> {
           UserResponse response = new UserResponse();
-          response.setUserId(result.getUserId());
+          response.setId(result.getId());
           response.setFirstName(result.getFirstName());
           response.setLastName(result.getLastName());
           response.setEmail(result.getEmail());
@@ -73,7 +73,7 @@ public class UserController {
     return getUserUseCase.getById(id)
         .map(result -> {
           UserResponse response = new UserResponse();
-          response.setUserId(result.getUserId());
+          response.setId(result.getId());
           response.setFirstName(result.getFirstName());
           response.setLastName(result.getLastName());
           response.setEmail(result.getEmail());

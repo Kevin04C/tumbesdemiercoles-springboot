@@ -23,7 +23,7 @@ public class UpdateUserUseCase {
     return userRepository.findById(id)
         .switchIfEmpty(Mono.error(new UserNotFoundException(id)))
         .map(existing -> User.builder()
-            .userId(existing.getUserId())
+            .id(existing.getId())
             .firstName(dto.getFirstName())
             .lastName(dto.getLastName())
             .email(dto.getEmail())
@@ -37,7 +37,7 @@ public class UpdateUserUseCase {
 
   private UserResponseDto toResponse(User user) {
     return UserResponseDto.builder()
-        .userId(user.getUserId())
+        .id(user.getId())
         .firstName(user.getFirstName())
         .lastName(user.getLastName())
         .email(user.getEmail())

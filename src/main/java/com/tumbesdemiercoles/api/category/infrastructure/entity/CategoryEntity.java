@@ -1,5 +1,6 @@
-package com.tumbesdemiercoles.api.user.infrastructure.entity;
+package com.tumbesdemiercoles.api.category.infrastructure.entity;
 
+import com.tumbesdemiercoles.api.user.infrastructure.entity.AuditableEntity;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,29 +18,17 @@ import org.springframework.data.relational.core.mapping.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("account")
-public class UserEntity extends AuditableEntity {
+@Table("category")
+public class CategoryEntity extends AuditableEntity {
 
   @Id
-  @Column("user_id")
+  @Column("id")
   private UUID id;
 
-  @Column("first_name")
-  private String firstName;
+  @Column("description")
+  private String description;
 
-  @Column("last_name")
-  private String lastName;
-
-  @Column("email")
-  private String userEmail;
-
-  @Column("image_url")
-  private String userImageUrl;
-
-  @Column("is_email_verified")
-  private Boolean emailVerified;
-
-  @Column("password_hash")
-  private String passwordHash;
+  @Column("is_active")
+  private Boolean isActive;
 
 }

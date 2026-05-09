@@ -22,7 +22,7 @@ public abstract class BasePageRequestDto {
     private int size = 10;
 
     @Builder.Default
-    private String sortBy = "userId";
+    private String sortBy = "id";
 
     @Builder.Default
     private String sortDir = "asc";

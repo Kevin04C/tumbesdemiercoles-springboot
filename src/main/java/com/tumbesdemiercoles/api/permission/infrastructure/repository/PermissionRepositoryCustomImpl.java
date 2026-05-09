@@ -82,7 +82,7 @@ public class PermissionRepositoryCustomImpl implements PermissionRepositoryCusto
 
     Mono<List<PermissionEntity>> dataMono = dataSpec.map((row, meta) -> {
       PermissionEntity p = new PermissionEntity();
-      p.setPermissionId(row.get("PermissionID", UUID.class));
+      p.setId(row.get("PermissionID", UUID.class));
       p.setPermissionName(row.get("PermissionName", String.class));
       p.setDescription(row.get("Description", String.class));
       return p;

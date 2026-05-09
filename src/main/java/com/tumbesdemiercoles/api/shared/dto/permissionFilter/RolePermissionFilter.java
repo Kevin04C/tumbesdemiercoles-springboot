@@ -16,7 +16,7 @@ public class RolePermissionFilter extends BasePageRequestDto {
 
   @Override
   public String getSortBy() {
-    return super.getSortBy() != null && super.getSortBy().equals("userId")
+    return super.getSortBy() != null && super.getSortBy().equals("id")
         ? "PermissionName"
         : super.getSortBy();
   }

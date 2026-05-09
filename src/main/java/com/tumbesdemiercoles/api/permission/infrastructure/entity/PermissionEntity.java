@@ -17,7 +17,7 @@ public class PermissionEntity extends AuditableEntity {
 
   @Id
   @Column("PermissionID")
-  private UUID permissionId;
+  private UUID id;
 
   @Column("PermissionName")
   private String permissionName;

@@ -15,6 +15,6 @@ public interface UserR2dbcRepository extends ReactiveCrudRepository<UserEntity, 
 
   Mono<UserEntity> findByUserEmail(String email);
 
-  Flux<UserAuthorityDto> findAuthoritiesByUserId(UUID userId);
+  Flux<UserAuthorityDto> findAuthoritiesById(UUID id);
 
 }

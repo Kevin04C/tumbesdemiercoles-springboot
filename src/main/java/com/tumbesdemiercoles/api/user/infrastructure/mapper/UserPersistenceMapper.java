@@ -12,7 +12,7 @@ public class UserPersistenceMapper {
 
   public User toDomain(UserEntity entity) {
     return User.builder()
-        .userId(entity.getUserId())
+        .id(entity.getId())
         .firstName(entity.getFirstName())
         .lastName(entity.getLastName())
         .email(entity.getUserEmail())
@@ -28,7 +28,7 @@ public class UserPersistenceMapper {
 
   public UserEntity toEntity(User domain) {
     return UserEntity.builder()
-        .userId(domain.getUserId())
+        .id(domain.getId())
         .firstName(domain.getFirstName())
         .lastName(domain.getLastName())
         .userEmail(domain.getEmail())

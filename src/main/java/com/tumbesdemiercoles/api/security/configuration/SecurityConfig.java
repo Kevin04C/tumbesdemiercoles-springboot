@@ -70,12 +70,9 @@ public class SecurityConfig {
             // Rutas de Login/Auth
             .pathMatchers("/auth/**").permitAll()
 
-            // RUTAS DE OPENAPI ACTUALIZADAS
-            .pathMatchers(HttpMethod.POST, "/api/v1/users").permitAll() // Registro de usuario libre
-            .pathMatchers(HttpMethod.GET, "/api/v1/users/{id}").permitAll() // Ver perfil público libre
-
-            // NOTA: El endpoint para listar todos los usuarios (GET /api/v1/users)
-            // no está aquí, por lo que requerirá token. (¡Es una buena práctica para evitar scrapping de datos!)
+            // TODO: Restringir cuando se implemente el flujo de autenticación completo
+            // Por ahora todas las APIs son públicas para desarrollo
+            .pathMatchers("/api/**").permitAll()
 
             .anyExchange().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2

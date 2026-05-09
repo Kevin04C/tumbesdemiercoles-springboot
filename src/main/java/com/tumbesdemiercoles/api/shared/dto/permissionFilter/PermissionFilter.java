@@ -18,5 +18,5 @@ public class PermissionFilter extends BasePageRequestDto {
   private String name;
 
   @Builder.Default
-  private String sortBy = "permissionId";
+  private String sortBy = "id";
 }

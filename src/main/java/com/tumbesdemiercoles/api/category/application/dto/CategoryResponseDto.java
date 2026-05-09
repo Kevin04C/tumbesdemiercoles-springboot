@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.user.application.dto;
+package com.tumbesdemiercoles.api.category.application.dto;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * DTO de salida para operaciones de usuario.
+ * DTO de salida para operaciones de categoría.
  * Transporta datos desde los casos de uso hacia la capa de presentación.
  */
 @Getter
@@ -16,13 +16,10 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDto {
+public class CategoryResponseDto {
 
   private UUID id;
-  private String firstName;
-  private String lastName;
-  private String email;
-  private String imageUrl;
-  private Boolean emailVerified;
+  private String description;
+  private Boolean isActive;
 
 }

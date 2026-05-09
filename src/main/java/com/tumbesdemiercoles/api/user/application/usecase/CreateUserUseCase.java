@@ -33,7 +33,7 @@ public class CreateUserUseCase {
 
   private UserResponseDto toResponse(User user) {
     return UserResponseDto.builder()
-        .userId(user.getUserId())
+        .id(user.getId())
         .firstName(user.getFirstName())
         .lastName(user.getLastName())
         .email(user.getEmail())

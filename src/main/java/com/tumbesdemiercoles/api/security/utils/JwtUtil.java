@@ -119,8 +119,8 @@ public class JwtUtil {
    * @param userId id del usuario al que pertenece el token
    * @return token JWT firmado para verificación de email
    */
-  public String generateEmailToken(UUID userId) {
-    return createToken(userId.toString(), Duration.ofHours(
+  public String generateEmailToken(UUID id) {
+    return createToken(id.toString(), Duration.ofHours(
             emailProps.getVerificationEmailTokenTtlHours()), null);
   }
 
@@ -138,9 +138,9 @@ public class JwtUtil {
    * @param currentPasswordHash hash de la contraseña actual del usuario
    * @return token JWT firmado para restablecer contraseña
    */
-  public String generatePasswordResetToken(Long userId, String currentPasswordHash) {
+  public String generatePasswordResetToken(Long id, String currentPasswordHash) {
     String fingerprint = generatePasswordFingerprint(currentPasswordHash);
-    String user = String.valueOf(userId);
+    String user = String.valueOf(id);
     Map<String, Object> claims = new HashMap<>();
     claims.put(scope, SCOPE_PWD_RESET);
     claims.put(phf, fingerprint);
@@ -224,7 +224,7 @@ public class JwtUtil {
    * @param userId ID del usuario
    * @param phf    password fingerprint
    */
-  public record ParsedReset(Long userId, String phf) {
+  public record ParsedReset(Long id, String phf) {
   }
 
   /**
@@ -238,7 +238,7 @@ public class JwtUtil {
    * </ul>
    *
    * @param token token JWT de restablecimiento de contraseña
-   * @return objeto {@link ParsedReset} con userId y fingerprint
+   * @return objeto {@link ParsedReset} con id y fingerprint
    * @throws JwtException si el scope es incorrecto, el subject no es válido
    *                      o falta el fingerprint
    */

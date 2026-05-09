@@ -35,17 +35,17 @@ import org.springframework.data.relational.core.mapping.Column;
 public abstract class AuditableEntity {
 
   @CreatedDate
-  @Column("CreatedAt")
+  @Column("created_at")
   private LocalDateTime createdAt;
 
   @LastModifiedDate
-  @Column("UpdatedAt")
+  @Column("updated_at")
   private LocalDateTime updatedAt;
 
-  @Column("StatusRegistry")
+  @Column("status_registry")
   private String statusRegistry;
 
-  @Column("StatusUpdatedAt")
+  @Column("status_updated_at")
   private LocalDateTime statusUpdatedAt;
 
   public void setStatusRegistry(String newStatus) {
