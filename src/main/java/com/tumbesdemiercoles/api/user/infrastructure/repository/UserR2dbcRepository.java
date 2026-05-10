@@ -3,6 +3,8 @@ package com.tumbesdemiercoles.api.user.infrastructure.repository;
 import com.tumbesdemiercoles.api.shared.dto.UserAuthorityDto;
 import com.tumbesdemiercoles.api.user.infrastructure.entity.UserEntity;
 import java.util.UUID;
+import org.springframework.data.r2dbc.repository.Modifying;
+import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,5 +20,9 @@ public interface UserR2dbcRepository extends ReactiveCrudRepository<UserEntity, 
   Flux<UserAuthorityDto> findAuthoritiesById(UUID id);
 
   Mono<Boolean> existsByUserEmail(String email);
+
+  @Modifying
+  @Query("UPDATE users SET is_verified = true WHERE id = :userId")
+  Mono<Integer> verifyEmail(UUID userId);
 
 }

@@ -1,5 +1,6 @@
 package com.tumbesdemiercoles.api.user.application.usecase;
 
+import com.tumbesdemiercoles.api.user.application.ports.in.DeleteUserUseCase;
 import com.tumbesdemiercoles.api.user.domain.repository.UserRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,7 @@ import reactor.core.publisher.Mono;
  */
 @Service
 @RequiredArgsConstructor
-public class DeleteUserUseCase {
+public class DeleteUserUseCaseImpl implements DeleteUserUseCase {
 
   private final UserRepository userRepository;
 
