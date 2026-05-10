@@ -22,4 +22,6 @@ public interface UserRepository {
 
   Mono<Void> deleteById(UUID id);
 
+  Mono<Boolean> existsByEmail(String email);
+
 }

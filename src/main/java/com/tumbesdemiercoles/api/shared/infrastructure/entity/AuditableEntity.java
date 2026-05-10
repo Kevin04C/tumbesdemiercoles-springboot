@@ -1,9 +1,11 @@
-package com.tumbesdemiercoles.api.user.infrastructure.entity;
+package com.tumbesdemiercoles.api.shared.infrastructure.entity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.relational.core.mapping.Column;
@@ -32,6 +34,8 @@ import org.springframework.data.relational.core.mapping.Column;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public abstract class AuditableEntity {
 
   @CreatedDate
@@ -48,10 +52,10 @@ public abstract class AuditableEntity {
   @Column("status_updated_at")
   private LocalDateTime statusUpdatedAt;
 
-  public void setStatusRegistry(String newStatus) {
-    if (!Objects.equals(this.statusRegistry, newStatus)) {
-      this.statusRegistry = newStatus;
-      this.statusUpdatedAt = LocalDateTime.now();
-    }
-  }
+//  public void setStatusRegistry(String newStatus) {
+//    if (!Objects.equals(this.statusRegistry, newStatus)) {
+//      this.statusRegistry = newStatus;
+//      this.statusUpdatedAt = LocalDateTime.now();
+//    }
+//  }
 }

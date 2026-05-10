@@ -1,12 +1,13 @@
 package com.tumbesdemiercoles.api.user.domain.model;
 
+import com.tumbesdemiercoles.api.shared.domain.model.Auditable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Entidad de dominio User.
@@ -15,10 +16,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends Auditable {
 
   private UUID id;
   private String firstName;
@@ -27,9 +28,20 @@ public class User {
   private String imageUrl;
   private Boolean emailVerified;
   private String passwordHash;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
-  private String statusRegistry;
-  private LocalDateTime statusUpdatedAt;
+
+  public static User createNewUser(String firstName, String lastName, String email, String passwordHash, String imageUrl) {
+    String finalImageUrl = (imageUrl == null || imageUrl.isBlank())
+        ? "http://res.cloudinary.com/dt86tk7ed/image/upload/v1758151082/curso-digital/users/anonimo_m9l9vc.jpg"
+        : imageUrl;
+    return User.builder()
+        .firstName(firstName)
+        .lastName(lastName)
+        .email(email)
+        .passwordHash(passwordHash)
+        .imageUrl(finalImageUrl)
+        .emailVerified(false)
+        .statusRegistry("ACTIVE")
+        .build();
+  }
 
 }

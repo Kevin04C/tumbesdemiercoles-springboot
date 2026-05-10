@@ -6,8 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
+import org.springframework.web.bind.support.WebExchangeBindException;
 
 /**
  * Manejador global de excepciones para la API.
@@ -17,40 +16,74 @@ import reactor.core.publisher.Mono;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+  // 1. RECURSO NO ENCONTRADO (404)
   @ExceptionHandler(ResourceNotFoundException.class)
-  public Mono<ResponseEntity<ApiResponse<Void>>> handleResourceNotFound(
-      ResourceNotFoundException ex, ServerWebExchange exchange) {
+  public ResponseEntity<ApiResponse<Void>> handleResourceNotFound(ResourceNotFoundException ex) {
     log.warn("Resource not found: {}", ex.getMessage());
-    return Mono.just(ResponseEntity
-        .status(HttpStatus.NOT_FOUND)
-        .body(ApiResponse.error(ex.getMessage(), "RESOURCE_NOT_FOUND", ex.getDetails())));
+    return buildResponse(HttpStatus.NOT_FOUND, "RESOURCE_NOT_FOUND", ex.getMessage(), ex.getDetails());
   }
 
+  // 2. PETICIÓN INCORRECTA (400)
   @ExceptionHandler(BadRequestException.class)
-  public Mono<ResponseEntity<ApiResponse<Void>>> handleBadRequest(
-      BadRequestException ex, ServerWebExchange exchange) {
+  public ResponseEntity<ApiResponse<Void>> handleBadRequest(BadRequestException ex) {
     log.warn("Bad request: {}", ex.getMessage());
-    return Mono.just(ResponseEntity
-        .status(HttpStatus.BAD_REQUEST)
-        .body(ApiResponse.error(ex.getMessage(), "BAD_REQUEST", ex.getDetails())));
+    return buildResponse(HttpStatus.BAD_REQUEST, "BAD_REQUEST", ex.getMessage(), ex.getDetails());
   }
 
+  // 3. CONFLICTO DE REGLAS DE NEGOCIO (409) - Ej: Email ya registrado
+  @ExceptionHandler(ConflictException.class)
+  public ResponseEntity<ApiResponse<Void>> handleConflict(ConflictException ex) {
+    log.warn("Conflict: {}", ex.getMessage());
+    return buildResponse(HttpStatus.CONFLICT, "CONFLICT", ex.getMessage(), ex.getDetails());
+  }
+
+  // 4. NO AUTORIZADO (401) - Ej: Faltan credenciales o el token expiró
+  @ExceptionHandler(UnauthorizedException.class)
+  public ResponseEntity<ApiResponse<Void>> handleUnauthorized(UnauthorizedException ex) {
+    log.warn("Unauthorized: {}", ex.getMessage());
+    return buildResponse(HttpStatus.UNAUTHORIZED, "UNAUTHORIZED", ex.getMessage(), ex.getDetails());
+  }
+
+  // 5. PROHIBIDO (403) - Ej: Tiene token, pero no tiene el rol de ADMIN
+  @ExceptionHandler(ForbiddenException.class)
+  public ResponseEntity<ApiResponse<Void>> handleForbidden(ForbiddenException ex) {
+    log.warn("Forbidden: {}", ex.getMessage());
+    return buildResponse(HttpStatus.FORBIDDEN, "FORBIDDEN", ex.getMessage(), ex.getDetails());
+  }
+
+  // 6. ERRORES DE VALIDACIÓN (400) - Ej: @NotBlank, @Email en los DTOs fallan
+  @ExceptionHandler(WebExchangeBindException.class)
+  public ResponseEntity<ApiResponse<Void>> handleValidationException(WebExchangeBindException ex) {
+    // Extraemos todos los errores y los unimos en un solo mensaje claro
+    String errorMessage = ex.getBindingResult().getFieldErrors().stream()
+        .map(error -> error.getField() + ": " + error.getDefaultMessage())
+        .findFirst() // O puedes usar Collectors.joining(", ") si quieres mostrar todos a la vez
+        .orElse("Error de validación en los datos enviados");
+
+    log.warn("Validation error: {}", errorMessage);
+    return buildResponse(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR", errorMessage, null);
+  }
+
+  // 7. ERRORES INTERNOS (500) - Fallos inesperados (Base de datos caída, NullPointer, etc.)
   @ExceptionHandler(RuntimeException.class)
-  public Mono<ResponseEntity<ApiResponse<Void>>> handleRuntimeException(
-      RuntimeException ex, ServerWebExchange exchange) {
+  public ResponseEntity<ApiResponse<Void>> handleRuntimeException(RuntimeException ex) {
     log.error("Runtime exception: {}", ex.getMessage(), ex);
-    return Mono.just(ResponseEntity
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(ApiResponse.error("An unexpected error occurred", "INTERNAL_ERROR", ex.getMessage())));
+    return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Error interno del servidor", ex.getMessage());
   }
 
   @ExceptionHandler(Exception.class)
-  public Mono<ResponseEntity<ApiResponse<Void>>> handleGenericException(
-      Exception ex, ServerWebExchange exchange) {
+  public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
     log.error("Unexpected exception: {}", ex.getMessage(), ex);
-    return Mono.just(ResponseEntity
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(ApiResponse.error("An unexpected error occurred", "INTERNAL_ERROR", null)));
+    return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Error inesperado", null);
+  }
+
+  // ===================================================================================
+  // MÉTODO AUXILIAR PARA NO REPETIR CÓDIGO (DRY - Don't Repeat Yourself)
+  // ===================================================================================
+  private ResponseEntity<ApiResponse<Void>> buildResponse(HttpStatus status, String code, String message, String details) {
+    return ResponseEntity
+        .status(status)
+        .body(ApiResponse.error(message, code, details));
   }
 
 }
