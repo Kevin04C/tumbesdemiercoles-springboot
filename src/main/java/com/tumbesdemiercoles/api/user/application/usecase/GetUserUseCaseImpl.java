@@ -1,14 +1,15 @@
 package com.tumbesdemiercoles.api.user.application.usecase;
 
+import com.tumbesdemiercoles.api.shared.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.user.application.dto.UserResponseDto;
 import com.tumbesdemiercoles.api.user.application.ports.in.GetUserUseCase;
 import com.tumbesdemiercoles.api.user.domain.exception.UserNotFoundException;
 import com.tumbesdemiercoles.api.user.domain.model.User;
 import com.tumbesdemiercoles.api.user.domain.repository.UserRepository;
+import com.tumbesdemiercoles.api.user.presentation.dto.request.UserFilterRequest;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -28,9 +29,8 @@ public class GetUserUseCaseImpl implements GetUserUseCase {
   }
 
   @Override
-  public Flux<UserResponseDto> getAll() {
-    return userRepository.findAll()
-        .map(this::toResponse);
+  public Mono<PageResponseDto<User>> findUsers(UserFilterRequest filter) {
+    return userRepository.findUsers(filter);
   }
 
   private UserResponseDto toResponse(User user) {
@@ -40,7 +40,7 @@ public class GetUserUseCaseImpl implements GetUserUseCase {
         .lastName(user.getLastName())
         .email(user.getEmail())
         .imageUrl(user.getImageUrl())
-        .emailVerified(user.getEmailVerified())
+        .emailVerified(user.getIsEmailVerified())
         .build();
   }
 

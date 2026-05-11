@@ -64,16 +64,9 @@ public class SecurityConfig {
           return config;
         }))
         .authorizeExchange(auth -> auth
-            // Rutas de documentación de OpenAPI permitidas
             .pathMatchers("/v3/api-docs/**", "/swagger-ui.html", "/webjars/swagger-ui/**").permitAll()
-
-            // Rutas de Login/Auth
             .pathMatchers("/auth/**").permitAll()
-
-            // TODO: Restringir cuando se implemente el flujo de autenticación completo
-            // Por ahora todas las APIs son públicas para desarrollo
             .pathMatchers("/api/**").permitAll()
-
             .anyExchange().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2
             .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))

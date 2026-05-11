@@ -1,0 +1,15 @@
+info:
+  name: UPDATE_USER
+  type: http
+  seq: 6
+
+http:
+  method: PATCH
+  url: ""
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

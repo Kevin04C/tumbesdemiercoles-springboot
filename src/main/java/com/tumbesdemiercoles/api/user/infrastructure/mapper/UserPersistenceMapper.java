@@ -20,4 +20,10 @@ public interface UserPersistenceMapper {
   @Mapping(target = "statusUpdatedAt", source = "statusUpdatedAt")
   UserEntity toEntity(User domain);
 
+  @Mapping(source = "email", target = "userEmail")
+  @Mapping(source = "imageUrl", target = "userImageUrl")
+  @Mapping(target = "updatedAt", ignore = true)
+  @Mapping(target = "isActive", source = "isActive")
+  UserEntity toEntityUpdate(User domain);
+
 }

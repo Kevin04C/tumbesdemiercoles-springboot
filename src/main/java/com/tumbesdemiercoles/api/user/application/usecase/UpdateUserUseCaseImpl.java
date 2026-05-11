@@ -20,18 +20,18 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
 
   private final UserRepository userRepository;
 
-  public Mono<UserResponseDto> execute(UUID id, UserRequestDto dto) {
+  public Mono<UserResponseDto> UpdateUser(UUID id, UserRequestDto userRequestDto) {
+
     return userRepository.findById(id)
         .switchIfEmpty(Mono.error(new UserNotFoundException(id)))
-        .map(existing -> User.builder()
-            .id(existing.getId())
-            .firstName(dto.getFirstName())
-            .lastName(dto.getLastName())
-            .email(dto.getEmail())
-            .imageUrl(dto.getImageUrl())
-            .emailVerified(existing.getEmailVerified())
-            .passwordHash(existing.getPasswordHash())
-            .build())
+        .map(existingUser -> {
+          String newFirstName = userRequestDto.getFirstName() != null ? userRequestDto.getFirstName() : existingUser.getFirstName();
+          String newLastName = userRequestDto.getLastName() != null ? userRequestDto.getLastName() : existingUser.getLastName();
+          String newImageUrl = userRequestDto.getImageUrl() != null ? userRequestDto.getImageUrl() : existingUser.getImageUrl();
+
+          existingUser.updateProfile(newFirstName, newLastName, newImageUrl);
+          return existingUser;
+        })
         .flatMap(userRepository::save)
         .map(this::toResponse);
   }
@@ -43,7 +43,6 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
         .lastName(user.getLastName())
         .email(user.getEmail())
         .imageUrl(user.getImageUrl())
-        .emailVerified(user.getEmailVerified())
         .build();
   }
 

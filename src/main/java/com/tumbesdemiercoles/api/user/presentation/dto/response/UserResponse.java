@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.user.presentation.dto;
+package com.tumbesdemiercoles.api.user.presentation.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.UUID;

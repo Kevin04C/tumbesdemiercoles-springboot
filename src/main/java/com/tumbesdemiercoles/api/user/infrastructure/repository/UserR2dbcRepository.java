@@ -22,7 +22,7 @@ public interface UserR2dbcRepository extends ReactiveCrudRepository<UserEntity, 
   Mono<Boolean> existsByUserEmail(String email);
 
   @Modifying
-  @Query("UPDATE users SET is_verified = true WHERE id = :userId")
+  @Query("UPDATE \"user\" SET is_email_verified = true WHERE id = :userId")
   Mono<Integer> verifyEmail(UUID userId);
 
 }

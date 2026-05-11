@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.user.presentation.dto;
+package com.tumbesdemiercoles.api.user.presentation.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -55,7 +55,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
         .lastName(user.getLastName())
         .email(user.getEmail())
         .imageUrl(user.getImageUrl())
-        .emailVerified(user.getEmailVerified())
+        .emailVerified(user.getIsEmailVerified())
         .build();
   }
 }
