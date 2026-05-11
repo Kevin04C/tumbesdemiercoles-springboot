@@ -5,7 +5,13 @@ info:
 
 http:
   method: PATCH
-  url: ""
+  url: "{{url}}/api/v1/users/8d4d1331-840b-41db-9fbe-41ca5d7f44d1"
+  body:
+    type: json
+    data: |-
+      {
+        "firstName":"aea manito "
+      }
   auth: inherit
 
 settings:
