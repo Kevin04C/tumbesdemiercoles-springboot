@@ -2,6 +2,7 @@ package com.tumbesdemiercoles.api.user.presentation.controller;
 
 import com.tumbesdemiercoles.api.shared.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
+import com.tumbesdemiercoles.api.user.application.dto.UserRequestDto;
 import com.tumbesdemiercoles.api.user.application.ports.in.CreateUserUseCase;
 import com.tumbesdemiercoles.api.user.application.ports.in.DeleteUserUseCase;
 import com.tumbesdemiercoles.api.user.application.ports.in.UpdateUserUseCase;
@@ -10,6 +11,7 @@ import com.tumbesdemiercoles.api.user.presentation.api.UserControllerApi;
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserFilterRequest;
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserRequest;
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserUpdateRequest;
+import com.tumbesdemiercoles.api.user.presentation.dto.response.AuthCreateTokenResponse;
 import com.tumbesdemiercoles.api.user.presentation.dto.response.UserResponse;
 import com.tumbesdemiercoles.api.user.presentation.mapper.UserWebMapper;
 import java.util.UUID;
@@ -28,12 +30,14 @@ public class UserController implements UserControllerApi {
   private final UserWebMapper webMapper;
 
   @Override
-  public Mono<ApiResponse<UserResponse>> createUser(UserRequest userRequest) {
-    return Mono.just(userRequest)
-        .map(webMapper::toDto)
-        .flatMap(createUserUseCase::execute)
-        .map(webMapper::toResponse)
-        .map(response -> ApiResponse.success(response, "Usuario creado exitosamente"));
+  public Mono<ApiResponse<AuthCreateTokenResponse>> createUser(UserRequest userRequest) {
+    
+    UserRequestDto dto = webMapper.toDto(userRequest);
+    return createUserUseCase.execute(dto)
+            .map(authResponse -> ApiResponse.success(
+                    authResponse,
+                    "Usuario registrado y autenticado correctamente"
+            ));
   }
 
   @Override

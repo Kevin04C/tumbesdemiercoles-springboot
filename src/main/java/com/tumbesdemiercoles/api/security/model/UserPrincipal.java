@@ -1,6 +1,7 @@
 package com.tumbesdemiercoles.api.security.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import java.util.Set;
  * con su id, email, password y roles.
  */
 @Data
+@Builder
 @AllArgsConstructor
 public class UserPrincipal implements UserDetails {
 

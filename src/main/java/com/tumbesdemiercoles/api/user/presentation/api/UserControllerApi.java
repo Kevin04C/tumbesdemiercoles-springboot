@@ -5,6 +5,7 @@ import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserFilterRequest;
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserRequest;
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserUpdateRequest;
+import com.tumbesdemiercoles.api.user.presentation.dto.response.AuthCreateTokenResponse;
 import com.tumbesdemiercoles.api.user.presentation.dto.response.UserResponse;
 import jakarta.validation.Valid;
 import java.util.UUID;
@@ -23,7 +24,7 @@ import reactor.core.publisher.Mono;
 public interface UserControllerApi {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  Mono<ApiResponse<UserResponse>> createUser(@Valid @RequestBody UserRequest userRequest);
+  Mono<ApiResponse<AuthCreateTokenResponse>> createUser(@Valid @RequestBody UserRequest userRequest);
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)

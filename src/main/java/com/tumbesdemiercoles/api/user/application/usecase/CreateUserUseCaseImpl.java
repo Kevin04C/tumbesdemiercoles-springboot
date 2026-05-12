@@ -4,9 +4,11 @@ import com.tumbesdemiercoles.api.shared.exception.ConflictException;
 import com.tumbesdemiercoles.api.user.application.dto.UserRequestDto;
 import com.tumbesdemiercoles.api.user.application.dto.UserResponseDto;
 import com.tumbesdemiercoles.api.user.application.ports.in.CreateUserUseCase;
+import com.tumbesdemiercoles.api.user.application.ports.out.TokenProviderPort;
 import com.tumbesdemiercoles.api.user.domain.event.UserRegisteredEvent;
 import com.tumbesdemiercoles.api.user.domain.model.User;
 import com.tumbesdemiercoles.api.user.domain.repository.UserRepository;
+import com.tumbesdemiercoles.api.user.presentation.dto.response.AuthCreateTokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,9 +25,10 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final ApplicationEventPublisher eventPublisher;
+  private final TokenProviderPort tokenProviderPort;
 
   @Override
-  public Mono<UserResponseDto> execute(UserRequestDto dto) {
+  public Mono<AuthCreateTokenResponse> execute(UserRequestDto dto) {
 
     return userRepository.existsByEmail(dto.getEmail())
         .filter(exists -> !exists)
@@ -45,7 +48,15 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
         .doOnSuccess(user -> {
           eventPublisher.publishEvent(new UserRegisteredEvent(user));
         })
-        .map(this::toResponse);
+            .flatMap(savedUser -> {
+                return tokenProviderPort.generateToken(savedUser)
+                        .map(tokenString -> {
+                            return AuthCreateTokenResponse.builder()
+                                    .token(tokenString)
+                                    .user(toResponse(savedUser))
+                                    .build();
+                        });
+            });
   }
 
   private UserResponseDto toResponse(User user) {
