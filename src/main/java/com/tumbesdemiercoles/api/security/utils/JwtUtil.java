@@ -116,7 +116,7 @@ public class JwtUtil {
    * <p>El sujeto del token es el ID del usuario y el TTL proviene de
    * {@link EmailProps#getVerificationEmailTokenTtlHours()}.</p>
    *
-   * @param userId id del usuario al que pertenece el token
+   * @param id id del usuario al que pertenece el token
    * @return token JWT firmado para verificación de email
    */
   public String generateEmailToken(UUID id) {
@@ -134,7 +134,7 @@ public class JwtUtil {
    *       del hash de la contraseña actual y un pepper configurado.</li>
    * </ul>
    *
-   * @param userId             id del usuario
+   * @param id             id del usuario
    * @param currentPasswordHash hash de la contraseña actual del usuario
    * @return token JWT firmado para restablecer contraseña
    */
@@ -221,7 +221,7 @@ public class JwtUtil {
    *
    * <p>Incluye el ID del usuario y el password fingerprint contenido en el token.</p>
    *
-   * @param userId ID del usuario
+   * @param id ID del usuario
    * @param phf    password fingerprint
    */
   public record ParsedReset(Long id, String phf) {
