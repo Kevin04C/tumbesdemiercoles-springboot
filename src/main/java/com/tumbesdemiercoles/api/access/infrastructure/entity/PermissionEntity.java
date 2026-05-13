@@ -1,28 +1,30 @@
-package com.tumbesdemiercoles.api.permission.infrastructure.entity;
+package com.tumbesdemiercoles.api.access.infrastructure.entity;
 
 import com.tumbesdemiercoles.api.shared.infrastructure.entity.AuditableEntity;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @NoArgsConstructor
-@Table("Permissions")
+@AllArgsConstructor
+@Table("permission")
 public class PermissionEntity extends AuditableEntity {
 
   @Id
-  @Column("PermissionID")
+  @Column("id")
   private UUID id;
 
-  @Column("PermissionName")
+  @Column("name")
   private String permissionName;
 
-  @Column("Description")
-  private String description;
+  @Column("description")
+  private String permissionDescription;
 
 }

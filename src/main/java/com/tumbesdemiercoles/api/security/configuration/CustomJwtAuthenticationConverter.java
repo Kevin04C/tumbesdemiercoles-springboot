@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.security.configuration;
 
-import com.tumbesdemiercoles.api.permission.infrastructure.repository.PermissionR2dbcRepository;
+import com.tumbesdemiercoles.api.access.infrastructure.repository.PermissionR2dbcRepository;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
