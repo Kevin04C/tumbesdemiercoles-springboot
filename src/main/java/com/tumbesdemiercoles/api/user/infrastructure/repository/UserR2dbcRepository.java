@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.user.infrastructure.repository;
 
-import com.tumbesdemiercoles.api.shared.dto.UserAuthorityDto;
+import com.tumbesdemiercoles.api.shared.application.dto.UserAuthorityDto;
 import com.tumbesdemiercoles.api.user.infrastructure.entity.UserEntity;
 import java.util.UUID;
 import org.springframework.data.r2dbc.repository.Modifying;

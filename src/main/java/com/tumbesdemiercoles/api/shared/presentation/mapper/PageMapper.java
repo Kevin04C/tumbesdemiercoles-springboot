@@ -1,31 +1,28 @@
 package com.tumbesdemiercoles.api.shared.presentation.mapper;
 
-import com.tumbesdemiercoles.api.shared.dto.PageResponseDto;
+import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import java.util.List;
 
 /**
- * @param <D> El modelo de Dominio (Ej. User)
- * @param <R> El DTO de Respuesta (Ej. UserResponse)
+ * @param <S> El Source (Origen - DTO de la Capa de Aplicación)
+ * @param <T> El Target (Destino - DTO de la Capa de Presentación)
  */
-public interface PageMapper<D, R> {
+public interface PageMapper<S, T> {
 
-  // Todo mapper específico tendrá que saber cómo traducir 1 elemento individual.
-  // MapStruct generará la implementación de este método automáticamente.
-  R toResponse(D domain);
+  T toResponse(S source);
 
-  // Este método ya viene "gratis" para cualquier mapper que herede de esta interfaz.
-  default PageResponseDto<R> toPageResponse(PageResponseDto<D> page) {
+  default PageResponseDto<T> toPageResponse(PageResponseDto<S> page) {
     if (page == null) {
       return null;
     }
 
-    List<R> responses = page.getContent().stream()
+    List<T> responses = page.getContent().stream()
         .map(this::toResponse)
         .toList();
 
-    return PageResponseDto.<R>builder()
+    return PageResponseDto.<T>builder()
         .content(responses)
-        .page(page.getPage())
+        .page(page.getPage() + 1)
         .size(page.getSize())
         .totalElements(page.getTotalElements())
         .totalPages(page.getTotalPages())

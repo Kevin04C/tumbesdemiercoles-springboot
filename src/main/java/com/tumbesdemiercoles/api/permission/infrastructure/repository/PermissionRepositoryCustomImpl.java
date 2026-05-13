@@ -2,8 +2,8 @@ package com.tumbesdemiercoles.api.permission.infrastructure.repository;
 
 import com.tumbesdemiercoles.api.permission.infrastructure.entity.PermissionEntity;
 
-import com.tumbesdemiercoles.api.shared.dto.PageResponseDto;
-import com.tumbesdemiercoles.api.shared.dto.permissionFilter.PermissionFilter;
+import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
+import com.tumbesdemiercoles.api.shared.application.dto.permissionFilter.PermissionFilter;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

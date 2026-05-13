@@ -1,6 +1,6 @@
-package com.tumbesdemiercoles.api.shared.dto.permissionFilter;
+package com.tumbesdemiercoles.api.shared.application.dto.permissionFilter;
 
-import com.tumbesdemiercoles.api.shared.dto.BasePageRequestDto;
+import com.tumbesdemiercoles.api.shared.presentation.dto.BasePageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class RoleFilterDto extends BasePageRequestDto {
+public class RoleFilter extends BasePageRequest {
 
   private String searchName;
 

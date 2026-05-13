@@ -4,14 +4,11 @@ import com.tumbesdemiercoles.api.shared.exception.ConflictException;
 import com.tumbesdemiercoles.api.user.application.dto.UserRequestDto;
 import com.tumbesdemiercoles.api.user.application.dto.UserResponseDto;
 import com.tumbesdemiercoles.api.user.application.ports.in.CreateUserUseCase;
-import com.tumbesdemiercoles.api.user.application.ports.out.TokenProviderPort;
 import com.tumbesdemiercoles.api.user.domain.event.UserRegisteredEvent;
 import com.tumbesdemiercoles.api.user.domain.model.User;
 import com.tumbesdemiercoles.api.user.domain.repository.UserRepository;
-import com.tumbesdemiercoles.api.user.presentation.dto.response.AuthCreateTokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -23,40 +20,33 @@ import reactor.core.publisher.Mono;
 public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
   private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
   private final ApplicationEventPublisher eventPublisher;
-  private final TokenProviderPort tokenProviderPort;
 
   @Override
-  public Mono<AuthCreateTokenResponse> execute(UserRequestDto dto) {
+  public Mono<UserResponseDto> execute(UserRequestDto dto) {
 
     return userRepository.existsByEmail(dto.getEmail())
         .filter(exists -> !exists)
         .switchIfEmpty(Mono.error(() -> ConflictException.forDuplicate("User", "email", dto.getEmail())))
         .flatMap(isEmailAvailable -> {
-
-          String encodedPassword = passwordEncoder.encode(dto.getPassword());
           User user = User.createNewUser(
               dto.getFirstName(),
               dto.getLastName(),
               dto.getEmail(),
-              encodedPassword,
+              dto.getPassword(),
               dto.getImageUrl()
           );
-          return userRepository.save(user);
+          System.out.println("1. DOMINIO ANTES DE BD - isEmailVerified: " + user.getIsEmailVerified());
+          return userRepository.save(user).doOnNext(savedUser -> {
+
+            // TRAMPA 2: Verificamos qué nos devuelve el R2DBC (Base de datos)
+            System.out.println("2. DESPUÉS DE BD - isEmailVerified: " + savedUser.getIsEmailVerified());
+          });
         })
         .doOnSuccess(user -> {
           eventPublisher.publishEvent(new UserRegisteredEvent(user));
         })
-            .flatMap(savedUser -> {
-                return tokenProviderPort.generateToken(savedUser)
-                        .map(tokenString -> {
-                            return AuthCreateTokenResponse.builder()
-                                    .token(tokenString)
-                                    .user(toResponse(savedUser))
-                                    .build();
-                        });
-            });
+        .map(this::toResponse);
   }
 
   private UserResponseDto toResponse(User user) {
@@ -66,7 +56,8 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
         .lastName(user.getLastName())
         .email(user.getEmail())
         .imageUrl(user.getImageUrl())
-        .emailVerified(user.getIsEmailVerified())
+        .isEmailVerified(user.getIsEmailVerified())
+        .isActive(user.getIsActive())
         .build();
   }
 }

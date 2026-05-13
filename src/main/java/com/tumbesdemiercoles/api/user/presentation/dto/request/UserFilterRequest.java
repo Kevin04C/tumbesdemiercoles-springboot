@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.user.presentation.dto.request;
 
-import com.tumbesdemiercoles.api.shared.dto.BasePageRequestDto;
+import com.tumbesdemiercoles.api.shared.presentation.dto.BasePageRequest;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import java.util.UUID;
@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class UserFilterRequest extends BasePageRequestDto {
+public class UserFilterRequest extends BasePageRequest {
 
   private UUID userId;
 

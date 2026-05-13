@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.shared.dto;
+package com.tumbesdemiercoles.api.shared.application.dto;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

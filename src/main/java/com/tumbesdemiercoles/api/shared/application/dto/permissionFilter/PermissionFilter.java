@@ -1,6 +1,6 @@
-package com.tumbesdemiercoles.api.shared.dto.permissionFilter;
+package com.tumbesdemiercoles.api.shared.application.dto.permissionFilter;
 
-import com.tumbesdemiercoles.api.shared.dto.BasePageRequestDto;
+import com.tumbesdemiercoles.api.shared.presentation.dto.BasePageRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PermissionFilter extends BasePageRequestDto {
+public class PermissionFilter extends BasePageRequest {
 
   private String name;
 

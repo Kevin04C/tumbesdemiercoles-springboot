@@ -1,6 +1,7 @@
 package com.tumbesdemiercoles.api.shared.infrastructure.database;
 
-import com.tumbesdemiercoles.api.shared.dto.PageResponseDto;
+import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
+import com.tumbesdemiercoles.api.shared.domain.model.PaginatedResult;
 import java.util.List;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class R2dbcPaginationHelper {
    * @param <E>         El tipo del Entity (Infraestructura).
    * @param <D>         El tipo del Dominio.
    */
-  public <E, D> Mono<PageResponseDto<D>> getPage(
+  public <E, D> Mono<PaginatedResult<D>> getPage(
       Criteria criteria,
       Pageable pageable,
       Class<E> entityClass,
@@ -45,13 +46,13 @@ public class R2dbcPaginationHelper {
           .toList();
 
       long totalElements = tuple.getT2();
-      long totalPages = totalElements == 0 ? 0 : (long) Math.ceil((double) totalElements / pageable.getPageSize());
+      int totalPages = totalElements == 0 ? 0 : (int) Math.ceil((double) totalElements / pageable.getPageSize());
 
-      return PageResponseDto.<D>builder()
+      return PaginatedResult.<D>builder()
           .content(domainList)
           .totalElements(totalElements)
-          .page(currentPage)
-          .size(pageable.getPageSize())
+          .currentPage(currentPage)
+          .pageSize(pageable.getPageSize())
           .totalPages(totalPages)
           .build();
     });

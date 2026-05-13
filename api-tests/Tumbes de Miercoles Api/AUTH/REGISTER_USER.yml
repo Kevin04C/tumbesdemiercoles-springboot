@@ -1,16 +1,16 @@
 info:
-  name: CREATE_USERS
+  name: REGISTER_USER
   type: http
   seq: 4
 
 http:
   method: POST
-  url: "{{url}}/api/v1/users"
+  url: "{{url}}/api/v1/auth/register"
   body:
     type: json
     data: |-
       {
-        "firstName":"chanchito feliz",
+        "firstName":"asdasdasdsad",
         "lastName":"popop",
         "email":"gavino_10@hotmail.es",
         "password":"franz123"

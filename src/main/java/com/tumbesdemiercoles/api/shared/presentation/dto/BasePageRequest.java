@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.shared.dto;
+package com.tumbesdemiercoles.api.shared.presentation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,7 @@ import org.springframework.data.domain.Sort;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class BasePageRequestDto {
+public abstract class BasePageRequest {
 
     @Builder.Default
     private int page = 1;
@@ -31,14 +31,14 @@ public abstract class BasePageRequestDto {
         return Math.max(0, this.page - 1);
     }
 
-    public Pageable toPageable() {
-        Sort.Direction direction = this.getSortDir().equalsIgnoreCase("desc")
-                ? Sort.Direction.DESC : Sort.Direction.ASC;
-
-        return PageRequest.of(
-                this.getOffsetPage(),
-                this.size,
-                Sort.by(direction, this.getSortBy())
-        );
-    }
+//    public Pageable toPageable() {
+//        Sort.Direction direction = this.getSortDir().equalsIgnoreCase("desc")
+//                ? Sort.Direction.DESC : Sort.Direction.ASC;
+//
+//        return PageRequest.of(
+//                this.getOffsetPage(),
+//                this.size,
+//                Sort.by(direction, this.getSortBy())
+//        );
+//    }
 }

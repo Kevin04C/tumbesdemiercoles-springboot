@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.auth.presentation.dto;
+package com.tumbesdemiercoles.api.auth.presentation.dto.request;
 
 import lombok.Data;
 

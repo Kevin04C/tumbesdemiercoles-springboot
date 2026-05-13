@@ -1,9 +1,12 @@
 package com.tumbesdemiercoles.api.user.infrastructure.adapter;
 
-import com.tumbesdemiercoles.api.shared.dto.PageResponseDto;
+import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
+import com.tumbesdemiercoles.api.shared.domain.model.PaginatedResult;
 import com.tumbesdemiercoles.api.shared.infrastructure.database.CriteriaHelper;
 import com.tumbesdemiercoles.api.shared.infrastructure.database.R2dbcPaginationHelper;
+import com.tumbesdemiercoles.api.shared.infrastructure.mapper.PageableMapper;
 import com.tumbesdemiercoles.api.user.domain.model.User;
+import com.tumbesdemiercoles.api.user.domain.model.UserFilter;
 import com.tumbesdemiercoles.api.user.domain.repository.UserRepository;
 import com.tumbesdemiercoles.api.user.infrastructure.entity.UserEntity;
 import com.tumbesdemiercoles.api.user.infrastructure.mapper.UserPersistenceMapper;
@@ -11,6 +14,7 @@ import com.tumbesdemiercoles.api.user.infrastructure.repository.UserR2dbcReposit
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserFilterRequest;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -58,16 +62,18 @@ public class UserRepositoryAdapter implements UserRepository {
   }
 
   @Override
-  public Mono<PageResponseDto<User>> findUsers(UserFilterRequest filter) {
+  public Mono<PaginatedResult<User>> findUsers(UserFilter filter) {
 
     Criteria criteria = Criteria.empty();
     criteria = CriteriaHelper.addEquals(criteria, "id", filter.getUserId());
     criteria = CriteriaHelper.addLike(criteria, "first_name", filter.getFirstName());
     criteria = CriteriaHelper.addLike(criteria, "last_name", filter.getLastName());
     criteria = CriteriaHelper.addLike(criteria, "email", filter.getEmail());
+
+    Pageable pageable = PageableMapper.toPageable(filter);
     return paginationHelper.getPage(
         criteria,
-        filter.toPageable(),
+        pageable,
         UserEntity.class,
         mapper::toDomain,
         filter.getPage()
