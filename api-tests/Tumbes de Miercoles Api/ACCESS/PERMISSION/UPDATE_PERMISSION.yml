@@ -1,0 +1,18 @@
+info:
+  name: "UPDATE_PERMISSION "
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{url}}/api/v1/permissions/FDSFFSD"
+  body:
+    type: json
+    data: ""
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
