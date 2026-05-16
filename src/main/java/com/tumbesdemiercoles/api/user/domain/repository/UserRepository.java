@@ -1,8 +1,8 @@
 package com.tumbesdemiercoles.api.user.domain.repository;
 
-import com.tumbesdemiercoles.api.shared.dto.PageResponseDto;
+import com.tumbesdemiercoles.api.shared.domain.model.PaginatedResult;
 import com.tumbesdemiercoles.api.user.domain.model.User;
-import com.tumbesdemiercoles.api.user.presentation.dto.request.UserFilterRequest;
+import com.tumbesdemiercoles.api.user.domain.model.UserFilter;
 import java.util.UUID;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -24,5 +24,5 @@ public interface UserRepository {
 
   Mono<Boolean> existsByEmail(String email);
 
-  Mono<PageResponseDto<User>> findUsers(UserFilterRequest filter);
+  Mono<PaginatedResult<User>> findUsers(UserFilter filter);
 }

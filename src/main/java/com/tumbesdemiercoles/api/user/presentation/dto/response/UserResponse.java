@@ -11,7 +11,8 @@ import lombok.Data;
     "lastName",
     "email",
     "imageUrl",
-    "emailVerified"
+    "isEmailVerified",
+    "isActive"
 })
 public class UserResponse {
   private UUID id;
@@ -19,5 +20,6 @@ public class UserResponse {
   private String lastName;
   private String email;
   private String imageUrl;
-  private Boolean emailVerified;
+  private Boolean isEmailVerified;
+  private Boolean isActive;
 }

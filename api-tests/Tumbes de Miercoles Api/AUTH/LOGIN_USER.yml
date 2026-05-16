@@ -1,0 +1,22 @@
+info:
+  name: LOGIN_USER
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{url}}/api/v1/auth/login"
+  body:
+    type: json
+    data: |-
+      {
+        "email":"gavino_10@hotmail.es",
+        "password":"franz123"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -9,7 +9,6 @@ import com.tumbesdemiercoles.api.user.domain.model.User;
 import com.tumbesdemiercoles.api.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -21,7 +20,6 @@ import reactor.core.publisher.Mono;
 public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
   private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
   private final ApplicationEventPublisher eventPublisher;
 
   @Override
@@ -31,16 +29,19 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
         .filter(exists -> !exists)
         .switchIfEmpty(Mono.error(() -> ConflictException.forDuplicate("User", "email", dto.getEmail())))
         .flatMap(isEmailAvailable -> {
-
-          String encodedPassword = passwordEncoder.encode(dto.getPassword());
           User user = User.createNewUser(
               dto.getFirstName(),
               dto.getLastName(),
               dto.getEmail(),
-              encodedPassword,
+              dto.getPassword(),
               dto.getImageUrl()
           );
-          return userRepository.save(user);
+          System.out.println("1. DOMINIO ANTES DE BD - isEmailVerified: " + user.getIsEmailVerified());
+          return userRepository.save(user).doOnNext(savedUser -> {
+
+            // TRAMPA 2: Verificamos qué nos devuelve el R2DBC (Base de datos)
+            System.out.println("2. DESPUÉS DE BD - isEmailVerified: " + savedUser.getIsEmailVerified());
+          });
         })
         .doOnSuccess(user -> {
           eventPublisher.publishEvent(new UserRegisteredEvent(user));
@@ -55,7 +56,8 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
         .lastName(user.getLastName())
         .email(user.getEmail())
         .imageUrl(user.getImageUrl())
-        .emailVerified(user.getIsEmailVerified())
+        .isEmailVerified(user.getIsEmailVerified())
+        .isActive(user.getIsActive())
         .build();
   }
 }

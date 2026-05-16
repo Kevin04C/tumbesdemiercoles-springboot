@@ -34,78 +34,40 @@ com.tumbesdemiercoles.api/
 │
 ├── 📦 user/                          ← Módulo de negocio
 │   ├── domain/
-│   │   ├── model/User.java           ← POJO puro (sin anotaciones de framework)
-│   │   ├── exception/UserNotFoundException.java
-│   │   ├── repository/UserRepository.java   ← Interfaz (contrato de persistencia)
-│   │   └── service/UserService.java         ← Interfaz (contrato de operaciones)
-│   │
 │   ├── application/
-│   │   ├── dto/
-│   │   │   ├── UserRequestDto.java    ← DTO de entrada
-│   │   │   └── UserResponseDto.java   ← DTO de salida
-│   │   └── usecase/
-│   │       ├── CreateUserUseCase.java ← Un caso de uso por acción
-│   │       ├── GetUserUseCase.java
-│   │       ├── UpdateUserUseCase.java
-│   │       └── DeleteUserUseCase.java
-│   │
 │   ├── infrastructure/
-│   │   ├── entity/
-│   │   │   ├── AuditableEntity.java   ← Clase base con campos de auditoría
-│   │   │   └── UserEntity.java        ← Entidad R2DBC (@Table, @Column)
-│   │   ├── repository/
-│   │   │   └── UserR2dbcRepository.java  ← Spring Data ReactiveCrudRepository
-│   │   ├── mapper/
-│   │   │   └── UserPersistenceMapper.java ← User ↔ UserEntity
-│   │   └── adapter/
-│   │       └── UserRepositoryAdapter.java ← Implementa domain/UserRepository
-│   │
 │   └── presentation/
-│       └── controller/
-│           └── UserController.java    ← REST Controller
+│
+├── 📦 auth/                          ← Módulo de autenticación
+│   ├── domain/
+│   ├── application/
+│   ├── infrastructure/
+│   └── presentation/
+│
+├── 📦 category/                      ← Módulo de categorías
+│   ├── domain/
+│   ├── application/
+│   ├── infrastructure/
+│   └── presentation/
 │
 ├── 📦 permission/                     ← Módulo de permisos
 │   └── infrastructure/
-│       ├── entity/PermissionEntity.java
-│       └── repository/
-│           ├── PermissionR2dbcRepository.java
-│           ├── custom/PermissionRepositoryCustom.java
-│           └── impl/PermissionRepositoryImpl.java
-│
-├── 📦 auth/                           ← Módulo de autenticación
-│   └── presentation/
-│       └── controller/AuthController.java
 │
 ├── 🔒 security/                       ← Cross-cutting (seguridad)
 │   ├── configuration/
-│   │   ├── SecurityConfig.java
-│   │   ├── EmailConfig.java
-│   │   ├── EmailProps.java
-│   │   ├── SecurityProps.java
-│   │   └── CustomJwtAuthenticationConverter.java
-│   ├── model/UserPrincipal.java
+│   ├── model/
+│   ├── presentation/
 │   ├── services/
-│   │   ├── AccountSecurityService.java
-│   │   ├── EmailService.java
-│   │   └── ReactiveUserDetailsServiceImpl.java
 │   └── utils/
-│       ├── JwtUtil.java
-│       └── EmailMessages.java
 │
-├── 🟢 shared/                         ← Utilidades y DTOs compartidos
-│   ├── dto/
-│   │   ├── BasePageRequestDto.java
-│   │   ├── PageResponseDto.java
-│   │   ├── UserAuthorityDto.java
-│   │   └── permissionFilter/
-│   │       ├── PermissionFilter.java
-│   │       ├── RoleFilterDto.java
-│   │       └── RolePermissionFilter.java
+├── 🟢 shared/                         ← Código compartido entre módulos
+│   ├── application/
+│   ├── domain/
+│   ├── exception/
+│   ├── infrastructure/
+│   ├── presentation/
+│   ├── response/
 │   └── utils/
-│       ├── ExtractImageBytes.java
-│       ├── ImageUrlDefault.java
-│       ├── MoneyUtils.java
-│       └── UserServiceText.java
 │
 └── NewsApiApplication.java
 ```

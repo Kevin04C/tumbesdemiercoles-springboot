@@ -23,6 +23,7 @@ public class UserResponseDto {
   private String lastName;
   private String email;
   private String imageUrl;
-  private Boolean emailVerified;
+  private Boolean isEmailVerified;
+  private Boolean isActive;
 
 }

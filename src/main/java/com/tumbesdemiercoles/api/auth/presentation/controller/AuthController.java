@@ -1,49 +1,40 @@
 package com.tumbesdemiercoles.api.auth.presentation.controller;
 
-import com.tumbesdemiercoles.api.auth.presentation.dto.LoginRequest;
-import com.tumbesdemiercoles.api.auth.presentation.dto.LoginResponse;
-import com.tumbesdemiercoles.api.security.model.UserPrincipal;
-import com.tumbesdemiercoles.api.security.utils.JwtUtil;
+import com.tumbesdemiercoles.api.auth.application.ports.In.LoginUseCase;
+import com.tumbesdemiercoles.api.auth.application.ports.In.RegisterUseCase;
+import com.tumbesdemiercoles.api.auth.presentation.api.AuthControllerApi;
+import com.tumbesdemiercoles.api.auth.presentation.dto.request.LoginRequest;
+import com.tumbesdemiercoles.api.auth.presentation.dto.request.RegisterRequest;
+import com.tumbesdemiercoles.api.auth.presentation.dto.response.AuthCreateTokenResponse;
+import com.tumbesdemiercoles.api.auth.presentation.dto.response.AuthTokenResponse;
+import com.tumbesdemiercoles.api.auth.presentation.dto.response.AuthUserResponse;
+import com.tumbesdemiercoles.api.auth.presentation.mapper.AuthWebMapper;
+import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
-@RequiredArgsConstructor
+
 @RestController
-@RequestMapping("/api/v1/auth")
-public class AuthController {
+@RequiredArgsConstructor
+public class AuthController implements AuthControllerApi {
 
-    private final ReactiveUserDetailsService userDetailsService;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final LoginUseCase loginUseCase;
+    private final RegisterUseCase registerUseCase;
+    private final AuthWebMapper authWebMapper;
 
-  @PostMapping("/login")
-  public Mono<ResponseEntity<LoginResponse>> login(@RequestBody Mono<LoginRequest> loginRequest, ServerWebExchange exchange) {
 
-      return loginRequest.flatMap(request ->
-              userDetailsService.findByUsername(request.getEmail())
-                      .publishOn(Schedulers.boundedElastic())
-                      .filter(userDetails -> passwordEncoder.matches(request.getPassword(), userDetails.getPassword()))
-                      .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciales inválidas")))
-                      .map(userDetails -> {
-                          UserPrincipal user = (UserPrincipal) userDetails;
-                          String token = jwtUtil.generateToken(user);
+  @Override
+  public Mono<ApiResponse<AuthTokenResponse>> login(LoginRequest request) {
+    return loginUseCase.login(authWebMapper.toDto(request))
+        .map(authWebMapper::toTokenWebResponse)
+        .map(tokenResponse -> ApiResponse.success(tokenResponse, "Login exitoso"));
+  }
 
-                          LoginResponse response = new LoginResponse();
-                          response.setToken(token);
-
-                          return ResponseEntity.ok(response);
-                      })
-              );
+  @Override
+  public Mono<ApiResponse<AuthCreateTokenResponse>> register(RegisterRequest request) {
+    return registerUseCase.register(authWebMapper.toDto(request))
+        .map(authWebMapper::toWebResponse)
+        .map(authUserResponse -> ApiResponse.success(authUserResponse, "Usuario Registrado Correctamente"));
   }
 }

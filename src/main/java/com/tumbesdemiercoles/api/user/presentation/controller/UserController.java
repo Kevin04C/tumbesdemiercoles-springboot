@@ -1,14 +1,12 @@
 package com.tumbesdemiercoles.api.user.presentation.controller;
 
-import com.tumbesdemiercoles.api.shared.dto.PageResponseDto;
+import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
-import com.tumbesdemiercoles.api.user.application.ports.in.CreateUserUseCase;
 import com.tumbesdemiercoles.api.user.application.ports.in.DeleteUserUseCase;
 import com.tumbesdemiercoles.api.user.application.ports.in.UpdateUserUseCase;
 import com.tumbesdemiercoles.api.user.application.usecase.GetUserUseCaseImpl;
 import com.tumbesdemiercoles.api.user.presentation.api.UserControllerApi;
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserFilterRequest;
-import com.tumbesdemiercoles.api.user.presentation.dto.request.UserRequest;
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserUpdateRequest;
 import com.tumbesdemiercoles.api.user.presentation.dto.response.UserResponse;
 import com.tumbesdemiercoles.api.user.presentation.mapper.UserWebMapper;
@@ -21,24 +19,14 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class UserController implements UserControllerApi {
 
-  private final CreateUserUseCase createUserUseCase;
   private final UpdateUserUseCase updateUserUseCase;
   private final DeleteUserUseCase deleteUserUseCase;
   private final GetUserUseCaseImpl getUserUseCase;
   private final UserWebMapper webMapper;
 
   @Override
-  public Mono<ApiResponse<UserResponse>> createUser(UserRequest userRequest) {
-    return Mono.just(userRequest)
-        .map(webMapper::toDto)
-        .flatMap(createUserUseCase::execute)
-        .map(webMapper::toResponse)
-        .map(response -> ApiResponse.success(response, "Usuario creado exitosamente"));
-  }
-
-  @Override
   public Mono<ApiResponse<PageResponseDto<UserResponse>>> findUsers(UserFilterRequest userFilterRequest) {
-    return getUserUseCase.findUsers(userFilterRequest)
+    return getUserUseCase.findUsers(webMapper.toFilter(userFilterRequest))
         .map(webMapper::toPageResponse)
         .map(pageDto -> ApiResponse.success(pageDto, "Usuarios encontrados"));
   }
@@ -62,6 +50,5 @@ public class UserController implements UserControllerApi {
     return deleteUserUseCase.deleteUser(id)
         .thenReturn(ApiResponse.success(null, "Usuario eliminado correctamente"));
   }
-
 
 }
