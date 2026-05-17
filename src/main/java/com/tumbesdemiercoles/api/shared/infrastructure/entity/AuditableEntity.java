@@ -51,11 +51,4 @@ public abstract class AuditableEntity {
 
   @Column("status_updated_at")
   private LocalDateTime statusUpdatedAt;
-
-//  public void setStatusRegistry(String newStatus) {
-//    if (!Objects.equals(this.statusRegistry, newStatus)) {
-//      this.statusRegistry = newStatus;
-//      this.statusUpdatedAt = LocalDateTime.now();
-//    }
-//  }
 }

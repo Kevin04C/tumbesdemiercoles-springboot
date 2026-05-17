@@ -36,12 +36,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
               dto.getPassword(),
               dto.getImageUrl()
           );
-          System.out.println("1. DOMINIO ANTES DE BD - isEmailVerified: " + user.getIsEmailVerified());
-          return userRepository.save(user).doOnNext(savedUser -> {
-
-            // TRAMPA 2: Verificamos qué nos devuelve el R2DBC (Base de datos)
-            System.out.println("2. DESPUÉS DE BD - isEmailVerified: " + savedUser.getIsEmailVerified());
-          });
+          return userRepository.save(user);
         })
         .doOnSuccess(user -> {
           eventPublisher.publishEvent(new UserRegisteredEvent(user));

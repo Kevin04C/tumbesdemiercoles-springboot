@@ -12,10 +12,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BasePaginated {
-
   private int page;
   private int size;
   private String sortBy;
   private String sortDirection;
-
 }

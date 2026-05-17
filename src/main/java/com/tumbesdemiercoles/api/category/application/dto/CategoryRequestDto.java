@@ -16,8 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryRequestDto {
-
   private String description;
   private Boolean isActive;
-
 }

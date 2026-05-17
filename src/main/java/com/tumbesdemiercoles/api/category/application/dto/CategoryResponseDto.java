@@ -21,5 +21,6 @@ public class CategoryResponseDto {
   private UUID id;
   private String description;
   private Boolean isActive;
+  private UUID categoryId;
 
 }

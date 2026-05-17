@@ -1,11 +1,19 @@
 package com.tumbesdemiercoles.api.category.infrastructure.repository;
 
 import com.tumbesdemiercoles.api.category.domain.model.Category;
+import com.tumbesdemiercoles.api.category.domain.model.CategoryFilter;
 import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
 import com.tumbesdemiercoles.api.category.infrastructure.entity.CategoryEntity;
 import com.tumbesdemiercoles.api.category.infrastructure.mapper.CategoryPersistenceMapper;
 import java.util.UUID;
+
+import com.tumbesdemiercoles.api.shared.domain.model.PaginatedResult;
+import com.tumbesdemiercoles.api.shared.infrastructure.database.CriteriaHelper;
+import com.tumbesdemiercoles.api.shared.infrastructure.database.R2dbcPaginationHelper;
+import com.tumbesdemiercoles.api.shared.infrastructure.mapper.PageableMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,6 +24,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
   private final CategoryR2dbcRepository r2dbcRepository;
   private final CategoryPersistenceMapper mapper;
+  private final R2dbcPaginationHelper paginationHelper;
 
   @Override
   public Mono<Category> save(Category category) {
@@ -46,6 +55,24 @@ public class CategoryRepositoryImpl implements CategoryRepository {
   @Override
   public Mono<Boolean> existsById(UUID id) {
     return r2dbcRepository.existsById(id);
+  }
+
+  @Override
+  public Mono<PaginatedResult<Category>> findCategories(CategoryFilter filter) {
+    Criteria criteria = Criteria.empty();
+
+    criteria = CriteriaHelper.addEquals(criteria, "id", filter.getId());
+    criteria = CriteriaHelper.addLike(criteria, "description", filter.getDescription());
+
+    Pageable pageable = PageableMapper.toPageable(filter);
+
+    return paginationHelper.getPage(
+            criteria,
+            pageable,
+            CategoryEntity.class,
+            mapper::toDomain,
+            filter.getPage()
+    );
   }
 
 }

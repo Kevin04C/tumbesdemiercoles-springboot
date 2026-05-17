@@ -14,6 +14,7 @@ public class CategoryPersistenceMapper {
     return Category.builder()
         .id(entity.getId())
         .description(entity.getDescription())
+        .categoryId(entity.getCategoryId())
         .isActive(entity.getIsActive())
         .createdAt(entity.getCreatedAt())
         .updatedAt(entity.getUpdatedAt())
@@ -26,6 +27,7 @@ public class CategoryPersistenceMapper {
     return CategoryEntity.builder()
         .id(domain.getId())
         .description(domain.getDescription())
+        .categoryId(domain.getCategoryId())
         .isActive(domain.getIsActive())
         .build();
   }
