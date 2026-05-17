@@ -1,5 +1,5 @@
 info:
-  name: "CREATE_ROLE"
+  name: CREATE_ROLE
   type: http
   seq: 3
 
@@ -8,7 +8,11 @@ http:
   url: "{{url}}/api/v1/roles"
   body:
     type: json
-    data: "{\n  \"name\": \"ROLE_ADMIN\",\n  \"description\": \"Administrator role\"\n}"
+    data: |-
+      {
+        "name": "ADMIN",
+        "description": "rol de Administrator"
+      }
   auth: inherit
 
 settings:

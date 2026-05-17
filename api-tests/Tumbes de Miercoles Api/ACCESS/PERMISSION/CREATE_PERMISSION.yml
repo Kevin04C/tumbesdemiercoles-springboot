@@ -8,7 +8,12 @@ http:
   url: "{{url}}/api/v1/permissions"
   body:
     type: json
-    data: ""
+    data: |2-
+      
+        {
+          "name": "READ_USER_ROLES",
+          "description": "Permite ver qué roles tiene asignados un usuario específico"
+        }
   auth: inherit
 
 settings:
