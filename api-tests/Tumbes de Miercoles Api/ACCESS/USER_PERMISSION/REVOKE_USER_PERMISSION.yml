@@ -1,0 +1,15 @@
+info:
+  name: "REVOKE_USER_PERMISSION"
+  type: http
+  seq: 3
+
+http:
+  method: DELETE
+  url: "{{url}}/api/v1/users/00000000-0000-0000-0000-000000000000/permissions/00000000-0000-0000-0000-000000000001"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

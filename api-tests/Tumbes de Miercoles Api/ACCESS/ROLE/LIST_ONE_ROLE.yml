@@ -1,11 +1,11 @@
 info:
-  name: "LIST_ONE_PERMISSION "
+  name: LIST_ONE_ROLE
   type: http
   seq: 2
 
 http:
   method: GET
-  url: "{{url}}/api/v1/permissions/44d4263a-d64c-45b4-98fb-48e91242b2cd"
+  url: "{{url}}/api/v1/roles/00000000-0000-0000-0000-000000000000"
   auth: inherit
 
 settings:

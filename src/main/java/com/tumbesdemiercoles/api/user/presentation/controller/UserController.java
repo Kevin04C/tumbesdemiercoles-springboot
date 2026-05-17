@@ -27,8 +27,8 @@ public class UserController implements UserControllerApi {
   @Override
   public Mono<ApiResponse<PageResponseDto<UserResponse>>> findUsers(UserFilterRequest userFilterRequest) {
     return getUserUseCase.findUsers(webMapper.toFilter(userFilterRequest))
-        .map(webMapper::toPageResponse)
-        .map(pageDto -> ApiResponse.success(pageDto, "Usuarios encontrados"));
+            .transform(webMapper::toPageResponse)
+            .map(pageDto -> ApiResponse.success(pageDto, "Usuarios encontrados"));
   }
 
   @Override

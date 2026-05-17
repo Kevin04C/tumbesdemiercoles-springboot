@@ -1,7 +1,2 @@
 info:
   name: ROLE_PERMISSION
-  type: folder
-  seq: 3
-
-request:
-  auth: inherit

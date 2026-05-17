@@ -1,0 +1,18 @@
+info:
+  name: "UPDATE_ROLE"
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{url}}/api/v1/roles/00000000-0000-0000-0000-000000000000"
+  body:
+    type: json
+    data: "{\n  \"name\": \"ROLE_USER\",\n  \"description\": \"User role\"\n}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
