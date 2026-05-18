@@ -1,5 +1,6 @@
 package com.tumbesdemiercoles.api.category.application.usecase;
 
+import com.tumbesdemiercoles.api.category.application.ports.in.DeleteCategoryUseCase;
 import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class DeleteCategoryUseCase {
+public class DeleteCategoryUseCaseImpl implements DeleteCategoryUseCase {
 
   private final CategoryRepository categoryRepository;
 

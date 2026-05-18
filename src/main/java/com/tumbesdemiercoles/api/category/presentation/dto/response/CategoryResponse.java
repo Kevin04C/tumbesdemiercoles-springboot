@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.category.presentation.dto;
+package com.tumbesdemiercoles.api.category.presentation.dto.response;
 
 import java.util.UUID;
 import lombok.Data;

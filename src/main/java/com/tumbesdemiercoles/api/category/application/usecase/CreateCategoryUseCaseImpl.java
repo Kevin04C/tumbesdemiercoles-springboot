@@ -2,15 +2,17 @@ package com.tumbesdemiercoles.api.category.application.usecase;
 
 import com.tumbesdemiercoles.api.category.application.dto.CategoryRequestDto;
 import com.tumbesdemiercoles.api.category.application.dto.CategoryResponseDto;
+import com.tumbesdemiercoles.api.category.application.ports.in.CreateCategoryUseCase;
 import com.tumbesdemiercoles.api.category.domain.model.Category;
 import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
+import com.tumbesdemiercoles.api.user.application.ports.in.CreateUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class CreateCategoryUseCase {
+public class CreateCategoryUseCaseImpl implements CreateCategoryUseCase {
 
   private final CategoryRepository categoryRepository;
 
@@ -18,7 +20,6 @@ public class CreateCategoryUseCase {
     Category category = Category.builder()
         .description(dto.getDescription())
         .isActive(dto.getIsActive() != null ? dto.getIsActive() : true)
-        .statusRegistry("ACTIVE")
         .build();
 
     return categoryRepository.save(category)

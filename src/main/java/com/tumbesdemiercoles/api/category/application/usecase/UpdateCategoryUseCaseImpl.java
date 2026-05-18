@@ -2,6 +2,7 @@ package com.tumbesdemiercoles.api.category.application.usecase;
 
 import com.tumbesdemiercoles.api.category.application.dto.CategoryRequestDto;
 import com.tumbesdemiercoles.api.category.application.dto.CategoryResponseDto;
+import com.tumbesdemiercoles.api.category.application.ports.in.UpdateCategoryUseCase;
 import com.tumbesdemiercoles.api.category.domain.model.Category;
 import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
@@ -12,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class UpdateCategoryUseCase {
+public class UpdateCategoryUseCaseImpl implements UpdateCategoryUseCase {
 
   private final CategoryRepository categoryRepository;
 

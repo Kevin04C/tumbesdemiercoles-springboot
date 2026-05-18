@@ -31,4 +31,7 @@ public class CategoryEntity extends AuditableEntity {
   @Column("is_active")
   private Boolean isActive;
 
+  @Column("category_id")
+  private UUID categoryId;
+
 }

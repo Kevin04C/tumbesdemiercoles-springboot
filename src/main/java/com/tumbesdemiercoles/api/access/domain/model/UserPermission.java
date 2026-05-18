@@ -1,5 +1,6 @@
 package com.tumbesdemiercoles.api.access.domain.model;
 
+import com.tumbesdemiercoles.api.shared.constants.StatusRegistryConst;
 import com.tumbesdemiercoles.api.shared.domain.model.Auditable;
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -28,16 +29,16 @@ public class UserPermission extends Auditable {
         .userId(userId)
         .permissionId(permissionId)
         .isActive(true)
-        .statusRegistry("ACTIVE")
+        .statusRegistry(StatusRegistryConst.ACTIVE)
         .build();
   }
 
   public void revokePermission() {
-    if ("DELETE".equals(this.getStatusRegistry())) {
+    if (StatusRegistryConst.DELETE.equals(this.getStatusRegistry())) {
       return;
     }
     this.isActive = false;
-    this.setStatusRegistry("DELETE");
+    this.setStatusRegistry(StatusRegistryConst.DELETE);
   }
 
 }

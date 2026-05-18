@@ -1,23 +1,20 @@
-package com.tumbesdemiercoles.api.user.domain.model;
+package com.tumbesdemiercoles.api.category.domain.model;
 
 import com.tumbesdemiercoles.api.shared.domain.model.BasePaginated;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.UUID;
+
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class UserFilter extends BasePaginated {
-
-  private UUID userId;
-  private String firstName;
-  private String lastName;
-  private String email;
-
+public class CategoryFilter extends BasePaginated {
+    private UUID id;
+    private String description;
 }

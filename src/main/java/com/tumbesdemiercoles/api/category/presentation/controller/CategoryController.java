@@ -1,23 +1,19 @@
 package com.tumbesdemiercoles.api.category.presentation.controller;
 
-import com.tumbesdemiercoles.api.category.application.dto.CategoryRequestDto;
-import com.tumbesdemiercoles.api.category.application.dto.CategoryResponseDto;
-import com.tumbesdemiercoles.api.category.application.usecase.CreateCategoryUseCase;
-import com.tumbesdemiercoles.api.category.application.usecase.DeleteCategoryUseCase;
-import com.tumbesdemiercoles.api.category.application.usecase.GetCategoryUseCase;
-import com.tumbesdemiercoles.api.category.application.usecase.UpdateCategoryUseCase;
+import com.tumbesdemiercoles.api.category.application.ports.in.CreateCategoryUseCase;
+import com.tumbesdemiercoles.api.category.application.ports.in.DeleteCategoryUseCase;
+import com.tumbesdemiercoles.api.category.application.ports.in.GetCategoryUseCase;
+import com.tumbesdemiercoles.api.category.application.usecase.UpdateCategoryUseCaseImpl;
+import com.tumbesdemiercoles.api.category.presentation.api.CategoryControllerApi;
+import com.tumbesdemiercoles.api.category.presentation.mapper.CategoryWebMapper;
+import com.tumbesdemiercoles.api.category.presentation.dto.request.CategoryFilterRequest;
+import com.tumbesdemiercoles.api.category.presentation.dto.response.CategoryResponse;
+import com.tumbesdemiercoles.api.category.presentation.dto.request.CategoryUpdateRequest;
+import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
-import java.util.List;
+
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -25,46 +21,39 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/api/categories")
 @RequiredArgsConstructor
-public class CategoryController {
-
+public class CategoryController implements CategoryControllerApi {
   private final CreateCategoryUseCase createCategoryUseCase;
-  private final GetCategoryUseCase getCategoryUseCase;
-  private final UpdateCategoryUseCase updateCategoryUseCase;
+  private final UpdateCategoryUseCaseImpl updateCategoryUseCase;
   private final DeleteCategoryUseCase deleteCategoryUseCase;
+  private final GetCategoryUseCase getCategoryUseCase;
+  private final CategoryWebMapper webMapper;
 
-  @PostMapping
-  public Mono<ResponseEntity<ApiResponse<CategoryResponseDto>>> createCategory(
-      @RequestBody CategoryRequestDto request) {
-    return createCategoryUseCase.execute(request)
-        .map(result -> ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(ApiResponse.success(result, "Categoría creada exitosamente")));
+  @Override
+  public Mono<ApiResponse<PageResponseDto<CategoryResponse>>> findCategories(CategoryFilterRequest categoryFilterRequest) {
+    return getCategoryUseCase.findCategories(
+              webMapper.toFilter(categoryFilterRequest)
+            )
+            .map(webMapper::toPageResponse)
+            .map(pageDto -> ApiResponse.success(pageDto));
   }
 
-  @GetMapping
-  public Mono<ResponseEntity<ApiResponse<List<CategoryResponseDto>>>> getAllCategories() {
-    return getCategoryUseCase.getAll()
-        .collectList()
-        .map(result -> ResponseEntity.ok(ApiResponse.success(result)));
+  @Override
+  public Mono<ApiResponse<CategoryResponse>> getCategoryById(UUID id) {
+      return getCategoryUseCase.getById(id)
+              .map(webMapper::toResponse)
+              .map(ApiResponse::success);
   }
 
-  @GetMapping("/{id}")
-  public Mono<ResponseEntity<ApiResponse<CategoryResponseDto>>> getCategoryById(@PathVariable UUID id) {
-    return getCategoryUseCase.getById(id)
-        .map(result -> ResponseEntity.ok(ApiResponse.success(result)));
+  @Override
+  public Mono<ApiResponse<CategoryResponse>> updateCategory(UUID id, CategoryUpdateRequest categoryUpdateRequest) {
+    return updateCategoryUseCase.execute(id, webMapper.toUpdateDto(categoryUpdateRequest))
+            .map(webMapper::toResponse)
+            .map(response -> ApiResponse.success(response, "Usuario Actualizado con correctamente"));
   }
 
-  @PutMapping("/{id}")
-  public Mono<ResponseEntity<ApiResponse<CategoryResponseDto>>> updateCategory(
-      @PathVariable UUID id, @RequestBody CategoryRequestDto request) {
-    return updateCategoryUseCase.execute(id, request)
-        .map(result -> ResponseEntity.ok(ApiResponse.success(result, "Categoría actualizada exitosamente")));
-  }
-
-  @DeleteMapping("/{id}")
-  public Mono<ResponseEntity<ApiResponse<Void>>> deleteCategory(@PathVariable UUID id) {
+  @Override
+  public Mono<ApiResponse<CategoryResponse>> deleteCategory(UUID id) {
     return deleteCategoryUseCase.execute(id)
-        .then(Mono.just(ResponseEntity.ok(ApiResponse.<Void>success(null, "Categoría eliminada exitosamente"))));
+            .thenReturn(ApiResponse.success(null, "Categoria eliminada correctamente"));
   }
-
 }
