@@ -10,5 +10,4 @@ import reactor.core.publisher.Mono;
 public interface UserExistencePort {
 
   Mono<Boolean> existsById(UUID userId);
-
 }

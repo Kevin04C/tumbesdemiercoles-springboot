@@ -33,7 +33,7 @@ public class CategoryController implements CategoryControllerApi {
     return getCategoryUseCase.findCategories(
               webMapper.toFilter(categoryFilterRequest)
             )
-            .map(webMapper::toPageResponse)
+            .transform(webMapper::toPageResponse)
             .map(pageDto -> ApiResponse.success(pageDto));
   }
 

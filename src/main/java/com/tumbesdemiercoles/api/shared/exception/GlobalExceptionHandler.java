@@ -76,6 +76,22 @@ public class GlobalExceptionHandler {
     log.error("Unexpected exception: {}", ex.getMessage(), ex);
     return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Error inesperado", null);
   }
+  // ===================================================================================
+  // NUEVOS MANEJADORES PARA EL DOMINIO PURO
+  // ===================================================================================
+
+  // ARGUMENTOS INVÁLIDOS DEL DOMINIO (400) - Ej: Nombre vacío, precio negativo
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ApiResponse<Void>> handleIllegalArgumentException(IllegalArgumentException ex) {
+    log.warn("Illegal argument in domain: {}", ex.getMessage());
+    return buildResponse(HttpStatus.BAD_REQUEST, "INVALID_DATA", ex.getMessage(), null);
+  }
+  // 9. REGLAS DE NEGOCIO ROTAS EN EL DOMINIO (409) - Ej: Usuario inactivo, email ya verificado
+  @ExceptionHandler(IllegalStateException.class)
+  public ResponseEntity<ApiResponse<Void>> handleIllegalStateException(IllegalStateException ex) {
+    log.warn("Business rule violation: {}", ex.getMessage());
+    return buildResponse(HttpStatus.CONFLICT, "BUSINESS_RULE_VIOLATION", ex.getMessage(), null);
+  }
 
   // ===================================================================================
   // MÉTODO AUXILIAR PARA NO REPETIR CÓDIGO (DRY - Don't Repeat Yourself)
