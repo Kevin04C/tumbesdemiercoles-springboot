@@ -1,14 +1,17 @@
 info:
-  name: "ASSIGN_USER_ROLE"
+  name: ASSIGN_USER_ROLE
   type: http
   seq: 2
 
 http:
   method: POST
-  url: "{{url}}/api/v1/users/00000000-0000-0000-0000-000000000000/roles"
+  url: "{{url}}/api/v1/users/48b3965b-9ca9-4c18-a936-0126754e52bd/roles"
   body:
     type: json
-    data: "{\n  \"roleId\": \"00000000-0000-0000-0000-000000000001\"\n}"
+    data: |-
+      {
+        "roleId": "47eb65d5-9576-43c7-a2cc-d117b6e51070"
+      }
   auth: inherit
 
 settings:

@@ -10,8 +10,8 @@ http:
     type: json
     data: |-
       {
-        "name": "ADMIN",
-        "description": "rol de Administrator"
+        "name": "USER",
+        "description": "rol de Usuario"
       }
   auth: inherit
 
