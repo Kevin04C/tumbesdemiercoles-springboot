@@ -11,6 +11,7 @@ import com.tumbesdemiercoles.api.access.domain.repository.UserPermissionReposito
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -23,6 +24,7 @@ public class AssignUserPermissionUseCaseImpl implements AssignUserPermissionUseC
   private final UserPermissionRepository userPermissionRepository;
 
   @Override
+  @Transactional
   public Flux<UserPermissionResponseDto> execute(AssignUserPermissionRequestDto assignUserPermissionRequestDto) {
     return userExistencePort.existsById(assignUserPermissionRequestDto.getUserId())
         .filter(exists -> exists)

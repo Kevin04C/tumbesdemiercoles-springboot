@@ -4,6 +4,7 @@ import com.tumbesdemiercoles.api.access.domain.model.Permission;
 import com.tumbesdemiercoles.api.access.domain.repository.PermissionRepository;
 import com.tumbesdemiercoles.api.access.infrastructure.mapper.PermissionPersistenceMapper;
 import com.tumbesdemiercoles.api.access.infrastructure.repository.PermissionR2dbcRepository;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,12 @@ public class PermissionRepositoryAdapter implements PermissionRepository {
   @Override
   public Flux<Permission> findAll() {
     return r2dbcRepository.findAll()
+        .map(mapper::toDomain);
+  }
+
+  @Override
+  public Flux<Permission> findAllById(List<UUID> ids) {
+    return r2dbcRepository.findAllById(ids)
         .map(mapper::toDomain);
   }
 

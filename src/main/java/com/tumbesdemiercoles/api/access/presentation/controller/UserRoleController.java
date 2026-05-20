@@ -7,14 +7,13 @@ import com.tumbesdemiercoles.api.access.presentation.api.UserRoleControllerApi;
 import com.tumbesdemiercoles.api.access.presentation.dto.request.AssignUserRoleRequest;
 import com.tumbesdemiercoles.api.access.presentation.dto.response.UserRoleResponse;
 import com.tumbesdemiercoles.api.access.presentation.mapper.UserRoleWebMapper;
+import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -28,27 +27,28 @@ public class UserRoleController implements UserRoleControllerApi {
   private final UserRoleWebMapper mapper;
 
   @Override
-  public Mono<ResponseEntity<UserRoleResponse>> assignRole(
+  public Mono<ApiResponse<UserRoleResponse>> assignRole(
       UUID userId,
       @Valid AssignUserRoleRequest request) {
     return assignUserRoleUseCase.execute(userId, request.roleId())
         .map(mapper::toResponse)
-        .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response));
+        .map(response -> ApiResponse.success(response, "Rol asignado correctamente"));
   }
 
   @Override
-  public Mono<ResponseEntity<UserRoleResponse>> revokeRole(
+  public Mono<ApiResponse<UserRoleResponse>> revokeRole(
       UUID userId,
       UUID roleId) {
     return revokeUserRoleUseCase.execute(userId, roleId)
         .map(mapper::toResponse)
-        .map(ResponseEntity::ok);
+        .map(response -> ApiResponse.success(response, "Rol revocado correctamente"));
   }
 
   @Override
-  public Mono<ResponseEntity<Flux<UserRoleResponse>>> getUserRoles(UUID userId) {
-    Flux<UserRoleResponse> roles = findUserRoleUseCase.findByUserId(userId)
-        .map(mapper::toResponse);
-    return Mono.just(ResponseEntity.ok(roles));
+  public Mono<ApiResponse<List<UserRoleResponse>>> getUserRoles(UUID userId) {
+    return findUserRoleUseCase.findByUserId(userId)
+        .map(mapper::toResponse)
+        .collectList()
+        .map(roles -> ApiResponse.success(roles, "Roles de usuario encontrados"));
   }
 }

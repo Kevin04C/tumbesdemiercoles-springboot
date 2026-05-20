@@ -5,6 +5,7 @@ import com.tumbesdemiercoles.api.access.domain.repository.UserRoleRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -13,6 +14,7 @@ public class RevokeUserRoleUseCase {
 
   private final UserRoleRepository userRoleRepository;
 
+  @Transactional
   public Mono<UserRole> execute(UUID userId, UUID roleId) {
     return userRoleRepository.findByUserIdAndRoleId(userId, roleId)
         .switchIfEmpty(Mono.error(new IllegalArgumentException("UserRole association not found")))

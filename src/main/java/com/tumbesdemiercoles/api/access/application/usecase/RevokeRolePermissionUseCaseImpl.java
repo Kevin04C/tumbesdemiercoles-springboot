@@ -6,6 +6,7 @@ import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -15,6 +16,7 @@ public class RevokeRolePermissionUseCaseImpl implements RevokeRolePermissionUseC
   private final RolePermissionRepository rolePermissionRepository;
 
   @Override
+  @Transactional
   public Mono<Void> revoke(UUID roleId, UUID permissionId) {
     return rolePermissionRepository.findByRoleIdAndPermissionId(roleId, permissionId)
         .switchIfEmpty(Mono.error(ResourceNotFoundException.forEntity("RolePermission",

@@ -5,12 +5,12 @@ info:
 
 http:
   method: POST
-  url: "{{url}}/api/v1/users/48b3965b-9ca9-4c18-a936-0126754e52bd/roles"
+  url: "{{url}}/api/v1/users/2416f619-c9e5-442b-8cbb-04f26c028ef5/roles"
   body:
     type: json
     data: |-
       {
-        "roleId": "47eb65d5-9576-43c7-a2cc-d117b6e51070"
+        "roleId":"b3863900-2933-449b-90b3-665e29b8f45b"
       }
   auth: inherit
 

@@ -1,14 +1,18 @@
 info:
-  name: "ASSIGN_ROLE_PERMISSIONS"
+  name: ASSIGN_ROLE_PERMISSIONS
   type: http
   seq: 2
 
 http:
   method: POST
-  url: "{{url}}/api/v1/roles/00000000-0000-0000-0000-000000000000/permissions"
+  url: "{{url}}/api/v1/roles/b3863900-2933-449b-90b3-665e29b8f45b/permissions"
   body:
     type: json
-    data: "{\n  \"permissionIds\": [\"00000000-0000-0000-0000-000000000001\"]\n}"
+    data: |-
+      {
+        "permissionIds": ["ddd9bc87-a5e8-4b50-8415-befb3ed726c3",
+                         "e273e58e-7d08-4da1-be25-f931057f3651"]
+      }
   auth: inherit
 
 settings:

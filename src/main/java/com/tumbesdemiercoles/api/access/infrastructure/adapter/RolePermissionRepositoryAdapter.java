@@ -4,6 +4,7 @@ import com.tumbesdemiercoles.api.access.domain.model.RolePermission;
 import com.tumbesdemiercoles.api.access.domain.repository.RolePermissionRepository;
 import com.tumbesdemiercoles.api.access.infrastructure.mapper.RolePermissionPersistenceMapper;
 import com.tumbesdemiercoles.api.access.infrastructure.repository.RolePermissionR2dbcRepository;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -38,6 +39,17 @@ public class RolePermissionRepositoryAdapter implements RolePermissionRepository
   @Override
   public Mono<Boolean> existsByRoleIdAndPermissionId(UUID roleId, UUID permissionId) {
     return r2dbcRepository.existsByRoleIdAndPermissionId(roleId, permissionId);
+  }
+
+  @Override
+  public Flux<RolePermission> saveAll(List<RolePermission> rolePermissions) {
+    return Flux.fromIterable(rolePermissions)
+        .map(domain -> domain.getId() == null
+            ? mapper.toEntity(domain)
+            : mapper.toEntityUpdate(domain))
+        .collectList()
+        .flatMapMany(r2dbcRepository::saveAll)
+        .map(mapper::toDomain);
   }
 
 }

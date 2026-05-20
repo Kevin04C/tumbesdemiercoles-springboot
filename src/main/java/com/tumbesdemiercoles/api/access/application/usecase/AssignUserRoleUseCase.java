@@ -10,6 +10,7 @@ import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -20,6 +21,7 @@ public class AssignUserRoleUseCase {
   private final RoleRepository roleRepository;
   private final UserExistencePort userExistencePort;
 
+  @Transactional
   public Mono<UserRole> execute(UUID userId, UUID roleId) {
     // Ejecutamos ambas validaciones de forma concurrente
     return Mono.when(validateUserExists(userId), validateRoleExists(roleId))
