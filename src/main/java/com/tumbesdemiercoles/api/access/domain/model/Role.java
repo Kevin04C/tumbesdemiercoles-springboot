@@ -1,5 +1,6 @@
 package com.tumbesdemiercoles.api.access.domain.model;
 
+import com.tumbesdemiercoles.api.shared.constants.shared.StatusRegistryConst;
 import com.tumbesdemiercoles.api.shared.domain.model.Auditable;
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -24,7 +25,7 @@ public class Role extends Auditable {
   public static Role createNewRole(String name) {
     return Role.builder()
         .name(name)
-        .statusRegistry("ACTIVE")
+        .statusRegistry(StatusRegistryConst.ACTIVE)
         .build();
   }
 
@@ -36,10 +37,10 @@ public class Role extends Auditable {
   }
 
   public void deleteRole() {
-    if ("DELETE".equals(this.getStatusRegistry())) {
+    if (StatusRegistryConst.DELETE.equals(this.getStatusRegistry())) {
       return;
     }
-    this.setStatusRegistry("DELETE");
+    this.setStatusRegistry(StatusRegistryConst.DELETE);
   }
 
 }

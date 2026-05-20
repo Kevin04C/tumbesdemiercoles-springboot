@@ -5,12 +5,10 @@ import com.tumbesdemiercoles.api.category.application.ports.in.GetCategoryUseCas
 import com.tumbesdemiercoles.api.category.domain.model.Category;
 import com.tumbesdemiercoles.api.category.domain.model.CategoryFilter;
 import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
-import com.tumbesdemiercoles.api.category.presentation.dto.response.CategoryResponse;
 import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
 import java.util.UUID;
 
-import com.tumbesdemiercoles.api.user.application.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -44,7 +42,9 @@ public class GetCategoryUseCaseImpl implements GetCategoryUseCase {
     return CategoryResponseDto.builder()
         .id(category.getId())
         .description(category.getDescription())
+        .slug(category.getSlug())
         .isActive(category.getIsActive())
+        .categoryId(category.getCategoryId())
         .build();
   }
 

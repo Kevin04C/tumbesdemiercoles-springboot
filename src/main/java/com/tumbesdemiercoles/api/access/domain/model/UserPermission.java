@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.access.domain.model;
 
-import com.tumbesdemiercoles.api.shared.constants.StatusRegistryConst;
+import com.tumbesdemiercoles.api.shared.constants.shared.StatusRegistryConst;
 import com.tumbesdemiercoles.api.shared.domain.model.Auditable;
 import java.util.UUID;
 import lombok.AccessLevel;

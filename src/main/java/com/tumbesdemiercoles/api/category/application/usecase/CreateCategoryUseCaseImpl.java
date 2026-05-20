@@ -19,6 +19,7 @@ public class CreateCategoryUseCaseImpl implements CreateCategoryUseCase {
   public Mono<CategoryResponseDto> execute(CategoryRequestDto dto) {
     Category category = Category.builder()
         .description(dto.getDescription())
+        .slug(dto.getSlug())
         .isActive(dto.getIsActive() != null ? dto.getIsActive() : true)
         .build();
 
@@ -30,6 +31,7 @@ public class CreateCategoryUseCaseImpl implements CreateCategoryUseCase {
     return CategoryResponseDto.builder()
         .id(category.getId())
         .description(category.getDescription())
+        .slug(category.getSlug())
         .isActive(category.getIsActive())
         .build();
   }

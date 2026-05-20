@@ -1,0 +1,60 @@
+package com.tumbesdemiercoles.api.news.infrastructure.entity;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import com.tumbesdemiercoles.api.shared.infrastructure.entity.AuditableEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table("news")
+public class NewsEntity extends AuditableEntity {
+
+  @Id
+  @Column("id")
+  private UUID id;
+
+  @Column("content")
+  private String content;
+
+  @Column("is_carousel")
+  private Boolean isCarousel;
+
+  @Column("headline")
+  private String headline;
+
+  @Column("slug")
+  private String slug;
+
+  @Column("is_premium")
+  private Boolean isPremium;
+
+  @Column("category_id")
+  private UUID categoryId;
+
+  @Column("title")
+  private String title;
+
+  @Column("is_active")
+  private Boolean isActive;
+
+  @Column("image_url")
+  private String imageUrl;
+
+  @Column("is_peru_daily_news")
+  private Boolean isPeruDailyNews;
+
+  @Column("is_latest_news")
+  private Boolean isLatestNews;
+
+}

@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.shared.constants;
+package com.tumbesdemiercoles.api.shared.constants.shared;
 
 public class StatusRegistryConst {
     public static final String ACTIVE = "ACTIVE";

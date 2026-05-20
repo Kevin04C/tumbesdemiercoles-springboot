@@ -7,6 +7,7 @@ import com.tumbesdemiercoles.api.category.presentation.dto.request.CategoryFilte
 import com.tumbesdemiercoles.api.category.presentation.dto.request.CategoryUpdateRequest;
 import com.tumbesdemiercoles.api.category.presentation.dto.response.CategoryResponse;
 import com.tumbesdemiercoles.api.shared.presentation.mapper.PageMapper;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -20,4 +21,6 @@ public interface CategoryWebMapper extends PageMapper<CategoryResponseDto, Categ
     @Mapping(target = "sortBy", source = "sortBy")
     @Mapping(target = "sortDirection", source = "sortDir")
     CategoryFilter toFilter(CategoryFilterRequest request);
+
+    List<CategoryResponse> toListResponse(List<CategoryResponseDto> sources);
 }

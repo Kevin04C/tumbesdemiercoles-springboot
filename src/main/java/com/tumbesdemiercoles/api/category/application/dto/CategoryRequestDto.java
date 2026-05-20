@@ -18,4 +18,5 @@ import lombok.Setter;
 public class CategoryRequestDto {
   private String description;
   private Boolean isActive;
+  private String slug;
 }

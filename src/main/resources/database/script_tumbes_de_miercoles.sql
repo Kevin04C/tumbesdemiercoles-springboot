@@ -2,8 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict D4XnV7NDynAtd48y4uwfgLuounQQYNamOr27fTyujmISBxOWFfb7WSnaRNl6Xa0
-
 -- Dumped from database version 18.3 (Debian 18.3-1.pgdg13+1)
 -- Dumped by pg_dump version 18.3 (Debian 18.3-1.pgdg13+1)
 
@@ -25,47 +23,88 @@ SET row_security = off;
 
 CREATE FUNCTION public.fn_audit_logger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
-    v_old_data JSONB;
-    v_new_data JSONB;
-    v_key_value TEXT;
-BEGIN
-    -- Capturamos datos según la operación
-    IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
-        v_new_data := to_jsonb(NEW);
-    END IF;
-    
-    IF (TG_OP = 'DELETE' OR TG_OP = 'UPDATE') THEN
-        v_old_data := to_jsonb(OLD);
-    END IF;
-
-    -- Extraemos el valor de la columna 'id' (estandarizado en todas las tablas)
-    IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
-        v_key_value := v_new_data->>'id';
-    ELSE
-        v_key_value := v_old_data->>'id';
-    END IF;
-
-    -- Inserciones en la tabla Audit
-    IF (TG_OP = 'INSERT') THEN
-        INSERT INTO public.audit (table_name, operation, key_value, new_value, changed_by)
-        VALUES (TG_TABLE_NAME, TG_OP, v_key_value, v_new_data::TEXT, current_user);
-        RETURN NEW;
-        
-    ELSIF (TG_OP = 'UPDATE') THEN
-        INSERT INTO public.audit (table_name, operation, key_value, old_value, new_value, changed_by)
-        VALUES (TG_TABLE_NAME, TG_OP, v_key_value, v_old_data::TEXT, v_new_data::TEXT, current_user);
-        RETURN NEW;
-        
-    ELSIF (TG_OP = 'DELETE') THEN
-        INSERT INTO public.audit (table_name, operation, key_value, old_value, changed_by)
-        VALUES (TG_TABLE_NAME, TG_OP, v_key_value, v_old_data::TEXT, current_user);
-        RETURN OLD;
-    END IF;
-    
-    RETURN NULL;
-END;
+    AS $$
+
+DECLARE
+
+    v_old_data JSONB;
+
+    v_new_data JSONB;
+
+    v_key_value TEXT;
+
+BEGIN
+
+    -- Capturamos datos según la operación
+
+    IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
+
+        v_new_data := to_jsonb(NEW);
+
+    END IF;
+
+    
+
+    IF (TG_OP = 'DELETE' OR TG_OP = 'UPDATE') THEN
+
+        v_old_data := to_jsonb(OLD);
+
+    END IF;
+
+
+
+    -- Extraemos el valor de la columna 'id' (estandarizado en todas las tablas)
+
+    IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') THEN
+
+        v_key_value := v_new_data->>'id';
+
+    ELSE
+
+        v_key_value := v_old_data->>'id';
+
+    END IF;
+
+
+
+    -- Inserciones en la tabla Audit
+
+    IF (TG_OP = 'INSERT') THEN
+
+        INSERT INTO public.audit (table_name, operation, key_value, new_value, changed_by)
+
+        VALUES (TG_TABLE_NAME, TG_OP, v_key_value, v_new_data::TEXT, current_user);
+
+        RETURN NEW;
+
+        
+
+    ELSIF (TG_OP = 'UPDATE') THEN
+
+        INSERT INTO public.audit (table_name, operation, key_value, old_value, new_value, changed_by)
+
+        VALUES (TG_TABLE_NAME, TG_OP, v_key_value, v_old_data::TEXT, v_new_data::TEXT, current_user);
+
+        RETURN NEW;
+
+        
+
+    ELSIF (TG_OP = 'DELETE') THEN
+
+        INSERT INTO public.audit (table_name, operation, key_value, old_value, changed_by)
+
+        VALUES (TG_TABLE_NAME, TG_OP, v_key_value, v_old_data::TEXT, current_user);
+
+        RETURN OLD;
+
+    END IF;
+
+    
+
+    RETURN NULL;
+
+END;
+
 $$;
 
 
