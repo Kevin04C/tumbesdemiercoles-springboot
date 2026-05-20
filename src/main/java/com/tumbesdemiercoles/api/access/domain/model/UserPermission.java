@@ -41,4 +41,9 @@ public class UserPermission extends Auditable {
     this.setStatusRegistry(StatusRegistryConst.DELETE);
   }
 
+  public void updateActive(Boolean isActive) {
+    this.isActive = isActive;
+    this.setStatusRegistry(StatusRegistryConst.ACTIVE);
+  }
+
 }

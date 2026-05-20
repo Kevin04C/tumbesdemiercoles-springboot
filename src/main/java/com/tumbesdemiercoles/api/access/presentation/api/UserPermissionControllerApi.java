@@ -1,6 +1,7 @@
 package com.tumbesdemiercoles.api.access.presentation.api;
 
-import com.tumbesdemiercoles.api.access.presentation.dto.request.AssignUserPermissionRequest;
+import com.tumbesdemiercoles.api.access.presentation.dto.request.UpdateUserPermissionExceptionsRequest;
+import com.tumbesdemiercoles.api.access.presentation.dto.response.PermissionResponse;
 import com.tumbesdemiercoles.api.access.presentation.dto.response.UserPermissionResponse;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import jakarta.validation.Valid;
@@ -13,16 +14,14 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/v1/users/{userId}/permissions")
 public interface UserPermissionControllerApi {
 
-  @GetMapping
+  @PutMapping("/exceptions")
   @ResponseStatus(HttpStatus.OK)
-  Mono<ApiResponse<List<UserPermissionResponse>>> getPermissionsByUserId(@PathVariable UUID userId);
+  Mono<ApiResponse<List<UserPermissionResponse>>> updateExceptions(
+      @PathVariable UUID userId,
+      @Valid @RequestBody UpdateUserPermissionExceptionsRequest request);
 
-  @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  Mono<ApiResponse<List<UserPermissionResponse>>> assignPermissions(@PathVariable UUID userId, @Valid @RequestBody AssignUserPermissionRequest assignUserPermissionRequest);
-
-  @DeleteMapping("/{permissionId}")
+  @GetMapping("/effective")
   @ResponseStatus(HttpStatus.OK)
-  Mono<ApiResponse<Void>> revokePermission(@PathVariable UUID userId, @PathVariable UUID permissionId);
+  Mono<ApiResponse<List<PermissionResponse>>> getEffectivePermissions(@PathVariable UUID userId);
 
 }

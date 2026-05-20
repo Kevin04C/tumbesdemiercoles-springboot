@@ -1,7 +1,9 @@
 package com.tumbesdemiercoles.api.access.infrastructure.adapter;
 
+import com.tumbesdemiercoles.api.access.domain.model.Permission;
 import com.tumbesdemiercoles.api.access.domain.model.UserPermission;
 import com.tumbesdemiercoles.api.access.domain.repository.UserPermissionRepository;
+import com.tumbesdemiercoles.api.access.infrastructure.mapper.PermissionPersistenceMapper;
 import com.tumbesdemiercoles.api.access.infrastructure.mapper.UserPermissionPersistenceMapper;
 import com.tumbesdemiercoles.api.access.infrastructure.repository.UserPermissionR2dbcRepository;
 import java.util.UUID;
@@ -16,6 +18,7 @@ public class UserPermissionRepositoryAdapter implements UserPermissionRepository
 
   private final UserPermissionR2dbcRepository r2dbcRepository;
   private final UserPermissionPersistenceMapper mapper;
+  private final PermissionPersistenceMapper permissionMapper;
 
   @Override
   public Mono<UserPermission> save(UserPermission userPermission) {
@@ -38,6 +41,17 @@ public class UserPermissionRepositoryAdapter implements UserPermissionRepository
   @Override
   public Mono<Boolean> existsByUserIdAndPermissionId(UUID userId, UUID permissionId) {
     return r2dbcRepository.existsByUserIdAndPermissionId(userId, permissionId);
+  }
+
+  @Override
+  public Mono<Void> deleteByUserIdAndPermissionId(UUID userId, UUID permissionId) {
+    return r2dbcRepository.deleteByUserIdAndPermissionId(userId, permissionId);
+  }
+
+  @Override
+  public Flux<Permission> findEffectivePermissionsByUserId(UUID userId) {
+    return r2dbcRepository.findEffectivePermissionsByUserId(userId)
+        .map(permissionMapper::toDomain);
   }
 
 }

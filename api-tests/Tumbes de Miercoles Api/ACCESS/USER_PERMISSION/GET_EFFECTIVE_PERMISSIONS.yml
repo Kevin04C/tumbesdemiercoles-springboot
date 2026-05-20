@@ -1,0 +1,16 @@
+info:
+  name: "GET_EFFECTIVE_PERMISSIONS"
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{url}}/api/v1/users/00000000-0000-0000-0000-000000000000/permissions/effective"
+  auth: inherit
+  body: none
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

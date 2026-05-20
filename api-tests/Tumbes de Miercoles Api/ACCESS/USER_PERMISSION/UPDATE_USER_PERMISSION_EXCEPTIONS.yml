@@ -1,0 +1,26 @@
+info:
+  name: "UPDATE_USER_PERMISSION_EXCEPTIONS"
+  type: http
+  seq: 1
+
+http:
+  method: PUT
+  url: "{{url}}/api/v1/users/00000000-0000-0000-0000-000000000000/permissions/exceptions"
+  auth: inherit
+  body: json
+
+body:json:
+  {
+    "overrides": [
+      {
+        "permissionId": "00000000-0000-0000-0000-000000000001",
+        "isActive": true
+      }
+    ]
+  }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
