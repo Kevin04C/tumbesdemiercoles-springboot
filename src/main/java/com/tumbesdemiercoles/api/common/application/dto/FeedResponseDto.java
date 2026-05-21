@@ -1,6 +1,7 @@
 package com.tumbesdemiercoles.api.common.application.dto;
 
 import com.tumbesdemiercoles.api.columnist.application.dto.ColumnistResponseDto;
+import com.tumbesdemiercoles.api.digitalweekly.application.dto.DigitalWeeklyResponseDto;
 import com.tumbesdemiercoles.api.news.application.dto.NewsResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,4 +22,5 @@ public class FeedResponseDto {
   private List<NewsResponseDto> peruDailyNews;
   private List<CategoryFeedItemDto> byCategory;
   private List<ColumnistResponseDto> columnists;
+  private DigitalWeeklyResponseDto digitalWeekly;
 }

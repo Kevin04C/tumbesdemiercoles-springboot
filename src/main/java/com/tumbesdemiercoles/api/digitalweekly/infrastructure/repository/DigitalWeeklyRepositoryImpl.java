@@ -57,6 +57,12 @@ public class DigitalWeeklyRepositoryImpl implements DigitalWeeklyRepository {
   }
 
   @Override
+  public Mono<DigitalWeekly> findLatest() {
+    return r2dbcRepository.findFirstByOrderByCreatedAtDesc()
+        .map(mapper::toDomain);
+  }
+
+  @Override
   public Mono<PaginatedResult<DigitalWeekly>> findDigitalWeeklies(DigitalWeeklyFilter filter) {
     Criteria criteria = Criteria.empty();
 

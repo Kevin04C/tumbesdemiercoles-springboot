@@ -24,4 +24,6 @@ public interface DigitalWeeklyRepository {
   Mono<Boolean> existsById(UUID id);
 
   Mono<PaginatedResult<DigitalWeekly>> findDigitalWeeklies(DigitalWeeklyFilter filter);
+
+  Mono<DigitalWeekly> findLatest();
 }

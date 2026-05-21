@@ -6,6 +6,9 @@ import com.tumbesdemiercoles.api.columnist.domain.model.Columnist;
 import com.tumbesdemiercoles.api.columnist.domain.repository.ColumnistRepository;
 import com.tumbesdemiercoles.api.common.application.dto.CategoryFeedItemDto;
 import com.tumbesdemiercoles.api.common.application.dto.FeedResponseDto;
+import com.tumbesdemiercoles.api.digitalweekly.application.dto.DigitalWeeklyResponseDto;
+import com.tumbesdemiercoles.api.digitalweekly.domain.model.DigitalWeekly;
+import com.tumbesdemiercoles.api.digitalweekly.domain.repository.DigitalWeeklyRepository;
 import com.tumbesdemiercoles.api.news.application.dto.NewsResponseDto;
 import com.tumbesdemiercoles.api.news.domain.model.News;
 import com.tumbesdemiercoles.api.news.domain.repository.NewsRepository;
@@ -24,6 +27,7 @@ public class GetFeedUseCase {
   private final NewsRepository newsRepository;
   private final CategoryRepository categoryRepository;
   private final ColumnistRepository columnistRepository;
+  private final DigitalWeeklyRepository digitalWeeklyRepository;
 
   private static final List<String> BY_CATEGORY_SLUGS = List.of(
       CategoriesSlugConst.POLITICA,
@@ -58,12 +62,17 @@ public class GetFeedUseCase {
     Mono<List<ColumnistResponseDto>> columnists = columnistRepository.findLatestColumnists()
         .map(list -> list.stream().map(this::toColumnistDto).toList());
 
-    return Mono.zip(carousel, peruDaily, byCategory, columnists)
+    Mono<DigitalWeeklyResponseDto> digitalWeekly = digitalWeeklyRepository.findLatest()
+        .map(this::toDigitalWeeklyDto)
+        .switchIfEmpty(Mono.empty());
+
+    return Mono.zip(carousel, peruDaily, byCategory, columnists, digitalWeekly)
         .map(tuple -> FeedResponseDto.builder()
             .inCarousel(tuple.getT1())
             .peruDailyNews(tuple.getT2())
             .byCategory(tuple.getT3())
             .columnists(tuple.getT4())
+            .digitalWeekly(tuple.getT5())
             .build()
         );
   }
@@ -84,6 +93,20 @@ public class GetFeedUseCase {
         .isLatestNews(news.getIsLatestNews())
         .createdAt(news.getCreatedAt())
         .updatedAt(news.getUpdatedAt())
+        .build();
+  }
+
+  private DigitalWeeklyResponseDto toDigitalWeeklyDto(DigitalWeekly digitalWeekly) {
+    return DigitalWeeklyResponseDto.builder()
+        .id(digitalWeekly.getId())
+        .pdfUrl(digitalWeekly.getPdfUrl())
+        .frontPageImageUrl(digitalWeekly.getFrontPageImageUrl())
+        .descripcion(digitalWeekly.getDescripcion())
+        .isActive(digitalWeekly.getIsActive())
+        .createdAt(digitalWeekly.getCreatedAt())
+        .updatedAt(digitalWeekly.getUpdatedAt())
+        .isPremium(digitalWeekly.getIsPremium())
+        .url(digitalWeekly.getUrl())
         .build();
   }
 
