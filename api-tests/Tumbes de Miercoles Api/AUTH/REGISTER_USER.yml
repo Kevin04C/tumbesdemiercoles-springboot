@@ -12,7 +12,7 @@ http:
       {
         "firstName":"asdasdasdsad",
         "lastName":"popop",
-        "email":"gavino_10@hotmail.es",
+        "email":"gavino_15@hotmail.es",
         "password":"franz123"
       }
   auth: inherit

@@ -1,11 +1,13 @@
 package com.tumbesdemiercoles.api.security.configuration;
 
+import com.tumbesdemiercoles.api.access.domain.event.UserPermissionsChangedEvent;
 import com.tumbesdemiercoles.api.security.application.port.out.SecurityPermissionPort;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.event.EventListener;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -51,5 +53,10 @@ public class CustomJwtAuthenticationConverter implements Converter<Jwt, Flux<Gra
 
   public void evictCache(String userId) {
     userPermissionsCache.remove(userId);
+  }
+
+  @EventListener
+  public void onUserPermissionsChanged(UserPermissionsChangedEvent event) {
+    evictCache(event.userId().toString());
   }
 }

@@ -39,6 +39,8 @@ public class SecurityConfig {
   @Value("${jwt.secret}")
   private String secret;
 
+  private static final String API_V1 = "/api/v1";
+
   /**
    * Configura los filtros de seguridad para las solicitudes entrantes.
    * Desactiva CSRF, establece las configuraciones de CORS y define las reglas
@@ -57,7 +59,7 @@ public class SecurityConfig {
     return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
         .cors(cors -> cors.configurationSource(request -> {
           CorsConfiguration config = new CorsConfiguration();
-          config.addAllowedOrigin("http://localhost:4200"); // Excelente que ya tengas listo tu Angular Angular 21
+          config.addAllowedOrigin("http://localhost:3000");
           config.addAllowedMethod("*");
           config.addAllowedHeader("*");
           config.setAllowCredentials(true);
@@ -65,8 +67,8 @@ public class SecurityConfig {
         }))
         .authorizeExchange(auth -> auth
             .pathMatchers("/v3/api-docs/**", "/swagger-ui.html", "/webjars/swagger-ui/**").permitAll()
-            .pathMatchers("/auth/**").permitAll()
-            .pathMatchers("/api/**").permitAll()
+                .pathMatchers(HttpMethod.POST,API_V1 + "/auth/register").permitAll()
+                .pathMatchers(HttpMethod.POST,API_V1 + "/auth/login").permitAll()
             .anyExchange().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2
             .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))

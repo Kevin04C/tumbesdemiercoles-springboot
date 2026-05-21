@@ -5,6 +5,8 @@ import com.tumbesdemiercoles.api.access.application.dto.UpdateUserPermissionExce
 import com.tumbesdemiercoles.api.access.application.dto.UserPermissionResponseDto;
 import com.tumbesdemiercoles.api.access.application.ports.in.ManageUserPermissionExceptionsUseCase;
 import com.tumbesdemiercoles.api.access.application.ports.out.UserExistencePort;
+import com.tumbesdemiercoles.api.access.application.ports.out.UserPermissionEventPublisherPort;
+import com.tumbesdemiercoles.api.access.domain.event.UserPermissionsChangedEvent;
 import com.tumbesdemiercoles.api.access.domain.exception.PermissionNotFoundException;
 import com.tumbesdemiercoles.api.access.domain.model.RolePermission;
 import com.tumbesdemiercoles.api.access.domain.model.UserPermission;
@@ -20,6 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -34,6 +37,7 @@ public class ManageUserPermissionExceptionsUseCaseImpl implements ManageUserPerm
   private final RolePermissionRepository rolePermissionRepository;
   private final PermissionRepository permissionRepository;
   private final UserPermissionRepository userPermissionRepository;
+  private final UserPermissionEventPublisherPort userPermissionEventPublisherPort;
 
   @Override
   @Transactional
@@ -42,7 +46,8 @@ public class ManageUserPermissionExceptionsUseCaseImpl implements ManageUserPerm
         .then(Mono.zip(getDefaultPermissionIds(userId), getExistingOverrides(userId)))
         .flatMapMany(tuple -> processOverrides(userId, requestDto.getOverrides(), tuple.getT1(), tuple.getT2()))
         .thenMany(Flux.defer(() -> userPermissionRepository.findByUserId(userId)))
-        .map(this::toResponse);
+        .map(this::toResponse)
+            .delayUntil(response -> userPermissionEventPublisherPort.publishPermissionsChanged(userId));
   }
 
   private Mono<Boolean> validateUserExists(UUID userId) {

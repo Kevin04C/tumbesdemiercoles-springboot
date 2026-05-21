@@ -11,8 +11,8 @@ http:
     data: |2-
       
         {
-          "name": "READ_USER_ROLES",
-          "description": "Permite ver qué roles tiene asignados un usuario específico"
+          "name": "READ_ALL_CATEGORY",
+          "description": "Permite ver la lista de todas las categorias"
         }
   auth: inherit
 

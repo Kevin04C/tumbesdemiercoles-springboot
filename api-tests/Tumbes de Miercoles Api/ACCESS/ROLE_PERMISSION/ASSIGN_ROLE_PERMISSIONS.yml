@@ -5,13 +5,12 @@ info:
 
 http:
   method: POST
-  url: "{{url}}/api/v1/roles/b3863900-2933-449b-90b3-665e29b8f45b/permissions"
+  url: "{{url}}/api/v1/roles/30ecc70b-533d-41a9-917f-1c8e1bda6f03/permissions"
   body:
     type: json
     data: |-
       {
-        "permissionIds": ["ddd9bc87-a5e8-4b50-8415-befb3ed726c3",
-                         "e273e58e-7d08-4da1-be25-f931057f3651"]
+        "permissionIds": ["717ca265-3bd0-4185-8921-a7d3e6d1a30f"]
       }
   auth: inherit
 
