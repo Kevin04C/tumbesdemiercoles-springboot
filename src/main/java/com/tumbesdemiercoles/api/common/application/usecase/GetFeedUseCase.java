@@ -19,6 +19,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -62,9 +63,10 @@ public class GetFeedUseCase {
     Mono<List<ColumnistResponseDto>> columnists = columnistRepository.findLatestColumnists()
         .map(list -> list.stream().map(this::toColumnistDto).toList());
 
-    Mono<DigitalWeeklyResponseDto> digitalWeekly = digitalWeeklyRepository.findLatest()
+    Mono<Optional<DigitalWeeklyResponseDto>> digitalWeekly = digitalWeeklyRepository.findLatest()
         .map(this::toDigitalWeeklyDto)
-        .defaultIfEmpty(null);
+        .map(Optional::of)
+        .defaultIfEmpty(Optional.empty());
 
     return Mono.zip(carousel, peruDaily, byCategory, columnists, digitalWeekly)
         .map(tuple -> FeedResponseDto.builder()
@@ -72,7 +74,7 @@ public class GetFeedUseCase {
             .peruDailyNews(tuple.getT2())
             .byCategory(tuple.getT3())
             .columnists(tuple.getT4())
-            .digitalWeekly(tuple.getT5())
+            .digitalWeekly(tuple.getT5().orElse(null))
             .build()
         );
   }
