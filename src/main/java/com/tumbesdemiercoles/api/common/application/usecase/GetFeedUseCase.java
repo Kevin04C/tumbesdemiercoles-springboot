@@ -64,7 +64,7 @@ public class GetFeedUseCase {
 
     Mono<DigitalWeeklyResponseDto> digitalWeekly = digitalWeeklyRepository.findLatest()
         .map(this::toDigitalWeeklyDto)
-        .switchIfEmpty(Mono.empty());
+        .defaultIfEmpty(null);
 
     return Mono.zip(carousel, peruDaily, byCategory, columnists, digitalWeekly)
         .map(tuple -> FeedResponseDto.builder()
