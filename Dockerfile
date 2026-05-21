@@ -15,7 +15,7 @@ RUN java -Djarmode=layertools -jar app.jar extract
 FROM eclipse-temurin:25-jre
 WORKDIR /app
 
-RUN groupadd -r appuser && useradd -r -g appuser -u 1000 appuser
+RUN groupadd -r appuser && useradd -r -g appuser appuser
 
 COPY --from=extractor --chown=appuser:appuser /app/dependencies/ ./
 COPY --from=extractor --chown=appuser:appuser /app/spring-boot-loader/ ./
