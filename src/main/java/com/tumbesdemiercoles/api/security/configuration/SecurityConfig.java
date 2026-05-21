@@ -67,6 +67,7 @@ public class SecurityConfig {
             .pathMatchers("/v3/api-docs/**", "/swagger-ui.html", "/webjars/swagger-ui/**").permitAll()
             .pathMatchers("/auth/**").permitAll()
             .pathMatchers("/api/**").permitAll()
+            .pathMatchers("/actuator/health").permitAll()
             .anyExchange().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2
             .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
