@@ -17,4 +17,12 @@ public interface UserRoleR2dbcRepository extends ReactiveCrudRepository<UserRole
   @Query("SELECT * FROM user_role WHERE user_id = :userId AND role_id = :roleId LIMIT 1")
   Mono<UserRoleEntity> findByUserIdAndRoleId(UUID userId, UUID roleId);
 
+  @Query("SELECT r.name " +
+          "FROM role r " +
+          "INNER JOIN user_role ur ON r.id = ur.role_id " +
+          "WHERE ur.user_id = :userId " +
+          "AND ur.status_registry = 'ACTIVE' " +
+          "AND r.status_registry = 'ACTIVE'")
+  Flux<String> findRoleNamesByUserId(UUID userId);
+
 }

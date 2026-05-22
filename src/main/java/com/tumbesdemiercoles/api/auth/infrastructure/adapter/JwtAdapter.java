@@ -21,6 +21,7 @@ public class JwtAdapter implements TokenProviderPort {
 
             UserPrincipal principal = UserPrincipal.builder()
                     .id(userDto.getId().toString())
+                    .roles(userDto.getRoles())
                     .build();
 
             return jwtUtil.generateToken(principal);
@@ -32,6 +33,7 @@ public class JwtAdapter implements TokenProviderPort {
     return Mono.fromCallable(() -> {
       UserPrincipal principal = UserPrincipal.builder()
           .id(userDetailsDto.getId().toString())
+              .roles(userDetailsDto.getRoles())
           .build();
       return jwtUtil.generateToken(principal);
     });

@@ -30,7 +30,7 @@ public class User extends Auditable {
 
   public static User createNewUser(String firstName, String lastName, String email, String passwordHash, String imageUrl) {
     String finalImageUrl = (imageUrl == null || imageUrl.isBlank())
-        ? "http://res.cloudinary.com/dt86tk7ed/image/upload/v1758151082/curso-digital/users/anonimo_m9l9vc.jpg"
+        ? "https://storage-app.orealy.xyz/f/63a31969-d6b5-40cb-a81d-2b0820fff32a"
         : imageUrl;
     return User.builder()
         .firstName(firstName)

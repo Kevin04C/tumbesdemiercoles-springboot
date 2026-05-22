@@ -35,4 +35,9 @@ public class UserRoleRepositoryAdapter implements UserRoleRepository {
         .map(mapper::toDomain);
   }
 
+  @Override
+  public Flux<String> findRoleNamesByUserId(UUID userId) {
+    return repository.findRoleNamesByUserId(userId);
+  }
+
 }

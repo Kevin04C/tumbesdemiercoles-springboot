@@ -1,7 +1,7 @@
 package com.tumbesdemiercoles.api.access.presentation.controller;
 
 import com.tumbesdemiercoles.api.access.application.usecase.AssignUserRoleUseCase;
-import com.tumbesdemiercoles.api.access.application.usecase.FindUserRoleUseCase;
+import com.tumbesdemiercoles.api.access.application.usecase.FindUserRoleUseCaseImpl;
 import com.tumbesdemiercoles.api.access.application.usecase.RevokeUserRoleUseCase;
 import com.tumbesdemiercoles.api.access.presentation.api.UserRoleControllerApi;
 import com.tumbesdemiercoles.api.access.presentation.dto.request.AssignUserRoleRequest;
@@ -23,7 +23,7 @@ public class UserRoleController implements UserRoleControllerApi {
 
   private final AssignUserRoleUseCase assignUserRoleUseCase;
   private final RevokeUserRoleUseCase revokeUserRoleUseCase;
-  private final FindUserRoleUseCase findUserRoleUseCase;
+  private final FindUserRoleUseCaseImpl findUserRoleUseCaseImpl;
   private final UserRoleWebMapper mapper;
 
   @Override
@@ -46,7 +46,7 @@ public class UserRoleController implements UserRoleControllerApi {
 
   @Override
   public Mono<ApiResponse<List<UserRoleResponse>>> getUserRoles(UUID userId) {
-    return findUserRoleUseCase.findByUserId(userId)
+    return findUserRoleUseCaseImpl.findByUserId(userId)
         .map(mapper::toResponse)
         .collectList()
         .map(roles -> ApiResponse.success(roles, "Roles de usuario encontrados"));

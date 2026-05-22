@@ -13,4 +13,6 @@ public interface UserRoleRepository {
 
   Flux<UserRole> findByUserId(UUID userId);
 
+  Flux<String> findRoleNamesByUserId(UUID userId);
+
 }
