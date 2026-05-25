@@ -57,7 +57,7 @@ public class SecurityConfig {
     return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
         .cors(cors -> cors.configurationSource(request -> {
           CorsConfiguration config = new CorsConfiguration();
-          config.addAllowedOrigin("http://localhost:4200"); // Excelente que ya tengas listo tu Angular Angular 21
+          config.addAllowedOriginPattern("*");
           config.addAllowedMethod("*");
           config.addAllowedHeader("*");
           config.setAllowCredentials(true);
