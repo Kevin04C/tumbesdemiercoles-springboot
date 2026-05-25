@@ -1,5 +1,6 @@
 package com.tumbesdemiercoles.api.access.application.usecase;
 
+import com.tumbesdemiercoles.api.access.application.ports.out.UserPermissionEventPublisherPort;
 import com.tumbesdemiercoles.api.access.domain.model.UserRole;
 import com.tumbesdemiercoles.api.access.domain.repository.UserRoleRepository;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import reactor.core.publisher.Mono;
 public class RevokeUserRoleUseCase {
 
   private final UserRoleRepository userRoleRepository;
+  private final UserPermissionEventPublisherPort userPermissionEventPublisherPort;
 
   @Transactional
   public Mono<UserRole> execute(UUID userId, UUID roleId) {
@@ -21,6 +23,8 @@ public class RevokeUserRoleUseCase {
         .flatMap(userRole -> {
           userRole.revokeRole();
           return userRoleRepository.save(userRole);
-        });
+        })
+        .delayUntil(userRole -> userPermissionEventPublisherPort.publishPermissionsChanged(userId));
   }
 }
+

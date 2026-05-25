@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CustomJwtAuthenticationConverter implements Converter<Jwt, Flux<GrantedAuthority>> {
@@ -36,13 +38,15 @@ public class CustomJwtAuthenticationConverter implements Converter<Jwt, Flux<Gra
     Flux<GrantedAuthority> permissionAuthorities;
 
     if (userPermissionsCache.containsKey(userId)) {
+      log.info("[SecurityCache] HIT for user: {}", userId);
       permissionAuthorities = Flux.fromIterable(userPermissionsCache.get(userId));
     } else {
-      // Usa el puerto para traer los strings y armar las autoridades
+      log.info("[SecurityCache] MISS for user: {}. Fetching from database...", userId);
       permissionAuthorities = securityPermissionPort.getPermissionsForUser(UUID.fromString(userId))
           .map(permissionName -> (GrantedAuthority) new SimpleGrantedAuthority(permissionName.toUpperCase()))
           .collectList()
           .flatMapMany(authorities -> {
+            log.info("[SecurityCache] Loading and Caching permissions for user {}: {}", userId, authorities);
             userPermissionsCache.put(userId, authorities);
             return Flux.fromIterable(authorities);
           });
@@ -52,11 +56,15 @@ public class CustomJwtAuthenticationConverter implements Converter<Jwt, Flux<Gra
   }
 
   public void evictCache(String userId) {
+    log.info("[SecurityCache] Evicting cache for user: {}", userId);
     userPermissionsCache.remove(userId);
   }
 
   @EventListener
   public void onUserPermissionsChanged(UserPermissionsChangedEvent event) {
-    evictCache(event.userId().toString());
+    log.info("[SecurityCache] Event received UserPermissionsChangedEvent for user: {}", event.userId());
+    if (event.userId() != null) {
+      evictCache(event.userId().toString());
+    }
   }
 }

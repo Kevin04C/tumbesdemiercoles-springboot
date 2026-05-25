@@ -3,11 +3,13 @@ package com.tumbesdemiercoles.api.access.application.usecase;
 import com.tumbesdemiercoles.api.access.application.dto.AssignRolePermissionRequestDto;
 import com.tumbesdemiercoles.api.access.application.dto.RolePermissionResponseDto;
 import com.tumbesdemiercoles.api.access.application.ports.in.AssignRolePermissionUseCase;
+import com.tumbesdemiercoles.api.access.application.ports.out.UserPermissionEventPublisherPort;
 import com.tumbesdemiercoles.api.access.domain.exception.RoleNotFoundException;
 import com.tumbesdemiercoles.api.access.domain.model.RolePermission;
 import com.tumbesdemiercoles.api.access.domain.repository.PermissionRepository;
 import com.tumbesdemiercoles.api.access.domain.repository.RolePermissionRepository;
 import com.tumbesdemiercoles.api.access.domain.repository.RoleRepository;
+import com.tumbesdemiercoles.api.access.domain.repository.UserRoleRepository;
 import com.tumbesdemiercoles.api.access.domain.exception.PermissionNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +28,8 @@ public class AssignRolePermissionUseCaseImpl implements AssignRolePermissionUseC
   private final RoleRepository roleRepository;
   private final PermissionRepository permissionRepository;
   private final RolePermissionRepository rolePermissionRepository;
+  private final UserRoleRepository userRoleRepository;
+  private final UserPermissionEventPublisherPort userPermissionEventPublisherPort;
 
   @Override
   @Transactional
@@ -59,8 +63,17 @@ public class AssignRolePermissionUseCaseImpl implements AssignRolePermissionUseC
           return invalidPermissionId.isPresent()
               ? Flux.error(() -> new PermissionNotFoundException(invalidPermissionId.get()))
               : processAndSavePermissions(roleId, requestedPermissionIds, existingPermissionsForRole);
-        });
+        })
+        .collectList()
+        .flatMapMany(saved -> invalidateUsersCacheForRole(roleId).thenMany(Flux.fromIterable(saved)));
   }
+
+  private Mono<Void> invalidateUsersCacheForRole(UUID roleId) {
+    return userRoleRepository.findActiveByRoleId(roleId)
+        .flatMap(ur -> userPermissionEventPublisherPort.publishPermissionsChanged(ur.getUserId()))
+        .then();
+  }
+
 
   private Flux<RolePermissionResponseDto> processAndSavePermissions(
       UUID roleId, Set<UUID> requestedIds, Set<UUID> existingIds) {

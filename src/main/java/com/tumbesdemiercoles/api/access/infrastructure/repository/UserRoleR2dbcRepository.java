@@ -34,4 +34,8 @@ public interface UserRoleR2dbcRepository extends ReactiveCrudRepository<UserRole
           "AND r.status_registry = 'ACTIVE'")
   Flux<UserRoleWithNameDto> findActiveRolesWithNamesByUserId(UUID userId);
 
+  @Query("SELECT * FROM user_role WHERE role_id = :roleId AND status_registry = 'ACTIVE'")
+  Flux<UserRoleEntity> findActiveByRoleId(UUID roleId);
+
 }
+

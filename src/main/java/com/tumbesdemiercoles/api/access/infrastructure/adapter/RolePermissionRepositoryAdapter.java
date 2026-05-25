@@ -52,4 +52,10 @@ public class RolePermissionRepositoryAdapter implements RolePermissionRepository
         .map(mapper::toDomain);
   }
 
+  @Override
+  public Mono<Void> deleteByRoleIdAndPermissionId(UUID roleId, UUID permissionId) {
+    return r2dbcRepository.deleteByRoleIdAndPermissionId(roleId, permissionId);
+  }
+
 }
+

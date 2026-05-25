@@ -21,4 +21,7 @@ public interface RolePermissionRepository {
 
   Flux<RolePermission> saveAll(List<RolePermission> rolePermissions);
 
+  Mono<Void> deleteByRoleIdAndPermissionId(UUID roleId, UUID permissionId);
+
 }
+

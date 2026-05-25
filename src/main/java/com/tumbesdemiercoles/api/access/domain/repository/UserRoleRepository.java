@@ -15,4 +15,7 @@ public interface UserRoleRepository {
 
   Flux<String> findRoleNamesByUserId(UUID userId);
 
+  Flux<UserRole> findActiveByRoleId(UUID roleId);
+
 }
+
