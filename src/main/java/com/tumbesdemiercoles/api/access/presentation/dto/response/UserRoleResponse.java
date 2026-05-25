@@ -7,6 +7,7 @@ public record UserRoleResponse(
     UUID id,
     UUID userId,
     UUID roleId,
+    String roleName,
     String statusRegistry,
     LocalDateTime createdAt,
     LocalDateTime updatedAt

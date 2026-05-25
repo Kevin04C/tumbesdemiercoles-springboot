@@ -1,12 +1,14 @@
 info:
-  name: "LIST_ROLES_BY_USER"
+  name: LIST_ROLES_BY_USER
   type: http
   seq: 1
 
 http:
   method: GET
-  url: "{{url}}/api/v1/users/00000000-0000-0000-0000-000000000000/roles"
-  auth: inherit
+  url: "{{url}}/api/v1/users/48b3965b-9ca9-4c18-a936-0126754e52bd/roles"
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0OGIzOTY1Yi05Y2E5LTRjMTgtYTkzNi0wMTI2NzU0ZTUyYmQiLCJpYXQiOjE3Nzk2NzE5MDYsImV4cCI6MTc3OTc1ODMwNiwicm9sZXMiOlsiQURNSU4iLCJVU0VSIl19.YUgaCxXKI2NYUSz76PEgSt91yJTLUUIb0SmC7cYOz20
 
 settings:
   encodeUrl: true

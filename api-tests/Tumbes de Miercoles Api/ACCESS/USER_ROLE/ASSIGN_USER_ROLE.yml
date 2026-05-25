@@ -5,14 +5,16 @@ info:
 
 http:
   method: POST
-  url: "{{url}}/api/v1/users/2416f619-c9e5-442b-8cbb-04f26c028ef5/roles"
+  url: "{{url}}/api/v1/users/48b3965b-9ca9-4c18-a936-0126754e52bd/roles"
   body:
     type: json
     data: |-
       {
-        "roleId":"b3863900-2933-449b-90b3-665e29b8f45b"
+        "roleId":"30ecc70b-533d-41a9-917f-1c8e1bda6f03"
       }
-  auth: inherit
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0OGIzOTY1Yi05Y2E5LTRjMTgtYTkzNi0wMTI2NzU0ZTUyYmQiLCJpYXQiOjE3Nzk2NzE4NzUsImV4cCI6MTc3OTc1ODI3NSwicm9sZXMiOlsiQURNSU4iXX0.zNIQ7reek_QzK6gd1pvk-Gd7WiSgRBBRI1O8kvU9zP0
 
 settings:
   encodeUrl: true

@@ -22,6 +22,7 @@ public class UserRole extends Auditable {
   private UUID id;
   private UUID userId;
   private UUID roleId;
+  private String roleName;
 
   public static UserRole assignRole(UUID userId, UUID roleId) {
     return UserRole.builder()
