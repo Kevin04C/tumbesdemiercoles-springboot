@@ -58,7 +58,7 @@ public class RoleController implements RoleControllerApi {
   @Override
   public Mono<ApiResponse<Void>> deleteRole(UUID roleId) {
     return deleteRoleUseCase.deleteRole(roleId)
-        .thenReturn(ApiResponse.success(null, "Rol eliminado correctamente"));
+        .thenReturn(ApiResponse.success((Void) null, "Rol eliminado correctamente"));
   }
 
 }

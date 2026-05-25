@@ -3,12 +3,12 @@ package com.tumbesdemiercoles.api.columnist.presentation.api;
 import com.tumbesdemiercoles.api.columnist.presentation.dto.request.ColumnistFilterRequest;
 import com.tumbesdemiercoles.api.columnist.presentation.dto.request.ColumnistUpdateRequest;
 import com.tumbesdemiercoles.api.columnist.presentation.dto.response.ColumnistResponse;
-import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +32,7 @@ public interface ColumnistControllerApi {
 
     @Operation(summary = "Listar columnas de opinión", description = "Retorna una página de columnas de columnistas con filtros de búsqueda.")
     @GetMapping
-    Mono<ApiResponse<PageResponseDto<ColumnistResponse>>> findColumnists(@Valid ColumnistFilterRequest filter);
+    Mono<ApiResponse<List<ColumnistResponse>>> findColumnists(@Valid ColumnistFilterRequest filter);
 
     @Operation(summary = "Obtener columna por ID", description = "Recupera la información y contenido detallado de una columna por su ID único.")
     @GetMapping("/{id}")
@@ -50,7 +50,7 @@ public interface ColumnistControllerApi {
     @Operation(summary = "Eliminar columna de opinión", description = "Remueve una columna de opinión por su ID.")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    Mono<ApiResponse<ColumnistResponse>> deleteColumnist(
+    Mono<ApiResponse<Void>> deleteColumnist(
         @Parameter(description = "ID de la columna a eliminar", required = true) @PathVariable UUID id);
 }
 

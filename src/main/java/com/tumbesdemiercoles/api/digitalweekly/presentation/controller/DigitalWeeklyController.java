@@ -10,8 +10,8 @@ import com.tumbesdemiercoles.api.digitalweekly.presentation.dto.request.DigitalW
 import com.tumbesdemiercoles.api.digitalweekly.presentation.dto.request.DigitalWeeklyUpdateRequest;
 import com.tumbesdemiercoles.api.digitalweekly.presentation.dto.response.DigitalWeeklyResponse;
 import com.tumbesdemiercoles.api.digitalweekly.presentation.mapper.DigitalWeeklyWebMapper;
-import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,11 +35,11 @@ public class DigitalWeeklyController implements DigitalWeeklyControllerApi {
   }
 
   @Override
-  public Mono<ApiResponse<PageResponseDto<DigitalWeeklyResponse>>> findDigitalWeeklies(
+  public Mono<ApiResponse<List<DigitalWeeklyResponse>>> findDigitalWeeklies(
       DigitalWeeklyFilterRequest filter) {
     return getDigitalWeeklyUseCase.findDigitalWeeklies(webMapper.toFilter(filter))
         .transform(webMapper::toPageResponse)
-        .map(pageDto -> ApiResponse.success(pageDto));
+        .map(pageDto -> ApiResponse.success(pageDto, "Ediciones semanales encontradas"));
   }
 
 
@@ -61,6 +61,6 @@ public class DigitalWeeklyController implements DigitalWeeklyControllerApi {
   @Override
   public Mono<ApiResponse<Void>> deleteDigitalWeekly(UUID id) {
     return deleteDigitalWeeklyUseCase.execute(id)
-        .thenReturn(ApiResponse.success(null, "Edición semanal eliminada correctamente"));
+        .thenReturn(ApiResponse.success((Void) null, "Edición semanal eliminada correctamente"));
   }
 }

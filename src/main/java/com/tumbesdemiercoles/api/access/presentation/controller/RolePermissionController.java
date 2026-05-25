@@ -45,7 +45,7 @@ public class RolePermissionController implements RolePermissionControllerApi {
   @Override
   public Mono<ApiResponse<Void>> revokePermission(UUID roleId, UUID permissionId) {
     return revokeRolePermissionUseCase.revoke(roleId, permissionId)
-        .thenReturn(ApiResponse.success(null, "Permiso revocado del rol correctamente"));
+        .thenReturn(ApiResponse.success((Void) null, "Permiso revocado del rol correctamente"));
   }
 
 }

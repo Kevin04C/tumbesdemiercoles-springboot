@@ -1,6 +1,5 @@
 package com.tumbesdemiercoles.api.user.presentation.controller;
 
-import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import com.tumbesdemiercoles.api.user.application.ports.in.DeleteUserUseCase;
 import com.tumbesdemiercoles.api.user.application.ports.in.UpdateUserUseCase;
@@ -10,6 +9,7 @@ import com.tumbesdemiercoles.api.user.presentation.dto.request.UserFilterRequest
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserUpdateRequest;
 import com.tumbesdemiercoles.api.user.presentation.dto.response.UserResponse;
 import com.tumbesdemiercoles.api.user.presentation.mapper.UserWebMapper;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +25,7 @@ public class UserController implements UserControllerApi {
   private final UserWebMapper webMapper;
 
   @Override
-  public Mono<ApiResponse<PageResponseDto<UserResponse>>> findUsers(UserFilterRequest userFilterRequest) {
+  public Mono<ApiResponse<List<UserResponse>>> findUsers(UserFilterRequest userFilterRequest) {
     return getUserUseCase.findUsers(webMapper.toFilter(userFilterRequest))
             .transform(webMapper::toPageResponse)
             .map(pageDto -> ApiResponse.success(pageDto, "Usuarios encontrados"));
@@ -48,7 +48,7 @@ public class UserController implements UserControllerApi {
   @Override
   public Mono<ApiResponse<Void>> deleteUser(UUID id) {
     return deleteUserUseCase.deleteUser(id)
-        .thenReturn(ApiResponse.success(null, "Usuario eliminado correctamente"));
+        .thenReturn(ApiResponse.success((Void) null, "Usuario eliminado correctamente"));
   }
 
 }

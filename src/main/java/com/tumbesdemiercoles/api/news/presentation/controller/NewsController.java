@@ -10,8 +10,8 @@ import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsUpdateRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.response.NewsResponse;
 import com.tumbesdemiercoles.api.news.presentation.mapper.NewsWebMapper;
-import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,10 +35,10 @@ public class NewsController implements NewsControllerApi {
   }
 
   @Override
-  public Mono<ApiResponse<PageResponseDto<NewsResponse>>> findNewsList(NewsFilterRequest filter) {
+  public Mono<ApiResponse<List<NewsResponse>>> findNewsList(NewsFilterRequest filter) {
     return getNewsUseCase.findNewsList(webMapper.toFilter(filter))
         .transform(webMapper::toPageResponse)
-        .map(pageDto -> ApiResponse.success(pageDto));
+        .map(pageDto -> ApiResponse.success(pageDto, "Noticias encontradas"));
   }
 
 
@@ -59,6 +59,6 @@ public class NewsController implements NewsControllerApi {
   @Override
   public Mono<ApiResponse<Void>> deleteNews(UUID id) {
     return deleteNewsUseCase.execute(id)
-        .thenReturn(ApiResponse.success(null, "Noticia eliminada correctamente"));
+        .thenReturn(ApiResponse.success((Void) null, "Noticia eliminada correctamente"));
   }
 }

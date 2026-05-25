@@ -3,7 +3,6 @@ package com.tumbesdemiercoles.api.category.presentation.api;
 import com.tumbesdemiercoles.api.category.presentation.dto.request.CategoryFilterRequest;
 import com.tumbesdemiercoles.api.category.presentation.dto.request.CategoryUpdateRequest;
 import com.tumbesdemiercoles.api.category.presentation.dto.response.CategoryResponse;
-import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,7 +20,7 @@ public interface CategoryControllerApi {
 
     @Operation(summary = "Listar categorías", description = "Retorna una página de categorías filtradas por los parámetros de búsqueda.")
     @GetMapping
-    Mono<ApiResponse<PageResponseDto<CategoryResponse>>> findCategories(@Valid CategoryFilterRequest filter);
+    Mono<ApiResponse<List<CategoryResponse>>> findCategories(@Valid CategoryFilterRequest filter);
 
     @Operation(summary = "Obtener árbol de categorías", description = "Recupera la estructura jerárquica de todas las categorías activas en formato de árbol.")
     @GetMapping("/tree")
@@ -45,7 +44,7 @@ public interface CategoryControllerApi {
     @Operation(summary = "Eliminar categoría", description = "Realiza la eliminación lógica de una categoría de noticias por su ID.")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    Mono<ApiResponse<CategoryResponse>> deleteCategory(
+    Mono<ApiResponse<Void>> deleteCategory(
             @Parameter(description = "ID de la categoría a eliminar", required = true) @PathVariable UUID id
     );
 

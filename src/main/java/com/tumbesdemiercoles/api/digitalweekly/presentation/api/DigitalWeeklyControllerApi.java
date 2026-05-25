@@ -4,12 +4,12 @@ import com.tumbesdemiercoles.api.digitalweekly.presentation.dto.request.DigitalW
 import com.tumbesdemiercoles.api.digitalweekly.presentation.dto.request.DigitalWeeklyRequest;
 import com.tumbesdemiercoles.api.digitalweekly.presentation.dto.request.DigitalWeeklyUpdateRequest;
 import com.tumbesdemiercoles.api.digitalweekly.presentation.dto.response.DigitalWeeklyResponse;
-import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +35,7 @@ public interface DigitalWeeklyControllerApi {
   @Operation(summary = "Listar ediciones del semanario", description = "Retorna una página con las ediciones del semanario digital ordenadas por fecha.")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  Mono<ApiResponse<PageResponseDto<DigitalWeeklyResponse>>> findDigitalWeeklies(
+  Mono<ApiResponse<List<DigitalWeeklyResponse>>> findDigitalWeeklies(
       @Valid DigitalWeeklyFilterRequest filter);
 
   @Operation(summary = "Obtener edición por ID", description = "Recupera la información de una edición del semanario digital por su ID único.")

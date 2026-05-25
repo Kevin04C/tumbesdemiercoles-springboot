@@ -10,7 +10,6 @@ import com.tumbesdemiercoles.api.category.presentation.mapper.CategoryWebMapper;
 import com.tumbesdemiercoles.api.category.presentation.dto.request.CategoryFilterRequest;
 import com.tumbesdemiercoles.api.category.presentation.dto.response.CategoryResponse;
 import com.tumbesdemiercoles.api.category.presentation.dto.request.CategoryUpdateRequest;
-import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 
 import java.util.List;
@@ -30,12 +29,12 @@ public class CategoryController implements CategoryControllerApi {
   private final CategoryWebMapper webMapper;
 
   @Override
-  public Mono<ApiResponse<PageResponseDto<CategoryResponse>>> findCategories(CategoryFilterRequest categoryFilterRequest) {
+  public Mono<ApiResponse<List<CategoryResponse>>> findCategories(CategoryFilterRequest categoryFilterRequest) {
     return getCategoryUseCase.findCategories(
               webMapper.toFilter(categoryFilterRequest)
             )
             .transform(webMapper::toPageResponse)
-            .map(ApiResponse::success);
+            .map(pageDto -> ApiResponse.success(pageDto, "Categorías encontradas"));
   }
 
 
@@ -61,8 +60,8 @@ public class CategoryController implements CategoryControllerApi {
   }
 
   @Override
-  public Mono<ApiResponse<CategoryResponse>> deleteCategory(UUID id) {
+  public Mono<ApiResponse<Void>> deleteCategory(UUID id) {
     return deleteCategoryUseCase.execute(id)
-            .thenReturn(ApiResponse.success(null, "Categoria eliminada correctamente"));
+            .thenReturn(ApiResponse.success((Void) null, "Categoria eliminada correctamente"));
   }
 }

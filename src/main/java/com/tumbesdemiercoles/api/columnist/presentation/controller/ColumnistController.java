@@ -9,8 +9,8 @@ import com.tumbesdemiercoles.api.columnist.presentation.dto.request.ColumnistFil
 import com.tumbesdemiercoles.api.columnist.presentation.dto.request.ColumnistUpdateRequest;
 import com.tumbesdemiercoles.api.columnist.presentation.dto.response.ColumnistResponse;
 import com.tumbesdemiercoles.api.columnist.presentation.mapper.ColumnistWebMapper;
-import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,10 +35,10 @@ public class ColumnistController implements ColumnistControllerApi {
   }
 
   @Override
-  public Mono<ApiResponse<PageResponseDto<ColumnistResponse>>> findColumnists(ColumnistFilterRequest filter) {
+  public Mono<ApiResponse<List<ColumnistResponse>>> findColumnists(ColumnistFilterRequest filter) {
     return getColumnistUseCase.findColumnists(webMapper.toFilter(filter))
         .transform(webMapper::toPageResponse)
-        .map(ApiResponse::success);
+        .map(pageDto -> ApiResponse.success(pageDto, "Columnistas encontrados"));
   }
 
 
@@ -57,8 +57,8 @@ public class ColumnistController implements ColumnistControllerApi {
   }
 
   @Override
-  public Mono<ApiResponse<ColumnistResponse>> deleteColumnist(UUID id) {
+  public Mono<ApiResponse<Void>> deleteColumnist(UUID id) {
     return deleteColumnistUseCase.execute(id)
-        .thenReturn(ApiResponse.success(null, "Columnista eliminado correctamente"));
+        .thenReturn(ApiResponse.success((Void) null, "Columnista eliminado correctamente"));
   }
 }

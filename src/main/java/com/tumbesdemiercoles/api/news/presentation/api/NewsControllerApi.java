@@ -4,12 +4,12 @@ import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsFilterRequest
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsUpdateRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.response.NewsResponse;
-import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +35,7 @@ public interface NewsControllerApi {
   @Operation(summary = "Listar noticias", description = "Retorna una página de noticias filtradas por parámetros de búsqueda (categoría, estado, premium, etc.).")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  Mono<ApiResponse<PageResponseDto<NewsResponse>>> findNewsList(
+  Mono<ApiResponse<List<NewsResponse>>> findNewsList(
       @Valid NewsFilterRequest filter);
 
   @Operation(summary = "Obtener noticia por ID", description = "Busca y retorna la información detallada de una noticia determinada mediante su ID único.")

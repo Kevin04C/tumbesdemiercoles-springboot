@@ -1,6 +1,5 @@
 package com.tumbesdemiercoles.api.user.presentation.api;
 
-import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserFilterRequest;
 import com.tumbesdemiercoles.api.user.presentation.dto.request.UserUpdateRequest;
@@ -9,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +27,7 @@ public interface UserControllerApi {
   @Operation(summary = "Listar usuarios con filtros y paginación", description = "Retorna una lista paginada de usuarios basada en criterios de filtro (búsqueda por nombre, correo, etc.).")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  Mono<ApiResponse<PageResponseDto<UserResponse>>> findUsers(
+  Mono<ApiResponse<List<UserResponse>>> findUsers(
       @Valid UserFilterRequest userFilterRequest);
 
   @Operation(summary = "Obtener usuario por ID", description = "Busca y retorna el detalle de un usuario determinado mediante su identificador único.")

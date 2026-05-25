@@ -58,7 +58,7 @@ public class PermissionController implements PermissionControllerApi {
   @Override
   public Mono<ApiResponse<Void>> deletePermission(UUID permissionId) {
     return deletePermissionUseCase.deletePermission(permissionId)
-        .thenReturn(ApiResponse.success(null, "Permiso eliminado correctamente"));
+        .thenReturn(ApiResponse.success((Void) null, "Permiso eliminado correctamente"));
   }
 
 }
