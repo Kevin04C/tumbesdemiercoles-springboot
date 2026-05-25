@@ -1,6 +1,7 @@
 package com.tumbesdemiercoles.api.access.domain.repository;
 
 import com.tumbesdemiercoles.api.access.domain.model.RolePermission;
+import java.util.List;
 import java.util.UUID;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,4 +19,9 @@ public interface RolePermissionRepository {
 
   Mono<Boolean> existsByRoleIdAndPermissionId(UUID roleId, UUID permissionId);
 
+  Flux<RolePermission> saveAll(List<RolePermission> rolePermissions);
+
+  Mono<Void> deleteByRoleIdAndPermissionId(UUID roleId, UUID permissionId);
+
 }
+

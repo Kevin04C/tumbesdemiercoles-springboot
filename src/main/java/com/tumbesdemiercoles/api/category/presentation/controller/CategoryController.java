@@ -16,7 +16,6 @@ import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -35,9 +34,10 @@ public class CategoryController implements CategoryControllerApi {
     return getCategoryUseCase.findCategories(
               webMapper.toFilter(categoryFilterRequest)
             )
-            .map(webMapper::toPageResponse)
+            .transform(webMapper::toPageResponse)
             .map(ApiResponse::success);
   }
+
 
   @Override
   public Mono<ApiResponse<List<CategoryResponse>>> findCategoryTree() {

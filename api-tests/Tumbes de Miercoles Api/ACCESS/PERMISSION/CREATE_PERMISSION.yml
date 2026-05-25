@@ -8,7 +8,12 @@ http:
   url: "{{url}}/api/v1/permissions"
   body:
     type: json
-    data: ""
+    data: |2-
+      
+        {
+          "name": "READ_ALL_CATEGORY",
+          "description": "Permite ver la lista de todas las categorias"
+        }
   auth: inherit
 
 settings:

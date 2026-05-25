@@ -4,9 +4,12 @@ import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 /**
  * Manejador global de excepciones para la API.
@@ -75,6 +78,39 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
     log.error("Unexpected exception: {}", ex.getMessage(), ex);
     return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Error inesperado", null);
+  }
+  // ===================================================================================
+  // NUEVOS MANEJADORES PARA EL DOMINIO PURO
+  // ===================================================================================
+
+  // ARGUMENTOS INVÁLIDOS DEL DOMINIO (400) - Ej: Nombre vacío, precio negativo
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ApiResponse<Void>> handleIllegalArgumentException(IllegalArgumentException ex) {
+    log.warn("Illegal argument in domain: {}", ex.getMessage());
+    return buildResponse(HttpStatus.BAD_REQUEST, "INVALID_DATA", ex.getMessage(), null);
+  }
+  // 9. REGLAS DE NEGOCIO ROTAS EN EL DOMINIO (409) - Ej: Usuario inactivo, email ya verificado
+  @ExceptionHandler(IllegalStateException.class)
+  public ResponseEntity<ApiResponse<Void>> handleIllegalStateException(IllegalStateException ex) {
+    log.warn("Business rule violation: {}", ex.getMessage());
+    return buildResponse(HttpStatus.CONFLICT, "BUSINESS_RULE_VIOLATION", ex.getMessage(), null);
+  }
+
+  // 10. ACCESO DENEGADO (403) - Spring Security
+  @ExceptionHandler(AuthorizationDeniedException.class)
+  public Mono<ResponseEntity<ApiResponse<Void>>> handleAuthorizationDenied(
+      AuthorizationDeniedException ex, ServerWebExchange exchange) {
+    return exchange.getPrincipal()
+        .map(principal -> principal.getName())
+        .defaultIfEmpty("Anónimo")
+        .map(username -> {
+          log.warn("Access Denied | User: {} | Path: {} {} | Reason: {}",
+              username,
+              exchange.getRequest().getMethod(),
+              exchange.getRequest().getPath().value(),
+              ex.getMessage());
+          return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Error interno del servidor", ex.getMessage());
+        });
   }
 
   // ===================================================================================

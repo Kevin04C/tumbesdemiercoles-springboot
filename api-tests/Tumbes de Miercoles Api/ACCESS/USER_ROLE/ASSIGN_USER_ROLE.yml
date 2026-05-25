@@ -1,0 +1,23 @@
+info:
+  name: ASSIGN_USER_ROLE
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{url}}/api/v1/users/48b3965b-9ca9-4c18-a936-0126754e52bd/roles"
+  body:
+    type: json
+    data: |-
+      {
+        "roleId":"30ecc70b-533d-41a9-917f-1c8e1bda6f03"
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0OGIzOTY1Yi05Y2E5LTRjMTgtYTkzNi0wMTI2NzU0ZTUyYmQiLCJpYXQiOjE3Nzk2NzE4NzUsImV4cCI6MTc3OTc1ODI3NSwicm9sZXMiOlsiQURNSU4iXX0.zNIQ7reek_QzK6gd1pvk-Gd7WiSgRBBRI1O8kvU9zP0
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -34,12 +34,9 @@ public class RolePermissionController implements RolePermissionControllerApi {
 
   @Override
   public Mono<ApiResponse<List<RolePermissionResponse>>> assignPermissions(UUID roleId, AssignRolePermissionRequest assignRolePermissionRequest) {
-    AssignRolePermissionRequestDto requestDto = AssignRolePermissionRequestDto.builder()
-        .roleId(roleId)
-        .permissionIds(assignRolePermissionRequest.getPermissionIds())
-        .build();
 
-    return assignRolePermissionUseCase.execute(requestDto)
+    return Mono.fromSupplier(() -> rolePermissionWebMapper.toDto(roleId, assignRolePermissionRequest))
+        .flatMapMany(assignRolePermissionUseCase::execute)
         .map(rolePermissionWebMapper::toResponse)
         .collectList()
         .map(list -> ApiResponse.success(list, "Permisos asignados al rol exitosamente"));

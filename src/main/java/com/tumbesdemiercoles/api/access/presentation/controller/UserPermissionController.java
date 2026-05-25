@@ -1,12 +1,13 @@
 package com.tumbesdemiercoles.api.access.presentation.controller;
 
-import com.tumbesdemiercoles.api.access.application.dto.AssignUserPermissionRequestDto;
-import com.tumbesdemiercoles.api.access.application.ports.in.AssignUserPermissionUseCase;
-import com.tumbesdemiercoles.api.access.application.ports.in.GetUserPermissionUseCase;
-import com.tumbesdemiercoles.api.access.application.ports.in.RevokeUserPermissionUseCase;
+import com.tumbesdemiercoles.api.access.application.dto.UpdateUserPermissionExceptionsRequestDto;
+import com.tumbesdemiercoles.api.access.application.ports.in.GetEffectivePermissionsUseCase;
+import com.tumbesdemiercoles.api.access.application.ports.in.ManageUserPermissionExceptionsUseCase;
 import com.tumbesdemiercoles.api.access.presentation.api.UserPermissionControllerApi;
-import com.tumbesdemiercoles.api.access.presentation.dto.request.AssignUserPermissionRequest;
+import com.tumbesdemiercoles.api.access.presentation.dto.request.UpdateUserPermissionExceptionsRequest;
+import com.tumbesdemiercoles.api.access.presentation.dto.response.PermissionResponse;
 import com.tumbesdemiercoles.api.access.presentation.dto.response.UserPermissionResponse;
+import com.tumbesdemiercoles.api.access.presentation.mapper.PermissionWebMapper;
 import com.tumbesdemiercoles.api.access.presentation.mapper.UserPermissionWebMapper;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import java.util.List;
@@ -19,36 +20,34 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class UserPermissionController implements UserPermissionControllerApi {
 
-  private final AssignUserPermissionUseCase assignUserPermissionUseCase;
-  private final GetUserPermissionUseCase getUserPermissionUseCase;
-  private final RevokeUserPermissionUseCase revokeUserPermissionUseCase;
+  private final ManageUserPermissionExceptionsUseCase manageUserPermissionExceptionsUseCase;
+  private final GetEffectivePermissionsUseCase getEffectivePermissionsUseCase;
   private final UserPermissionWebMapper userPermissionWebMapper;
+  private final PermissionWebMapper permissionWebMapper;
 
   @Override
-  public Mono<ApiResponse<List<UserPermissionResponse>>> getPermissionsByUserId(UUID userId) {
-    return getUserPermissionUseCase.getByUserId(userId)
-        .map(userPermissionWebMapper::toResponse)
-        .collectList()
-        .map(list -> ApiResponse.success(list, "Permisos del usuario encontrados"));
-  }
-
-  @Override
-  public Mono<ApiResponse<List<UserPermissionResponse>>> assignPermissions(UUID userId, AssignUserPermissionRequest assignUserPermissionRequest) {
-    AssignUserPermissionRequestDto requestDto = AssignUserPermissionRequestDto.builder()
-        .userId(userId)
-        .permissionIds(assignUserPermissionRequest.getPermissionIds())
+  public Mono<ApiResponse<List<UserPermissionResponse>>> updateExceptions(UUID userId, UpdateUserPermissionExceptionsRequest request) {
+    UpdateUserPermissionExceptionsRequestDto requestDto = UpdateUserPermissionExceptionsRequestDto.builder()
+        .overrides(request.getOverrides().stream()
+            .map(o -> UpdateUserPermissionExceptionsRequestDto.PermissionOverrideDto.builder()
+                .permissionId(o.getPermissionId())
+                .isActive(o.getIsActive())
+                .build())
+            .toList())
         .build();
 
-    return assignUserPermissionUseCase.execute(requestDto)
+    return manageUserPermissionExceptionsUseCase.execute(userId, requestDto)
         .map(userPermissionWebMapper::toResponse)
         .collectList()
-        .map(list -> ApiResponse.success(list, "Permisos asignados al usuario exitosamente"));
+        .map(list -> ApiResponse.success(list, "Excepciones de permisos del usuario actualizadas exitosamente"));
   }
 
   @Override
-  public Mono<ApiResponse<Void>> revokePermission(UUID userId, UUID permissionId) {
-    return revokeUserPermissionUseCase.revoke(userId, permissionId)
-        .thenReturn(ApiResponse.success(null, "Permiso revocado del usuario correctamente"));
+  public Mono<ApiResponse<List<PermissionResponse>>> getEffectivePermissions(UUID userId) {
+    return getEffectivePermissionsUseCase.execute(userId)
+        .map(permissionWebMapper::toResponse)
+        .collectList()
+        .map(list -> ApiResponse.success(list, "Permisos efectivos del usuario encontrados"));
   }
 
 }

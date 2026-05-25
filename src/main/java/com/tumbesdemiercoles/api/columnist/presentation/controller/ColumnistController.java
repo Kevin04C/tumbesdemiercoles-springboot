@@ -37,9 +37,10 @@ public class ColumnistController implements ColumnistControllerApi {
   @Override
   public Mono<ApiResponse<PageResponseDto<ColumnistResponse>>> findColumnists(ColumnistFilterRequest filter) {
     return getColumnistUseCase.findColumnists(webMapper.toFilter(filter))
-        .map(webMapper::toPageResponse)
+        .transform(webMapper::toPageResponse)
         .map(ApiResponse::success);
   }
+
 
   @Override
   public Mono<ApiResponse<ColumnistResponse>> getColumnistById(UUID id) {

@@ -1,5 +1,6 @@
 package com.tumbesdemiercoles.api.access.domain.repository;
 
+import com.tumbesdemiercoles.api.access.domain.model.Permission;
 import com.tumbesdemiercoles.api.access.domain.model.UserPermission;
 import java.util.UUID;
 import reactor.core.publisher.Flux;
@@ -17,5 +18,9 @@ public interface UserPermissionRepository {
   Mono<UserPermission> findByUserIdAndPermissionId(UUID userId, UUID permissionId);
 
   Mono<Boolean> existsByUserIdAndPermissionId(UUID userId, UUID permissionId);
+
+  Mono<Void> deleteByUserIdAndPermissionId(UUID userId, UUID permissionId);
+
+  Flux<Permission> findEffectivePermissionsByUserId(UUID userId);
 
 }

@@ -1,0 +1,23 @@
+info:
+  name: ASSIGN_ROLE_PERMISSIONS
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{url}}/api/v1/roles/30ecc70b-533d-41a9-917f-1c8e1bda6f03/permissions"
+  body:
+    type: json
+    data: |-
+      {
+        "permissionIds": ["92960200-6e95-4f49-bfcf-7456641111b2"]
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NzcwOGQ0NS0yZWNhLTRhZmQtOTIyYS1iYzhiMDFlNjQ0ZjEiLCJpYXQiOjE3Nzk2ODQ5MzgsImV4cCI6MTc3OTc3MTMzOCwicm9sZXMiOltdfQ.5t1dp1LzJKOLtAs2qMwegu0Z9m6UeKGRC4Z0g1wePhM
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

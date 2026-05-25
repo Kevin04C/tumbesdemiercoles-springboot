@@ -39,8 +39,11 @@ public class SecurityConfig {
   @Value("${jwt.secret}")
   private String secret;
 
+  private static final String API_V1 = "/api/v1";
+
   /**
    * Configura los filtros de seguridad para las solicitudes entrantes.
+
    * Desactiva CSRF, establece las configuraciones de CORS y define las reglas
    * de autorización para varias rutas.
    *
@@ -64,10 +67,10 @@ public class SecurityConfig {
           return config;
         }))
         .authorizeExchange(auth -> auth
-            .pathMatchers("/v3/api-docs/**", "/swagger-ui.html", "/webjars/swagger-ui/**").permitAll()
-            .pathMatchers("/auth/**").permitAll()
-            .pathMatchers("/api/**").permitAll()
-            .pathMatchers("/actuator/health").permitAll()
+            .pathMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()
+                .pathMatchers(HttpMethod.POST,API_V1 + "/auth/register").permitAll()
+                .pathMatchers(HttpMethod.POST,API_V1 + "/auth/login").permitAll()
+                .pathMatchers("/actuator/health").permitAll()
             .anyExchange().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2
             .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
