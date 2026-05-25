@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -20,6 +21,7 @@ public interface UserPermissionControllerApi {
       @PathVariable UUID userId,
       @Valid @RequestBody UpdateUserPermissionExceptionsRequest request);
 
+  @PreAuthorize("hasAuthority('READ_EFFECTIVE_PERMISSIONS')")
   @GetMapping("/effective")
   @ResponseStatus(HttpStatus.OK)
   Mono<ApiResponse<List<PermissionResponse>>> getEffectivePermissions(@PathVariable UUID userId);
