@@ -1,11 +1,14 @@
 package com.tumbesdemiercoles.api.user.domain.model;
 
+import com.tumbesdemiercoles.api.shared.constants.shared.StatusRegistryConst;
 import com.tumbesdemiercoles.api.shared.domain.model.Auditable;
+
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -39,7 +42,7 @@ public class User extends Auditable {
         .passwordHash(passwordHash)
         .imageUrl(finalImageUrl)
         .isEmailVerified(false)
-        .statusRegistry("ACTIVE")
+        .statusRegistry(StatusRegistryConst.ACTIVE)
         .isActive(true)
         .build();
   }
@@ -63,15 +66,15 @@ public class User extends Auditable {
   }
 
   public void deleteAccount() {
-    if ("DELETE".equals(this.getStatusRegistry())) {
+    if (StatusRegistryConst.DELETE.equals(this.getStatusRegistry())) {
       return;
     }
-    this.setStatusRegistry("DELETE");
+    this.setStatusRegistry(StatusRegistryConst.DELETE);
     this.isActive = false;
   }
 
   public void changePassword(String newPasswordHash) {
-    if (!this.getStatusRegistry().equals("ACTIVE")) {
+    if (!this.getStatusRegistry().equals(StatusRegistryConst.ACTIVE)) {
       throw new IllegalStateException("No se puede cambiar la contraseña de un usuario inactivo");
     }
     this.passwordHash = newPasswordHash;

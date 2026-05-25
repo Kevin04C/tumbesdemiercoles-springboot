@@ -34,4 +34,7 @@ public class CategoryEntity extends AuditableEntity {
   @Column("category_id")
   private UUID categoryId;
 
+  @Column("slug")
+  private String slug;
+
 }

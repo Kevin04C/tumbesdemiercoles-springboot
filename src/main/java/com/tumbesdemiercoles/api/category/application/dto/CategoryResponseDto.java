@@ -1,5 +1,6 @@
 package com.tumbesdemiercoles.api.category.application.dto;
 
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,5 +23,7 @@ public class CategoryResponseDto {
   private String description;
   private Boolean isActive;
   private UUID categoryId;
+  private String slug;
+  private List<CategoryResponseDto> children;
 
 }

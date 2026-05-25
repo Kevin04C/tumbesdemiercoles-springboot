@@ -20,6 +20,7 @@ public class Category {
   private String description;
   private Boolean isActive;
   private UUID categoryId;
+  private String slug;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
   private String statusRegistry;

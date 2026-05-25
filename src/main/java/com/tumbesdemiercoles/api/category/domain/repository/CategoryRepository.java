@@ -1,6 +1,8 @@
 package com.tumbesdemiercoles.api.category.domain.repository;
 
 import com.tumbesdemiercoles.api.category.domain.model.Category;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.tumbesdemiercoles.api.category.domain.model.CategoryFilter;
@@ -19,10 +21,14 @@ public interface CategoryRepository {
 
   Mono<Category> findById(UUID id);
 
+  Mono<Category> findBySlug(String slug);
+
   Flux<Category> findAll();
 
   Mono<Category> deleteById(UUID id);
 
   Mono<Boolean> existsById(UUID id);
   Mono<PaginatedResult<Category>> findCategories(CategoryFilter filter);
+
+  Mono<Map<String, Category>> findBySlugIn(List<String> slugs);
 }

@@ -2,6 +2,7 @@ package com.tumbesdemiercoles.api.category.presentation.controller;
 
 import com.tumbesdemiercoles.api.category.application.ports.in.CreateCategoryUseCase;
 import com.tumbesdemiercoles.api.category.application.ports.in.DeleteCategoryUseCase;
+import com.tumbesdemiercoles.api.category.application.ports.in.GetCategoryTreeUseCase;
 import com.tumbesdemiercoles.api.category.application.ports.in.GetCategoryUseCase;
 import com.tumbesdemiercoles.api.category.application.usecase.UpdateCategoryUseCaseImpl;
 import com.tumbesdemiercoles.api.category.presentation.api.CategoryControllerApi;
@@ -12,20 +13,20 @@ import com.tumbesdemiercoles.api.category.presentation.dto.request.CategoryUpdat
 import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/categories")
 @RequiredArgsConstructor
 public class CategoryController implements CategoryControllerApi {
   private final CreateCategoryUseCase createCategoryUseCase;
   private final UpdateCategoryUseCaseImpl updateCategoryUseCase;
   private final DeleteCategoryUseCase deleteCategoryUseCase;
   private final GetCategoryUseCase getCategoryUseCase;
+  private final GetCategoryTreeUseCase getCategoryTreeUseCase;
   private final CategoryWebMapper webMapper;
 
   @Override
@@ -33,8 +34,15 @@ public class CategoryController implements CategoryControllerApi {
     return getCategoryUseCase.findCategories(
               webMapper.toFilter(categoryFilterRequest)
             )
-            .transform(webMapper::toPageResponse)
-            .map(pageDto -> ApiResponse.success(pageDto));
+            .map(webMapper::toPageResponse)
+            .map(ApiResponse::success);
+  }
+
+  @Override
+  public Mono<ApiResponse<List<CategoryResponse>>> findCategoryTree() {
+    return getCategoryTreeUseCase.execute()
+        .map(webMapper::toListResponse)
+        .map(ApiResponse::success);
   }
 
   @Override

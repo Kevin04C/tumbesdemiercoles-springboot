@@ -23,6 +23,7 @@ public class UpdateCategoryUseCaseImpl implements UpdateCategoryUseCase {
         .map(existing -> Category.builder()
             .id(existing.getId())
             .description(dto.getDescription() != null ? dto.getDescription() : existing.getDescription())
+            .slug(dto.getSlug() != null ? dto.getSlug() : existing.getSlug())
             .isActive(dto.getIsActive() != null ? dto.getIsActive() : existing.getIsActive())
             .statusRegistry(existing.getStatusRegistry())
             .build())
@@ -34,6 +35,7 @@ public class UpdateCategoryUseCaseImpl implements UpdateCategoryUseCase {
     return CategoryResponseDto.builder()
         .id(category.getId())
         .description(category.getDescription())
+        .slug(category.getSlug())
         .isActive(category.getIsActive())
         .build();
   }

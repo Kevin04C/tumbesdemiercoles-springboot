@@ -5,6 +5,8 @@ import com.tumbesdemiercoles.api.category.domain.model.CategoryFilter;
 import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
 import com.tumbesdemiercoles.api.category.infrastructure.entity.CategoryEntity;
 import com.tumbesdemiercoles.api.category.infrastructure.mapper.CategoryPersistenceMapper;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.tumbesdemiercoles.api.shared.domain.model.PaginatedResult;
@@ -40,6 +42,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
   }
 
   @Override
+  public Mono<Category> findBySlug(String slug) {
+    return r2dbcRepository.findBySlug(slug)
+        .map(mapper::toDomain);
+  }
+
+  @Override
   public Flux<Category> findAll() {
     return r2dbcRepository.findAll()
         .map(mapper::toDomain);
@@ -55,6 +63,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
   @Override
   public Mono<Boolean> existsById(UUID id) {
     return r2dbcRepository.existsById(id);
+  }
+
+  @Override
+  public Mono<Map<String, Category>> findBySlugIn(List<String> slugs) {
+    return r2dbcRepository.findBySlugIn(slugs)
+        .map(mapper::toDomain)
+        .collectMap(Category::getSlug);
   }
 
   @Override
