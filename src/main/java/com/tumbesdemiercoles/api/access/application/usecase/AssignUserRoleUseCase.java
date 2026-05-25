@@ -5,7 +5,7 @@ import com.tumbesdemiercoles.api.access.domain.repository.RoleRepository;
 import com.tumbesdemiercoles.api.access.domain.repository.UserRoleRepository;
 import com.tumbesdemiercoles.api.access.application.ports.out.UserExistencePort;
 import com.tumbesdemiercoles.api.access.application.ports.out.UserPermissionEventPublisherPort;
-import com.tumbesdemiercoles.api.shared.constants.StatusRegistryConst;
+import com.tumbesdemiercoles.api.shared.constants.shared.StatusRegistryConst;
 import com.tumbesdemiercoles.api.shared.exception.ConflictException;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
 import java.util.UUID;

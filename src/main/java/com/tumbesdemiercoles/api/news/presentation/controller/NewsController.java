@@ -37,9 +37,10 @@ public class NewsController implements NewsControllerApi {
   @Override
   public Mono<ApiResponse<PageResponseDto<NewsResponse>>> findNewsList(NewsFilterRequest filter) {
     return getNewsUseCase.findNewsList(webMapper.toFilter(filter))
-        .map(webMapper::toPageResponse)
+        .transform(webMapper::toPageResponse)
         .map(pageDto -> ApiResponse.success(pageDto));
   }
+
 
   @Override
   public Mono<ApiResponse<NewsResponse>> getNewsById(UUID id) {

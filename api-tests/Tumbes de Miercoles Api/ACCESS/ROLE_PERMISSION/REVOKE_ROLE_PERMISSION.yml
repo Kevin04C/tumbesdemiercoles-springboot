@@ -1,12 +1,14 @@
 info:
-  name: "REVOKE_ROLE_PERMISSION"
+  name: REVOKE_ROLE_PERMISSION
   type: http
   seq: 3
 
 http:
   method: DELETE
-  url: "{{url}}/api/v1/roles/00000000-0000-0000-0000-000000000000/permissions/00000000-0000-0000-0000-000000000001"
-  auth: inherit
+  url: "{{url}}/api/v1/roles/30ecc70b-533d-41a9-917f-1c8e1bda6f03/permissions/92960200-6e95-4f49-bfcf-7456641111b2"
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0OGIzOTY1Yi05Y2E5LTRjMTgtYTkzNi0wMTI2NzU0ZTUyYmQiLCJpYXQiOjE3Nzk2ODU2OTAsImV4cCI6MTc3OTc3MjA5MCwicm9sZXMiOlsiVVNFUiJdfQ.YxDOtnU2y9Sm888NZ4QhtTziPcFFYneel05THFoUP5o
 
 settings:
   encodeUrl: true

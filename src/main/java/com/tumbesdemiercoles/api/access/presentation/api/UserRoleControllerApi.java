@@ -4,6 +4,7 @@ import com.tumbesdemiercoles.api.access.presentation.dto.request.AssignUserRoleR
 import com.tumbesdemiercoles.api.access.presentation.dto.response.UserRoleResponse;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.UUID;
@@ -14,23 +15,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import reactor.core.publisher.Mono;
 
-@Tag(name = "User Role", description = "Endpoints for managing user roles")
+@Tag(name = "User Role", description = "Endpoints para gestionar la asignación y revocación de roles a usuarios")
 public interface UserRoleControllerApi {
 
-  @Operation(summary = "Assign role to user")
+  @Operation(summary = "Asignar rol a usuario", description = "Asocia un rol a un usuario determinado. Si el rol estaba eliminado lógicamente, se reactivará.")
   @PostMapping
   Mono<ApiResponse<UserRoleResponse>> assignRole(
-      @PathVariable UUID userId,
+      @Parameter(description = "ID del usuario", required = true) @PathVariable UUID userId,
       @RequestBody AssignUserRoleRequest request);
 
-  @Operation(summary = "Revoke role from user")
+  @Operation(summary = "Revocar rol de usuario", description = "Revoca un rol previamente asignado a un usuario (eliminación lógica cambiando el estado a DELETE).")
   @DeleteMapping("/{roleId}")
   Mono<ApiResponse<UserRoleResponse>> revokeRole(
-      @PathVariable UUID userId,
-      @PathVariable UUID roleId);
+      @Parameter(description = "ID del usuario", required = true) @PathVariable UUID userId,
+      @Parameter(description = "ID del rol a revocar", required = true) @PathVariable UUID roleId);
 
-  @Operation(summary = "Get user roles")
+  @Operation(summary = "Listar roles de un usuario", description = "Retorna la lista de todos los roles asociados a un usuario específico.")
   @GetMapping
   Mono<ApiResponse<List<UserRoleResponse>>> getUserRoles(
-      @PathVariable UUID userId);
+      @Parameter(description = "ID del usuario a consultar", required = true) @PathVariable UUID userId);
 }
+

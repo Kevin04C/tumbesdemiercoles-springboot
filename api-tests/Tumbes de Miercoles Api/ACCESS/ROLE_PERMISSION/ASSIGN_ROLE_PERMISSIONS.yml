@@ -10,9 +10,11 @@ http:
     type: json
     data: |-
       {
-        "permissionIds": ["717ca265-3bd0-4185-8921-a7d3e6d1a30f"]
+        "permissionIds": ["92960200-6e95-4f49-bfcf-7456641111b2"]
       }
-  auth: inherit
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NzcwOGQ0NS0yZWNhLTRhZmQtOTIyYS1iYzhiMDFlNjQ0ZjEiLCJpYXQiOjE3Nzk2ODQ5MzgsImV4cCI6MTc3OTc3MTMzOCwicm9sZXMiOltdfQ.5t1dp1LzJKOLtAs2qMwegu0Z9m6UeKGRC4Z0g1wePhM
 
 settings:
   encodeUrl: true

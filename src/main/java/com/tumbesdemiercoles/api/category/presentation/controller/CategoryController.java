@@ -34,9 +34,10 @@ public class CategoryController implements CategoryControllerApi {
     return getCategoryUseCase.findCategories(
               webMapper.toFilter(categoryFilterRequest)
             )
-            .map(webMapper::toPageResponse)
+            .transform(webMapper::toPageResponse)
             .map(ApiResponse::success);
   }
+
 
   @Override
   public Mono<ApiResponse<List<CategoryResponse>>> findCategoryTree() {

@@ -1,13 +1,14 @@
 info:
-  name: "GET_EFFECTIVE_PERMISSIONS"
+  name: GET_EFFECTIVE_PERMISSIONS
   type: http
   seq: 2
 
 http:
   method: GET
-  url: "{{url}}/api/v1/users/00000000-0000-0000-0000-000000000000/permissions/effective"
-  auth: inherit
-  body: none
+  url: "{{url}}/api/v1/users/48b3965b-9ca9-4c18-a936-0126754e52bd/permissions/effective"
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0OGIzOTY1Yi05Y2E5LTRjMTgtYTkzNi0wMTI2NzU0ZTUyYmQiLCJpYXQiOjE3Nzk2ODU2OTAsImV4cCI6MTc3OTc3MjA5MCwicm9sZXMiOlsiVVNFUiJdfQ.YxDOtnU2y9Sm888NZ4QhtTziPcFFYneel05THFoUP5o
 
 settings:
   encodeUrl: true
