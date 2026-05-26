@@ -21,15 +21,13 @@ public class UpdateDigitalWeeklyUseCaseImpl implements UpdateDigitalWeeklyUseCas
   public Mono<DigitalWeeklyResponseDto> execute(UUID id, DigitalWeeklyRequestDto dto) {
     return digitalWeeklyRepository.findById(id)
         .switchIfEmpty(Mono.error(ResourceNotFoundException.forEntity("DigitalWeekly", id)))
-        .map(existing -> DigitalWeekly.builder()
-            .id(existing.getId())
+        .map(existing -> existing.toBuilder()
             .pdfUrl(dto.getPdfUrl() != null ? dto.getPdfUrl() : existing.getPdfUrl())
             .frontPageImageUrl(dto.getFrontPageImageUrl() != null ? dto.getFrontPageImageUrl() : existing.getFrontPageImageUrl())
             .descripcion(dto.getDescripcion() != null ? dto.getDescripcion() : existing.getDescripcion())
             .isActive(dto.getIsActive() != null ? dto.getIsActive() : existing.getIsActive())
             .isPremium(dto.getIsPremium() != null ? dto.getIsPremium() : existing.getIsPremium())
             .url(dto.getUrl() != null ? dto.getUrl() : existing.getUrl())
-            .statusRegistry(existing.getStatusRegistry())
             .build())
         .flatMap(digitalWeeklyRepository::save)
         .map(this::toResponse);

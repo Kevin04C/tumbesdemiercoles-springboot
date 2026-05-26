@@ -42,6 +42,10 @@ public class NewsPersistenceMapper {
         .imageUrl(domain.getImageUrl())
         .isPeruDailyNews(domain.getIsPeruDailyNews())
         .isLatestNews(domain.getIsLatestNews())
+        .createdAt(domain.getCreatedAt())
+        .updatedAt(domain.getUpdatedAt())
+        .statusRegistry(domain.getStatusRegistry())
+        .statusUpdatedAt(domain.getStatusUpdatedAt())
         .build();
   }
 }

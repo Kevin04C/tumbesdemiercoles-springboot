@@ -35,6 +35,10 @@ public class DigitalWeeklyPersistenceMapper {
         .isActive(domain.getIsActive())
         .isPremium(domain.getIsPremium())
         .url(domain.getUrl())
+        .createdAt(domain.getCreatedAt())
+        .updatedAt(domain.getUpdatedAt())
+        .statusRegistry(domain.getStatusRegistry())
+        .statusUpdatedAt(domain.getStatusUpdatedAt())
         .build();
   }
 }

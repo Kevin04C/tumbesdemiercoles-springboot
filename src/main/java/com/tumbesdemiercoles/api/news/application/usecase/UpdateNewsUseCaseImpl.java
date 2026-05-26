@@ -21,8 +21,7 @@ public class UpdateNewsUseCaseImpl implements UpdateNewsUseCase {
   public Mono<NewsResponseDto> execute(UUID id, NewsRequestDto dto) {
     return newsRepository.findById(id)
         .switchIfEmpty(Mono.error(ResourceNotFoundException.forEntity("News", id)))
-        .map(existing -> News.builder()
-            .id(existing.getId())
+        .map(existing -> existing.toBuilder()
             .content(dto.getContent() != null ? dto.getContent() : existing.getContent())
             .isCarousel(dto.getIsCarousel() != null ? dto.getIsCarousel() : existing.getIsCarousel())
             .headline(dto.getHeadline() != null ? dto.getHeadline() : existing.getHeadline())

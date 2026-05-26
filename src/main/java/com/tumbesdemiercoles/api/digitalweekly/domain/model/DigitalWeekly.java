@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * Representa una edición semanal digital (PDF/imagen).
  */
 @Data
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class DigitalWeekly {

@@ -20,15 +20,13 @@ public class UpdateColumnistUseCaseImpl implements UpdateColumnistUseCase {
   public Mono<ColumnistResponseDto> execute(UUID id, ColumnistRequestDto dto) {
     return columnistRepository.findById(id)
         .switchIfEmpty(Mono.error(ResourceNotFoundException.forEntity("Columnist", id)))
-        .map(existing -> Columnist.builder()
-            .id(existing.getId())
+        .map(existing -> existing.toBuilder()
             .content(dto.getContent() != null ? dto.getContent() : existing.getContent())
             .author(dto.getAuthor() != null ? dto.getAuthor() : existing.getAuthor())
             .title(dto.getTitle() != null ? dto.getTitle() : existing.getTitle())
             .headline(dto.getHeadline() != null ? dto.getHeadline() : existing.getHeadline())
             .authorImageUrl(dto.getAuthorImageUrl() != null ? dto.getAuthorImageUrl() : existing.getAuthorImageUrl())
             .isActive(dto.getIsActive() != null ? dto.getIsActive() : existing.getIsActive())
-            .statusRegistry(existing.getStatusRegistry())
             .build())
         .flatMap(columnistRepository::save)
         .map(this::toResponse);

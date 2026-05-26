@@ -32,6 +32,10 @@ public class ColumnistPersistenceMapper {
         .headline(domain.getHeadline())
         .authorImageUrl(domain.getAuthorImageUrl())
         .isActive(domain.getIsActive())
+        .createdAt(domain.getCreatedAt())
+        .updatedAt(domain.getUpdatedAt())
+        .statusRegistry(domain.getStatusRegistry())
+        .statusUpdatedAt(domain.getStatusUpdatedAt())
         .build();
   }
 }
