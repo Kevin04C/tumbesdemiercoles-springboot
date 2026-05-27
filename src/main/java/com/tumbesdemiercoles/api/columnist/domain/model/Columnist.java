@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.columnist.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +20,8 @@ public class Columnist {
   private String headline;
   private String authorImageUrl;
   private Boolean isActive;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
   private String statusRegistry;
-  private LocalDateTime statusUpdatedAt;
+  private OffsetDateTime statusUpdatedAt;
 }

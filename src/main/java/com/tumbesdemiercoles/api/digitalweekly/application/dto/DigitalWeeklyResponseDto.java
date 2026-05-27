@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.digitalweekly.application.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +24,8 @@ public class DigitalWeeklyResponseDto {
   private String frontPageImageUrl;
   private String descripcion;
   private Boolean isActive;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
   private Boolean isPremium;
   private String url;
 }

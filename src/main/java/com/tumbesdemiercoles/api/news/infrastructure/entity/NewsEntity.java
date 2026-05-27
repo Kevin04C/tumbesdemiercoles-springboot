@@ -1,6 +1,5 @@
 package com.tumbesdemiercoles.api.news.infrastructure.entity;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.tumbesdemiercoles.api.shared.infrastructure.entity.AuditableEntity;

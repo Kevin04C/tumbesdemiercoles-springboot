@@ -2,7 +2,7 @@ package com.tumbesdemiercoles.api.access.application.dto;
 
 import org.springframework.data.relational.core.mapping.Column;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public record UserRoleWithNameDto(
@@ -11,6 +11,6 @@ public record UserRoleWithNameDto(
     @Column("role_id") UUID roleId,
     @Column("role_name") String roleName,
     @Column("status_registry") String statusRegistry,
-    @Column("created_at") LocalDateTime createdAt,
-    @Column("updated_at") LocalDateTime updatedAt
+    @Column("created_at") OffsetDateTime createdAt,
+    @Column("updated_at") OffsetDateTime updatedAt
 ) {}

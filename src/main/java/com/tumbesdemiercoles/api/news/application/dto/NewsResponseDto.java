@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.news.application.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +27,6 @@ public class NewsResponseDto {
   private String imageUrl;
   private Boolean isPeruDailyNews;
   private Boolean isLatestNews;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
 }

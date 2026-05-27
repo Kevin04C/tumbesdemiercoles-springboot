@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.category.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import lombok.*;
@@ -21,9 +21,9 @@ public class Category {
   private Boolean isActive;
   private UUID categoryId;
   private String slug;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
   private String statusRegistry;
-  private LocalDateTime statusUpdatedAt;
+  private OffsetDateTime statusUpdatedAt;
 
 }

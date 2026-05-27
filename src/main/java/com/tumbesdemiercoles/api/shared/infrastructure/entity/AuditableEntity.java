@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.shared.infrastructure.entity;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,15 +40,15 @@ public abstract class AuditableEntity {
 
   @CreatedDate
   @Column("created_at")
-  private LocalDateTime createdAt;
+  private OffsetDateTime createdAt;
 
   @LastModifiedDate
   @Column("updated_at")
-  private LocalDateTime updatedAt;
+  private OffsetDateTime updatedAt;
 
   @Column("status_registry")
   private String statusRegistry;
 
   @Column("status_updated_at")
-  private LocalDateTime statusUpdatedAt;
+  private OffsetDateTime statusUpdatedAt;
 }

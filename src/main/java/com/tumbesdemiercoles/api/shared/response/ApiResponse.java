@@ -2,7 +2,7 @@ package com.tumbesdemiercoles.api.shared.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +29,7 @@ public class ApiResponse<T> {
   private PaginationInfo pagination;
   
   @Builder.Default
-  private LocalDateTime timestamp = LocalDateTime.now();
+  private OffsetDateTime timestamp = OffsetDateTime.now();
 
   /**
    * Crea una respuesta exitosa con datos.
@@ -39,7 +39,7 @@ public class ApiResponse<T> {
         .success(true)
         .message("Operation completed successfully")
         .data(data)
-        .timestamp(LocalDateTime.now())
+        .timestamp(OffsetDateTime.now())
         .build();
   }
 
@@ -51,7 +51,7 @@ public class ApiResponse<T> {
         .success(true)
         .message(message)
         .data(data)
-        .timestamp(LocalDateTime.now())
+        .timestamp(OffsetDateTime.now())
         .build();
   }
 
@@ -64,7 +64,7 @@ public class ApiResponse<T> {
         .message("Operation completed successfully")
         .data(data)
         .pagination(pagination)
-        .timestamp(LocalDateTime.now())
+        .timestamp(OffsetDateTime.now())
         .build();
   }
 
@@ -77,7 +77,7 @@ public class ApiResponse<T> {
         .message(message)
         .data(data)
         .pagination(pagination)
-        .timestamp(LocalDateTime.now())
+        .timestamp(OffsetDateTime.now())
         .build();
   }
 
@@ -92,7 +92,7 @@ public class ApiResponse<T> {
             .code(errorCode)
             .details(details)
             .build())
-        .timestamp(LocalDateTime.now())
+        .timestamp(OffsetDateTime.now())
         .build();
   }
 
@@ -103,7 +103,7 @@ public class ApiResponse<T> {
     return ApiResponse.<T>builder()
         .success(false)
         .message(message)
-        .timestamp(LocalDateTime.now())
+        .timestamp(OffsetDateTime.now())
         .build();
   }
 
@@ -113,7 +113,7 @@ public class ApiResponse<T> {
         .message("Operation completed successfully")
         .data(page.getContent())
         .pagination(PaginationInfo.of(page.getPage(), page.getSize(), page.getTotalElements()))
-        .timestamp(LocalDateTime.now())
+        .timestamp(OffsetDateTime.now())
         .build();
   }
 
@@ -123,7 +123,7 @@ public class ApiResponse<T> {
         .message(message)
         .data(page.getContent())
         .pagination(PaginationInfo.of(page.getPage(), page.getSize(), page.getTotalElements()))
-        .timestamp(LocalDateTime.now())
+        .timestamp(OffsetDateTime.now())
         .build();
   }
 

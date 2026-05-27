@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.shared.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,15 +14,15 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 public abstract class Auditable {
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
   private String statusRegistry;
-  private LocalDateTime statusUpdatedAt;
+  private OffsetDateTime statusUpdatedAt;
 
   public void setStatusRegistry(String newStatus) {
     if (!Objects.equals(this.statusRegistry, newStatus)) {
       this.statusRegistry = newStatus;
-      this.statusUpdatedAt = LocalDateTime.now();
+      this.statusUpdatedAt = OffsetDateTime.now();
     }
   }
 }

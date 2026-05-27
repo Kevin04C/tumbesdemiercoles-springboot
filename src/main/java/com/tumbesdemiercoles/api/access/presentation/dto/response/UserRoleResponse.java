@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.access.presentation.dto.response;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public record UserRoleResponse(
@@ -9,6 +9,6 @@ public record UserRoleResponse(
     UUID roleId,
     String roleName,
     String statusRegistry,
-    LocalDateTime createdAt,
-    LocalDateTime updatedAt
+    OffsetDateTime createdAt,
+    OffsetDateTime updatedAt
 ) {}

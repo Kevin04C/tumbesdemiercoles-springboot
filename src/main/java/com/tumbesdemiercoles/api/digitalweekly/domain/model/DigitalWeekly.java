@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.digitalweekly.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,10 +23,10 @@ public class DigitalWeekly {
   private String frontPageImageUrl;
   private String descripcion;
   private Boolean isActive;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
   private String statusRegistry;
-  private LocalDateTime statusUpdatedAt;
+  private OffsetDateTime statusUpdatedAt;
   private Boolean isPremium;
   private String url;
 }
