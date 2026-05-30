@@ -27,6 +27,11 @@ public interface CategoryControllerApi {
     @ResponseStatus(HttpStatus.OK)
     Mono<ApiResponse<List<CategoryResponse>>> findCategoryTree();
 
+    @Operation(summary = "Listar todas las categorías activas", description = "Retorna una lista plana con todas las categorías que se encuentran activas.")
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    Mono<ApiResponse<List<CategoryResponse>>> findAllActiveCategories();
+
     @Operation(summary = "Obtener categoría por ID", description = "Busca y retorna el detalle de una categoría específica por su identificador único.")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

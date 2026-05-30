@@ -25,6 +25,12 @@ public class GetColumnistUseCaseImpl implements GetColumnistUseCase {
   }
 
   @Override
+  public Mono<ColumnistResponseDto> getBySlug(String slug) {
+    return columnistRepository.findBySlug(slug)
+        .map(this::toResponse);
+  }
+
+  @Override
   public Mono<PageResponseDto<ColumnistResponseDto>> findColumnists(ColumnistFilter filter) {
     return columnistRepository.findColumnists(filter)
         .map(paginatedResult -> PageResponseDto.<ColumnistResponseDto>builder()
@@ -42,6 +48,7 @@ public class GetColumnistUseCaseImpl implements GetColumnistUseCase {
         .content(columnist.getContent())
         .author(columnist.getAuthor())
         .title(columnist.getTitle())
+        .slug(columnist.getSlug())
         .headline(columnist.getHeadline())
         .authorImageUrl(columnist.getAuthorImageUrl())
         .isActive(columnist.getIsActive())

@@ -50,6 +50,13 @@ public class ColumnistController implements ColumnistControllerApi {
   }
 
   @Override
+  public Mono<ApiResponse<ColumnistResponse>> getColumnistBySlug(String slug) {
+    return getColumnistUseCase.getBySlug(slug)
+        .map(webMapper::toResponse)
+        .map(ApiResponse::success);
+  }
+
+  @Override
   public Mono<ApiResponse<ColumnistResponse>> updateColumnist(UUID id, ColumnistUpdateRequest request) {
     return updateColumnistUseCase.execute(id, webMapper.toUpdateDto(request))
         .map(webMapper::toResponse)

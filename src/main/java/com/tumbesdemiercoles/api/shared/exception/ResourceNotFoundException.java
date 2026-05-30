@@ -27,4 +27,11 @@ public class ResourceNotFoundException extends RuntimeException {
     );
   }
 
+  public static ResourceNotFoundException forSlug(String entityName, String slug) {
+    return new ResourceNotFoundException(
+        entityName + " not found",
+        "No " + entityName.toLowerCase() + " exists with slug: " + slug
+    );
+  }
+
 }

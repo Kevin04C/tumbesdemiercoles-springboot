@@ -28,6 +28,9 @@ public class ColumnistEntity extends AuditableEntity {
   @Column("title")
   private String title;
 
+  @Column("slug")
+  private String slug;
+
   @Column("headline")
   private String headline;
 

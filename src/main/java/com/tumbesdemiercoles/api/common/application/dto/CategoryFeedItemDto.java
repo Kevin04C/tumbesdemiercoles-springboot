@@ -17,5 +17,6 @@ import java.util.List;
 public class CategoryFeedItemDto {
 
   private String category;
+  private String slug;
   private List<NewsResponseDto> news;
 }

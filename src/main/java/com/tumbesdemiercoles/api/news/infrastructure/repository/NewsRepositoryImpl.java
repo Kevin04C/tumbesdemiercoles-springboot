@@ -40,6 +40,12 @@ public class NewsRepositoryImpl implements NewsRepository {
   }
 
   @Override
+  public Mono<News> findBySlug(String slug) {
+    return r2dbcRepository.findBySlug(slug)
+        .map(mapper::toDomain);
+  }
+
+  @Override
   public Flux<News> findAll() {
     return r2dbcRepository.findAll()
         .map(mapper::toDomain);
@@ -101,5 +107,36 @@ public class NewsRepositoryImpl implements NewsRepository {
     return r2dbcRepository.findTopByCategoryId(categoryId, limit)
         .map(mapper::toDomain)
         .collectList();
+  }
+
+  @Override
+  public Mono<List<News>> findTopByIsLatestNews(int limit) {
+    return r2dbcRepository.findTopByIsLatestNews(limit)
+        .map(mapper::toDomain)
+        .collectList();
+  }
+
+  @Override
+  public Mono<List<News>> findRelatedCandidates(UUID excludeId, UUID categoryId, int sameCategoryLimit, int otherCategoryLimit) {
+    if (categoryId == null) {
+      return r2dbcRepository.findRecentExcludingCategory(excludeId, null, sameCategoryLimit + otherCategoryLimit)
+          .map(mapper::toDomain)
+          .collectList();
+    }
+
+    Mono<List<News>> sameCategory = r2dbcRepository.findRelatedByCategory(excludeId, categoryId, sameCategoryLimit)
+        .map(mapper::toDomain)
+        .collectList();
+
+    Mono<List<News>> otherCategories = r2dbcRepository.findRecentExcludingCategory(excludeId, categoryId, otherCategoryLimit)
+        .map(mapper::toDomain)
+        .collectList();
+
+    return Mono.zip(sameCategory, otherCategories)
+        .map(tuple -> {
+          List<News> combined = tuple.getT1();
+          combined.addAll(tuple.getT2());
+          return combined;
+        });
   }
 }

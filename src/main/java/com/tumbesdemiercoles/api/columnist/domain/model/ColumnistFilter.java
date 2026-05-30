@@ -17,4 +17,5 @@ public class ColumnistFilter extends BasePaginated {
     private UUID id;
     private String author;
     private String title;
+    private String slug;
 }

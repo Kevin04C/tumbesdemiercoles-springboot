@@ -109,7 +109,7 @@ public class GlobalExceptionHandler {
               exchange.getRequest().getMethod(),
               exchange.getRequest().getPath().value(),
               ex.getMessage());
-          return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Error interno del servidor", ex.getMessage());
+          return buildResponse(HttpStatus.FORBIDDEN, "FORBIDDEN", "Access denied", ex.getMessage());
         });
   }
 

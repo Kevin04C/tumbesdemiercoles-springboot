@@ -73,6 +73,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
   }
 
   @Override
+  public Flux<Category> findAllActive() {
+    return r2dbcRepository.findCategoriesActive()
+        .map(mapper::toDomain);
+  }
+
+  @Override
   public Mono<PaginatedResult<Category>> findCategories(CategoryFilter filter) {
     Criteria criteria = Criteria.empty();
 

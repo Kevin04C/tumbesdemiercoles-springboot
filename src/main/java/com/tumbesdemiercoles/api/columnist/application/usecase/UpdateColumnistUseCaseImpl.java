@@ -6,6 +6,7 @@ import com.tumbesdemiercoles.api.columnist.application.ports.in.UpdateColumnistU
 import com.tumbesdemiercoles.api.columnist.domain.model.Columnist;
 import com.tumbesdemiercoles.api.columnist.domain.repository.ColumnistRepository;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
+import com.tumbesdemiercoles.api.shared.utils.SlugUtils;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class UpdateColumnistUseCaseImpl implements UpdateColumnistUseCase {
             .content(dto.getContent() != null ? dto.getContent() : existing.getContent())
             .author(dto.getAuthor() != null ? dto.getAuthor() : existing.getAuthor())
             .title(dto.getTitle() != null ? dto.getTitle() : existing.getTitle())
+            .slug(dto.getTitle() != null ? SlugUtils.toSlug(dto.getTitle()) : existing.getSlug())
             .headline(dto.getHeadline() != null ? dto.getHeadline() : existing.getHeadline())
             .authorImageUrl(dto.getAuthorImageUrl() != null ? dto.getAuthorImageUrl() : existing.getAuthorImageUrl())
             .isActive(dto.getIsActive() != null ? dto.getIsActive() : existing.getIsActive())
@@ -38,6 +40,7 @@ public class UpdateColumnistUseCaseImpl implements UpdateColumnistUseCase {
         .content(columnist.getContent())
         .author(columnist.getAuthor())
         .title(columnist.getTitle())
+        .slug(columnist.getSlug())
         .headline(columnist.getHeadline())
         .authorImageUrl(columnist.getAuthorImageUrl())
         .isActive(columnist.getIsActive())

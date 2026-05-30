@@ -163,6 +163,7 @@ CREATE TABLE public.columnist (
     created_at timestamp with time zone,
     updated_at timestamp with time zone,
     title character varying,
+    slug character varying,
     headline character varying,
     status_registry character varying,
     status_updated_at timestamp with time zone,
@@ -208,7 +209,7 @@ CREATE TABLE public.news (
     category_id uuid NOT NULL,
     title character varying,
     is_active boolean,
-    updated_at character varying,
+    updated_at timestamp with time zone,
     created_at timestamp with time zone,
     status_registry character varying,
     status_updated_at timestamp with time zone,
@@ -427,7 +428,7 @@ COPY public.category (id, description, is_active, created_at, updated_at, status
 -- Data for Name: columnist; Type: TABLE DATA; Schema: public; Owner: user_wqswkhkwi8
 --
 
-COPY public.columnist (is_active, content, author, created_at, updated_at, title, headline, status_registry, status_updated_at, author_image_url, id) FROM stdin;
+COPY public.columnist (is_active, content, author, created_at, updated_at, title, slug, headline, status_registry, status_updated_at, author_image_url, id) FROM stdin;
 \.
 
 

@@ -23,4 +23,6 @@ public interface ColumnistRepository {
   Mono<PaginatedResult<Columnist>> findColumnists(ColumnistFilter filter);
 
   Mono<List<Columnist>> findLatestColumnists();
+
+  Mono<Columnist> findBySlug(String slug);
 }

@@ -1,11 +1,13 @@
 package com.tumbesdemiercoles.api.news.application.usecase;
 
+import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
 import com.tumbesdemiercoles.api.news.application.dto.NewsResponseDto;
 import com.tumbesdemiercoles.api.news.application.ports.in.GetNewsUseCase;
 import com.tumbesdemiercoles.api.news.domain.model.News;
 import com.tumbesdemiercoles.api.news.domain.model.NewsFilter;
 import com.tumbesdemiercoles.api.news.domain.repository.NewsRepository;
 import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
+import com.tumbesdemiercoles.api.shared.domain.model.PaginatedResult;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import reactor.core.publisher.Mono;
 public class GetNewsUseCaseImpl implements GetNewsUseCase {
 
   private final NewsRepository newsRepository;
+  private final CategoryRepository categoryRepository;
 
   @Override
   public Mono<NewsResponseDto> getById(UUID id) {
@@ -26,15 +29,37 @@ public class GetNewsUseCaseImpl implements GetNewsUseCase {
   }
 
   @Override
+  public Mono<NewsResponseDto> getBySlug(String slug) {
+    return newsRepository.findBySlug(slug)
+        .switchIfEmpty(Mono.error(ResourceNotFoundException.forSlug("News", slug)))
+        .map(this::toResponse);
+  }
+
+  @Override
+  public Mono<PageResponseDto<NewsResponseDto>> getByCategorySlug(String categorySlug, NewsFilter filter) {
+    return categoryRepository.findBySlug(categorySlug)
+        .switchIfEmpty(Mono.error(ResourceNotFoundException.forSlug("Category", categorySlug)))
+        .flatMap(category -> {
+          filter.setCategoryId(category.getId());
+          return newsRepository.findNewsList(filter);
+        })
+        .map(this::buildPageResponse);
+  }
+
+  @Override
   public Mono<PageResponseDto<NewsResponseDto>> findNewsList(NewsFilter filter) {
     return newsRepository.findNewsList(filter)
-        .map(paginatedResult -> PageResponseDto.<NewsResponseDto>builder()
-            .content(paginatedResult.getContent().stream().map(this::toResponse).toList())
-            .page(paginatedResult.getCurrentPage())
-            .size(paginatedResult.getPageSize())
-            .totalElements(paginatedResult.getTotalElements())
-            .totalPages(paginatedResult.getTotalPages())
-            .build());
+        .map(this::buildPageResponse);
+  }
+
+  private PageResponseDto<NewsResponseDto> buildPageResponse(PaginatedResult<News> paginatedResult) {
+    return PageResponseDto.<NewsResponseDto>builder()
+        .content(paginatedResult.getContent().stream().map(this::toResponse).toList())
+        .page(paginatedResult.getCurrentPage())
+        .size(paginatedResult.getPageSize())
+        .totalElements(paginatedResult.getTotalElements())
+        .totalPages(paginatedResult.getTotalPages())
+        .build();
   }
 
   private NewsResponseDto toResponse(News news) {

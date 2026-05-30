@@ -10,6 +10,7 @@ public class ColumnistResponse {
   private String content;
   private String author;
   private String title;
+  private String slug;
   private String headline;
   private String authorImageUrl;
   private Boolean isActive;

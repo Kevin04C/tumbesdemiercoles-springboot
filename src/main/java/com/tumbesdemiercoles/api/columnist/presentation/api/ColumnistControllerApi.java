@@ -40,6 +40,12 @@ public interface ColumnistControllerApi {
     Mono<ApiResponse<ColumnistResponse>> getColumnistById(
         @Parameter(description = "ID único de la columna de opinión", required = true) @PathVariable UUID id);
 
+    @Operation(summary = "Obtener columna por slug", description = "Recupera una columna de opinión por su slug único.")
+    @GetMapping("/slug/{slug}")
+    @ResponseStatus(HttpStatus.OK)
+    Mono<ApiResponse<ColumnistResponse>> getColumnistBySlug(
+        @Parameter(description = "Slug único de la columna de opinión", required = true) @PathVariable String slug);
+
     @Operation(summary = "Actualizar columna de opinión", description = "Modifica el título, contenido u otros datos de una columna existente identificada por su ID.")
     @PutMapping("/{id}")
     Mono<ApiResponse<ColumnistResponse>> updateColumnist(

@@ -22,6 +22,7 @@ public class FeedWebMapper {
     FeedResponse response = new FeedResponse();
     response.setInCarousel(dto.getInCarousel().stream().map(newsWebMapper::toResponse).toList());
     response.setPeruDailyNews(dto.getPeruDailyNews().stream().map(newsWebMapper::toResponse).toList());
+    response.setLatestNews(dto.getLatestNews().stream().map(newsWebMapper::toResponse).toList());
     response.setByCategory(dto.getByCategory().stream().map(this::toCategoryItem).toList());
     response.setColumnists(dto.getColumnists().stream().map(columnistWebMapper::toResponse).toList());
     response.setDigitalWeekly(
@@ -35,6 +36,7 @@ public class FeedWebMapper {
   private CategoryFeedItem toCategoryItem(CategoryFeedItemDto dto) {
     CategoryFeedItem item = new CategoryFeedItem();
     item.setCategory(dto.getCategory());
+    item.setSlug(dto.getSlug());
     item.setNews(dto.getNews().stream().map(newsWebMapper::toResponse).toList());
     return item;
   }

@@ -8,5 +8,7 @@ import reactor.core.publisher.Mono;
 
 public interface GetNewsUseCase {
   Mono<NewsResponseDto> getById(UUID id);
+  Mono<NewsResponseDto> getBySlug(String slug);
   Mono<PageResponseDto<NewsResponseDto>> findNewsList(NewsFilter filter);
+  Mono<PageResponseDto<NewsResponseDto>> getByCategorySlug(String categorySlug, NewsFilter filter);
 }

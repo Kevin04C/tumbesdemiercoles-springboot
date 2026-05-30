@@ -18,4 +18,7 @@ public interface CategoryR2dbcRepository extends ReactiveCrudRepository<Category
 
   @Query("SELECT * FROM category WHERE slug IN (:slugs)")
   Flux<CategoryEntity> findBySlugIn(List<String> slugs);
+
+  @Query("SELECT * FROM category WHERE is_active = true")
+  Flux<CategoryEntity> findCategoriesActive();
 }

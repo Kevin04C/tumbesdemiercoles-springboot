@@ -9,5 +9,6 @@ import java.util.List;
 public class CategoryFeedItem {
 
   private String category;
+  private String slug;
   private List<NewsResponse> news;
 }

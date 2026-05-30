@@ -48,6 +48,9 @@ public class GetFeedUseCase {
     Mono<List<NewsResponseDto>> peruDaily = newsRepository.findTopByIsPeruDailyNews(3)
         .map(list -> list.stream().map(this::toDto).toList());
 
+    Mono<List<NewsResponseDto>> latestNews = newsRepository.findTopByIsLatestNews(10)
+        .map(list -> list.stream().map(this::toDto).toList());
+
     Mono<List<CategoryFeedItemDto>> byCategory = categoryRepository.findBySlugIn(BY_CATEGORY_SLUGS)
         .flatMapMany(categoriesMap -> Flux.fromIterable(BY_CATEGORY_SLUGS)
             .flatMap(slug -> {
@@ -55,6 +58,7 @@ public class GetFeedUseCase {
               return newsRepository.findTopByCategoryId(category.getId(), 8)
                   .map(news -> CategoryFeedItemDto.builder()
                       .category(category.getDescription())
+                      .slug(category.getSlug())
                       .news(news.stream().map(this::toDto).toList())
                       .build());
             }))
@@ -68,13 +72,14 @@ public class GetFeedUseCase {
         .map(Optional::of)
         .defaultIfEmpty(Optional.empty());
 
-    return Mono.zip(carousel, peruDaily, byCategory, columnists, digitalWeekly)
+    return Mono.zip(carousel, peruDaily, latestNews, byCategory, columnists, digitalWeekly)
         .map(tuple -> FeedResponseDto.builder()
             .inCarousel(tuple.getT1())
             .peruDailyNews(tuple.getT2())
-            .byCategory(tuple.getT3())
-            .columnists(tuple.getT4())
-            .digitalWeekly(tuple.getT5().orElse(null))
+            .latestNews(tuple.getT3())
+            .byCategory(tuple.getT4())
+            .columnists(tuple.getT5())
+            .digitalWeekly(tuple.getT6().orElse(null))
             .build()
         );
   }

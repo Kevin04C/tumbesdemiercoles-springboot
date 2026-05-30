@@ -7,6 +7,7 @@ import com.tumbesdemiercoles.api.category.domain.model.CategoryFilter;
 import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
 import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
+import java.util.List;
 import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,13 @@ public class GetCategoryUseCaseImpl implements GetCategoryUseCase {
                     .totalPages(paginatedResult.getTotalPages())
                     .build());
 
+  }
+
+  @Override
+  public Mono<List<CategoryResponseDto>> findAllActiveCategories() {
+    return categoryRepository.findAllActive()
+        .map(this::toResponse)
+        .collectList();
   }
 
   private CategoryResponseDto toResponse(Category category) {

@@ -18,6 +18,8 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
+
 @Repository
 @RequiredArgsConstructor
 public class ColumnistRepositoryImpl implements ColumnistRepository {
@@ -53,6 +55,13 @@ public class ColumnistRepositoryImpl implements ColumnistRepository {
   }
 
   @Override
+  public Mono<Columnist> findBySlug(String slug) {
+    return r2dbcRepository.findBySlug(slug)
+        .map(mapper::toDomain)
+        .switchIfEmpty(Mono.error(ResourceNotFoundException.forSlug("Columnist", slug)));
+  }
+
+  @Override
   public Mono<Boolean> existsById(UUID id) {
     return r2dbcRepository.existsById(id);
   }
@@ -71,6 +80,7 @@ public class ColumnistRepositoryImpl implements ColumnistRepository {
     criteria = CriteriaHelper.addEquals(criteria, "id", filter.getId());
     criteria = CriteriaHelper.addLike(criteria, "author", filter.getAuthor());
     criteria = CriteriaHelper.addLike(criteria, "title", filter.getTitle());
+    criteria = CriteriaHelper.addLike(criteria, "slug", filter.getSlug());
 
     Pageable pageable = PageableMapper.toPageable(filter);
 

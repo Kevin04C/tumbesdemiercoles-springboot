@@ -8,5 +8,6 @@ import reactor.core.publisher.Mono;
 
 public interface GetColumnistUseCase {
     Mono<ColumnistResponseDto> getById(UUID id);
+    Mono<ColumnistResponseDto> getBySlug(String slug);
     Mono<PageResponseDto<ColumnistResponseDto>> findColumnists(ColumnistFilter filter);
 }

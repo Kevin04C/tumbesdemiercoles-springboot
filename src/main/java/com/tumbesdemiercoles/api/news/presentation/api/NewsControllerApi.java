@@ -1,9 +1,11 @@
 package com.tumbesdemiercoles.api.news.presentation.api;
 
+import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsByCategorySlugFilterRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsFilterRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsUpdateRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.response.NewsResponse;
+import com.tumbesdemiercoles.api.news.presentation.dto.response.RelatedNewsResponse;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -42,6 +44,25 @@ public interface NewsControllerApi {
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   Mono<ApiResponse<NewsResponse>> getNewsById(
+      @Parameter(description = "ID único del artículo de noticia", required = true) @PathVariable UUID id);
+
+  @Operation(summary = "Obtener noticia por slug", description = "Busca y retorna la información detallada de una noticia determinada mediante su slug.")
+  @GetMapping("/slug/{slug}")
+  @ResponseStatus(HttpStatus.OK)
+  Mono<ApiResponse<NewsResponse>> getNewsBySlug(
+      @Parameter(description = "Slug único del artículo de noticia", required = true) @PathVariable String slug);
+
+  @Operation(summary = "Obtener noticias por slug de categoría", description = "Retorna una página de noticias filtradas por el slug de una categoría.")
+  @GetMapping("/by-category/{categorySlug}")
+  @ResponseStatus(HttpStatus.OK)
+  Mono<ApiResponse<List<NewsResponse>>> getNewsByCategorySlug(
+      @Parameter(description = "Slug de la categoría", required = true) @PathVariable String categorySlug,
+      @Valid NewsByCategorySlugFilterRequest filter);
+
+  @Operation(summary = "Obtener noticias relacionadas", description = "Retorna una lista de noticias similares a la noticia especificada, basadas en categoría y similitud textual.")
+  @GetMapping("/{id}/related")
+  @ResponseStatus(HttpStatus.OK)
+  Mono<ApiResponse<List<RelatedNewsResponse>>> getRelatedNews(
       @Parameter(description = "ID único del artículo de noticia", required = true) @PathVariable UUID id);
 
   @Operation(summary = "Actualizar noticia", description = "Modifica los campos editables de un artículo de noticia identificado por su ID.")

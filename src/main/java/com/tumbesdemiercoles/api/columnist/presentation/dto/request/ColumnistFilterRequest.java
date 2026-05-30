@@ -17,4 +17,5 @@ public class ColumnistFilterRequest extends BasePageRequest {
     private UUID id;
     private String author;
     private String title;
+    private String slug;
 }

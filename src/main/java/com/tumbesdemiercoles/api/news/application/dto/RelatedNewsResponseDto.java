@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.columnist.application.dto;
+package com.tumbesdemiercoles.api.news.application.dto;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -13,16 +13,11 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ColumnistResponseDto {
-
+public class RelatedNewsResponseDto {
   private UUID id;
-  private String content;
-  private String author;
   private String title;
   private String slug;
   private String headline;
-  private String authorImageUrl;
-  private Boolean isActive;
+  private String imageUrl;
   private OffsetDateTime createdAt;
-  private OffsetDateTime updatedAt;
 }

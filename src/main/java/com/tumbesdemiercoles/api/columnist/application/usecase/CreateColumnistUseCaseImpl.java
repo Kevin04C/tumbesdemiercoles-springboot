@@ -5,6 +5,7 @@ import com.tumbesdemiercoles.api.columnist.application.dto.ColumnistResponseDto;
 import com.tumbesdemiercoles.api.columnist.application.ports.in.CreateColumnistUseCase;
 import com.tumbesdemiercoles.api.columnist.domain.model.Columnist;
 import com.tumbesdemiercoles.api.columnist.domain.repository.ColumnistRepository;
+import com.tumbesdemiercoles.api.shared.utils.SlugUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -20,6 +21,7 @@ public class CreateColumnistUseCaseImpl implements CreateColumnistUseCase {
         .content(dto.getContent())
         .author(dto.getAuthor())
         .title(dto.getTitle())
+        .slug(SlugUtils.toSlug(dto.getTitle()))
         .headline(dto.getHeadline())
         .authorImageUrl(dto.getAuthorImageUrl())
         .isActive(dto.getIsActive() != null ? dto.getIsActive() : true)
@@ -35,6 +37,7 @@ public class CreateColumnistUseCaseImpl implements CreateColumnistUseCase {
         .content(columnist.getContent())
         .author(columnist.getAuthor())
         .title(columnist.getTitle())
+        .slug(columnist.getSlug())
         .headline(columnist.getHeadline())
         .authorImageUrl(columnist.getAuthorImageUrl())
         .isActive(columnist.getIsActive())

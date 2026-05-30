@@ -12,6 +12,7 @@ public class FeedResponse {
 
   private List<NewsResponse> inCarousel;
   private List<NewsResponse> peruDailyNews;
+  private List<NewsResponse> latestNews;
   private List<CategoryFeedItem> byCategory;
   private List<ColumnistResponse> columnists;
   private DigitalWeeklyResponse digitalWeekly;

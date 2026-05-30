@@ -31,4 +31,6 @@ public interface CategoryRepository {
   Mono<PaginatedResult<Category>> findCategories(CategoryFilter filter);
 
   Mono<Map<String, Category>> findBySlugIn(List<String> slugs);
+
+  Flux<Category> findAllActive();
 }

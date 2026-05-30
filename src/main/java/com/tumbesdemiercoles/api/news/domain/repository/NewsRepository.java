@@ -14,6 +14,8 @@ public interface NewsRepository {
 
   Mono<News> findById(UUID id);
 
+  Mono<News> findBySlug(String slug);
+
   Flux<News> findAll();
 
   Mono<News> deleteById(UUID id);
@@ -27,4 +29,8 @@ public interface NewsRepository {
   Mono<List<News>> findTopByIsPeruDailyNews(int limit);
 
   Mono<List<News>> findTopByCategoryId(UUID categoryId, int limit);
+
+  Mono<List<News>> findTopByIsLatestNews(int limit);
+
+  Mono<List<News>> findRelatedCandidates(UUID excludeId, UUID categoryId, int sameCategoryLimit, int otherCategoryLimit);
 }

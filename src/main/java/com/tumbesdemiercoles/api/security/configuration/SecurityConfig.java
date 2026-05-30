@@ -35,6 +35,8 @@ import org.springframework.web.cors.CorsConfiguration;
 public class SecurityConfig {
 
   private final CustomJwtAuthenticationConverter customJwtAuthenticationConverter;
+  private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+  private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
   @Value("${jwt.secret}")
   private String secret;
@@ -74,6 +76,10 @@ public class SecurityConfig {
             .anyExchange().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2
             .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
+        )
+        .exceptionHandling(ex -> ex
+            .authenticationEntryPoint(customAuthenticationEntryPoint)
+            .accessDeniedHandler(customAccessDeniedHandler)
         )
         .build();
   }
