@@ -27,11 +27,12 @@ public class User extends Auditable {
   private String lastName;
   private String email;
   private String imageUrl;
+  private String userName;
   private Boolean isEmailVerified;
   private String passwordHash;
   private Boolean isActive;
 
-  public static User createNewUser(String firstName, String lastName, String email, String passwordHash, String imageUrl) {
+  public static User createNewUser(String firstName, String lastName, String email, String passwordHash, String imageUrl, String userName) {
     String finalImageUrl = (imageUrl == null || imageUrl.isBlank())
         ? "https://storage-app.orealy.xyz/f/63a31969-d6b5-40cb-a81d-2b0820fff32a"
         : imageUrl;
@@ -41,6 +42,7 @@ public class User extends Auditable {
         .email(email)
         .passwordHash(passwordHash)
         .imageUrl(finalImageUrl)
+        .userName(userName)
         .isEmailVerified(false)
         .statusRegistry(StatusRegistryConst.ACTIVE)
         .isActive(true)
@@ -54,7 +56,7 @@ public class User extends Auditable {
     this.isEmailVerified = true;
   }
 
-  public void updateProfile(String newFirstName, String newLastName, String newImageUrl) {
+  public void updateProfile(String newFirstName, String newLastName, String newImageUrl, String newUserName) {
     if (newFirstName == null || newFirstName.isBlank()) {
       throw new IllegalArgumentException("El nombre no puede estar vacío");
     }
@@ -63,6 +65,7 @@ public class User extends Auditable {
     if (newImageUrl != null && !newImageUrl.isBlank()) {
       this.imageUrl = newImageUrl;
     }
+    this.userName = newUserName;
   }
 
   public void deleteAccount() {

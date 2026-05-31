@@ -12,7 +12,8 @@ http:
       {
         "firstName":"asdasdasdsad",
         "lastName":"popop",
-        "email":"gavino_15@hotmail.es",
+        "userName":"carlito ancheloti",
+        "email":"gavino_21@hotmail.es",
         "password":"franz123"
       }
   auth: inherit

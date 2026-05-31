@@ -34,7 +34,8 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
               dto.getLastName(),
               dto.getEmail(),
               dto.getPassword(),
-              dto.getImageUrl()
+              dto.getImageUrl(),
+              dto.getUserName()
           );
           return userRepository.save(user);
         })
@@ -51,6 +52,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
         .lastName(user.getLastName())
         .email(user.getEmail())
         .imageUrl(user.getImageUrl())
+        .userName(user.getUserName())
         .isEmailVerified(user.getIsEmailVerified())
         .isActive(user.getIsActive())
         .build();

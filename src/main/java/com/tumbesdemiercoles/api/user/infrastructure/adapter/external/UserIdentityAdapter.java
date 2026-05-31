@@ -18,13 +18,14 @@ public class UserIdentityAdapter implements UserIdentityPort {
   private final UserRepository userRepository;
 
   @Override
-  public Mono<AuthUserResponseDto> createIdentity(String email, String firstName, String lastName, String encondedPassword, String imageUrl) {
+  public Mono<AuthUserResponseDto> createIdentity(String email, String firstName, String lastName, String encondedPassword, String imageUrl, String userName) {
     UserRequestDto request = UserRequestDto.builder()
         .email(email)
         .firstName(firstName)
         .lastName(lastName)
         .password(encondedPassword)
         .imageUrl(imageUrl)
+        .userName(userName)
         .build();
 
     return createUserUseCase.execute(request)
@@ -35,6 +36,7 @@ public class UserIdentityAdapter implements UserIdentityPort {
               .lastName(response.getLastName())
               .email(response.getEmail())
               .imageUrl(response.getImageUrl())
+              .userName(response.getUserName())
               .isEmailVerified(response.getIsEmailVerified())
               .isActive(response.getIsActive())
               .build();

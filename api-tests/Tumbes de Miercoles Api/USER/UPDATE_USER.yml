@@ -10,7 +10,8 @@ http:
     type: json
     data: |-
       {
-        "firstName":"aea manito "
+        "firstName":"aea manito ",
+        "userName":"aea_username"
       }
   auth: inherit
 

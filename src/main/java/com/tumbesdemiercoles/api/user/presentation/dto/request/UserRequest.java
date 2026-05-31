@@ -13,6 +13,9 @@ public class UserRequest { // Capa de Presentación
   @NotBlank(message = "El apellido es obligatorio")
   private String lastName;
 
+  @NotBlank(message = "El userName es obligatorio")
+  private String userName;
+
   @Email(message = "Email inválido")
   private String email;
 

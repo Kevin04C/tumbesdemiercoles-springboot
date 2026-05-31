@@ -27,7 +27,8 @@ public class RegisterUseCaseImpl implements RegisterUseCase {
           registerRequestDto.getFirstName(),
           registerRequestDto.getLastName(),
           encodedPassword,
-          registerRequestDto.getImageUrl()
+          registerRequestDto.getImageUrl(),
+          registerRequestDto.getUserName()
       ).flatMap(userDto -> {
 
         return tokenProviderPort.generateToken(userDto)

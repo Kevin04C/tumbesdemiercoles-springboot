@@ -38,6 +38,9 @@ public class UserEntity extends AuditableEntity {
   @Column("image_url")
   private String userImageUrl;
 
+  @Column("user_name")
+  private String userName;
+
   @Column("is_email_verified")
   private Boolean isEmailVerified;
 

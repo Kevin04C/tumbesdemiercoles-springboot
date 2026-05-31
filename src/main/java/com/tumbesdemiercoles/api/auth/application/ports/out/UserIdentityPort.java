@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface UserIdentityPort {
 
-  Mono<AuthUserResponseDto> createIdentity(String email, String firstName, String lastName , String encondedPassword , String imageUrl);
+  Mono<AuthUserResponseDto> createIdentity(String email, String firstName, String lastName , String encondedPassword , String imageUrl, String userName);
 
   Mono<Boolean> existsByEmail(String email);
 
