@@ -48,6 +48,7 @@ public class GetUserUseCaseImpl implements GetUserUseCase {
         .lastName(user.getLastName())
         .email(user.getEmail())
         .imageUrl(user.getImageUrl())
+        .userName(user.getUserName())
         .isEmailVerified(user.getIsEmailVerified())
         .isActive(user.getIsActive())
         .build();

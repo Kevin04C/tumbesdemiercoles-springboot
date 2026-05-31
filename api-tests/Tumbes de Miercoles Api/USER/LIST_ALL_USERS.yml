@@ -5,8 +5,14 @@ info:
 
 http:
   method: GET
-  url: "{{url}}/api/v1/users"
-  auth: inherit
+  url: "{{url}}/api/v1/users?email=gavino_21@hotmail.es"
+  params:
+    - name: email
+      value: gavino_21@hotmail.es
+      type: query
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0OGIzOTY1Yi05Y2E5LTRjMTgtYTkzNi0wMTI2NzU0ZTUyYmQiLCJpYXQiOjE3ODAyNTc2OTQsImV4cCI6MTc4MDM0NDA5NCwicm9sZXMiOlsiVVNFUiJdfQ.JZ2dK9ELltciF5I9Yv4ZYCiQwOk-LqLRak_4jaEBGE8
 
 settings:
   encodeUrl: true

@@ -281,6 +281,7 @@ CREATE TABLE public."user" (
     last_name character varying(50) CONSTRAINT account_last_name_not_null NOT NULL,
     email character varying(100) CONSTRAINT account_email_not_null NOT NULL,
     image_url character varying(255),
+    user_name character varying(50),
     is_email_verified boolean DEFAULT false,
     password_hash character varying(255) CONSTRAINT account_password_hash_not_null NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
@@ -495,9 +496,9 @@ COPY public.role_permission (id, role_id, permission_id, created_at, updated_at,
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: user_wqswkhkwi8
 --
 
-COPY public."user" (id, first_name, last_name, email, image_url, is_email_verified, password_hash, created_at, updated_at, status_registry, status_updated_at, is_active) FROM stdin;
-48b3965b-9ca9-4c18-a936-0126754e52bd	asdasdasdsad	popop	gavino_10@hotmail.es	http://res.cloudinary.com/dt86tk7ed/image/upload/v1758151082/curso-digital/users/anonimo_m9l9vc.jpg	f	$2a$10$2zCsbwb4/lxIPtQyJ2UecuHn8eQ2VVmsrx6jy42MgNzZMkQ1ddHbe	2026-05-13 00:52:02.89036+00	2026-05-13 00:52:02.89036+00	ACTIVE	\N	t
-2416f619-c9e5-442b-8cbb-04f26c028ef5	asdasdasdsad	popop	kevincespedes2004@gmail.com	http://res.cloudinary.com/dt86tk7ed/image/upload/v1758151082/curso-digital/users/anonimo_m9l9vc.jpg	f	$2a$10$Yf/zofVC8/pBnV/SfGWoY.iUCpB6FCkjqHIvy9ySMBIo0cyd8OEZ2	2026-05-16 04:15:42.498384+00	2026-05-16 04:15:42.498384+00	ACTIVE	\N	t
+COPY public."user" (id, first_name, last_name, email, image_url, user_name, is_email_verified, password_hash, created_at, updated_at, status_registry, status_updated_at, is_active) FROM stdin;
+48b3965b-9ca9-4c18-a936-0126754e52bd	asdasdasdsad	popop	gavino_10@hotmail.es	http://res.cloudinary.com/dt86tk7ed/image/upload/v1758151082/curso-digital/users/anonimo_m9l9vc.jpg	\N	f	$2a$10$2zCsbwb4/lxIPtQyJ2UecuHn8eQ2VVmsrx6jy42MgNzZMkQ1ddHbe	2026-05-13 00:52:02.89036+00	2026-05-13 00:52:02.89036+00	ACTIVE	\N	t
+2416f619-c9e5-442b-8cbb-04f26c028ef5	asdasdasdsad	popop	kevincespedes2004@gmail.com	http://res.cloudinary.com/dt86tk7ed/image/upload/v1758151082/curso-digital/users/anonimo_m9l9vc.jpg	\N	f	$2a$10$Yf/zofVC8/pBnV/SfGWoY.iUCpB6FCkjqHIvy9ySMBIo0cyd8OEZ2	2026-05-16 04:15:42.498384+00	2026-05-16 04:15:42.498384+00	ACTIVE	\N	t
 \.
 
 

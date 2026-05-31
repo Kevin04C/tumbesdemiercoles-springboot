@@ -11,6 +11,7 @@ import lombok.Data;
     "lastName",
     "email",
     "imageUrl",
+    "userName",
     "isEmailVerified",
     "isActive"
 })
@@ -20,6 +21,7 @@ public class AuthUserResponse {
   private String lastName;
   private String email;
   private String imageUrl;
+  private String userName;
   private Boolean isEmailVerified;
   private Boolean isActive;
 }

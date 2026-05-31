@@ -28,8 +28,9 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
           String newFirstName = userRequestDto.getFirstName() != null ? userRequestDto.getFirstName() : existingUser.getFirstName();
           String newLastName = userRequestDto.getLastName() != null ? userRequestDto.getLastName() : existingUser.getLastName();
           String newImageUrl = userRequestDto.getImageUrl() != null ? userRequestDto.getImageUrl() : existingUser.getImageUrl();
+          String newUserName = userRequestDto.getUserName() != null ? userRequestDto.getUserName() : existingUser.getUserName();
 
-          existingUser.updateProfile(newFirstName, newLastName, newImageUrl);
+          existingUser.updateProfile(newFirstName, newLastName, newImageUrl, newUserName);
           return existingUser;
         })
         .flatMap(userRepository::save)
@@ -43,6 +44,9 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
         .lastName(user.getLastName())
         .email(user.getEmail())
         .imageUrl(user.getImageUrl())
+        .userName(user.getUserName())
+        .isEmailVerified(user.getIsEmailVerified())
+        .isActive(user.getIsActive())
         .build();
   }
 

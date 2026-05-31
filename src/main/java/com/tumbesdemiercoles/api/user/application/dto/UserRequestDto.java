@@ -22,5 +22,6 @@ public class UserRequestDto {
   private String email;
   private String password;
   private String imageUrl;
+  private String userName;
 
 }
