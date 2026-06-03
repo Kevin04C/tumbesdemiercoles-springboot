@@ -91,23 +91,54 @@ public class JwtUtil {
   }
 
   /**
-   * Genera un token JWT de autenticación para un usuario.
-   *
-   * <p>Incluye las autoridades (roles y permisos) del usuario en un claim {@code authorities}
-   * y utiliza el TTL configurado en {@link EmailProps#getTokenUserTtlHours()}.</p>
-   *
-   * @param userData información principal del usuario autenticado
-   * @return token JWT firmado
+   * Verifica si el token proporcionado es un Access Token válido.
    */
-  public String generateToken(UserPrincipal userData) {
+  public boolean isAccessToken(String token) {
+    String tokenType = jwtParse(token).get("token_type", String.class);
+    return "access".equals(tokenType);
+  }
+
+  public boolean isRefreshToken(String token) {
+    String tokenType = jwtParse(token).get("token_type", String.class);
+    return "refresh".equals(tokenType);
+  }
+
+  /**
+   * Genera un token JWT de acceso (Access Token) de corta duración.
+   * Lleva las autoridades (roles) para la autorización en los endpoints.
+   */
+  public String generateAccessToken(UserPrincipal userData) {
 
     String user = userData.getId();
 
     Map<String, Object> claims = new HashMap<>();
 
     claims.put("roles", userData.getRoles());
+    claims.put("token_type", "access");
 
-    return createToken(user, Duration.ofHours(emailProps.getTokenUserTtlHours()), claims);
+    return createToken(user, Duration.ofMinutes(emailProps.getTokenUserTtlMinutes()), claims);
+  }
+
+  /**
+   * Genera un token JWT de refresco (Refresh Token) de larga duración.
+   * NO lleva roles para mantenerlo ligero y seguro.
+   */
+  public String generateRefreshToken(UserPrincipal userData) {
+    String user = userData.getId();
+    Map<String, Object> claims = new HashMap<>();
+
+    claims.put("token_type", "refresh"); // Marca vital para diferenciarlo del access token
+
+    return createToken(user, Duration.ofDays(emailProps.getRefreshTokenTtlDays()), claims);
+  }
+
+  /**
+   * Devuelve el tiempo de expiración del Access Token en segundos.
+   * Este es el valor que el frontend (Next.js) necesita para saber cuándo refrescar.
+   */
+  public Long getAccessTokenExpirationInSeconds() {
+    // Debe coincidir con el tiempo que le pusiste al generateAccessToken
+    return Duration.ofMinutes(emailProps.getTokenUserTtlMinutes()).getSeconds();
   }
 
   /**

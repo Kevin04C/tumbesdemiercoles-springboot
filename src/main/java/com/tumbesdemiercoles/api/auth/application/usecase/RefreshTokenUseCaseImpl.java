@@ -1,11 +1,8 @@
 package com.tumbesdemiercoles.api.auth.application.usecase;
 
 import com.tumbesdemiercoles.api.auth.application.dto.AuthTokenReponseDto;
-import com.tumbesdemiercoles.api.auth.application.dto.AuthUserDetailsDto;
-import com.tumbesdemiercoles.api.auth.application.dto.LoginRequestDto;
-import com.tumbesdemiercoles.api.auth.application.ports.In.LoginUseCase;
-import com.tumbesdemiercoles.api.auth.application.ports.out.JwtProviderPort;
-import com.tumbesdemiercoles.api.auth.application.ports.out.PasswordEncoderPort;
+import com.tumbesdemiercoles.api.auth.application.dto.RefreshTokenRequestDto;
+import com.tumbesdemiercoles.api.auth.application.ports.In.RefreshTokenUseCase;
 import com.tumbesdemiercoles.api.auth.application.ports.out.TokenProviderPort;
 import com.tumbesdemiercoles.api.auth.application.ports.out.UserIdentityPort;
 import com.tumbesdemiercoles.api.shared.exception.UnauthorizedException;
@@ -15,20 +12,21 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class LoginUseCaseImpl implements LoginUseCase {
+public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
 
-  private final UserIdentityPort userIdentityPort;
-  private final PasswordEncoderPort passwordEncoder;
   private final TokenProviderPort tokenProvider;
+  private final UserIdentityPort userIdentityPort;
 
   @Override
-  public Mono<AuthTokenReponseDto> login(LoginRequestDto loginRequestDto) {
-    return userIdentityPort.findByEmailForLogin(loginRequestDto.getEmail())
-        .switchIfEmpty(Mono.error(() -> new UnauthorizedException("Credenciales inválidas")))
-        .filterWhen(userDetails -> passwordEncoder.matches(loginRequestDto.getPassword(), userDetails.getPasswordHash()))
-        .switchIfEmpty(Mono.error(() -> new UnauthorizedException("Credenciales inválidas")))
-        .filter(AuthUserDetailsDto::getIsActive)
+  public Mono<AuthTokenReponseDto> refreshSession(RefreshTokenRequestDto refreshTokenRequestDto) {
+    return tokenProvider.validateAndExtractIdFromRefreshToken(refreshTokenRequestDto.getRefreshToken())
+        .switchIfEmpty(Mono.error(() -> new UnauthorizedException("Token inválido o expirado")))
+
+        .flatMap(userId -> userIdentityPort.findById(userId))
+
+        .filter(user -> user.getIsActive())
         .switchIfEmpty(Mono.error(() -> new UnauthorizedException("El usuario se encuentra inactivo")))
+
         .flatMap(userDetails -> tokenProvider.generateToken(userDetails)
             .map(tokenPair -> AuthTokenReponseDto.builder()
                 .accessToken(tokenPair.getAccessToken())
