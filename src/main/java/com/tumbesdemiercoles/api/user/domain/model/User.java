@@ -33,12 +33,14 @@ public class User extends Auditable {
   private Boolean isActive;
 
   public static User createNewUser(String firstName, String lastName, String email, String passwordHash, String imageUrl, String userName) {
+    String finalFirstName = (firstName == null || firstName.isBlank()) ? "" : firstName;
+    String finalLastName = (lastName == null || lastName.isBlank()) ? "" : lastName;
     String finalImageUrl = (imageUrl == null || imageUrl.isBlank())
         ? "https://storage-app.orealy.xyz/f/63a31969-d6b5-40cb-a81d-2b0820fff32a"
         : imageUrl;
     return User.builder()
-        .firstName(firstName)
-        .lastName(lastName)
+        .firstName(finalFirstName)
+        .lastName(finalLastName)
         .email(email)
         .passwordHash(passwordHash)
         .imageUrl(finalImageUrl)

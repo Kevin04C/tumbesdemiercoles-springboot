@@ -7,15 +7,14 @@ import lombok.Data;
 @Data
 public class UserRequest { // Capa de Presentación
 
-  @NotBlank(message = "El nombre no puede estar vacío")
   private String firstName;
 
-  @NotBlank(message = "El apellido es obligatorio")
   private String lastName;
 
   @NotBlank(message = "El userName es obligatorio")
   private String userName;
 
+  @NotBlank(message = "Email inválido")
   @Email(message = "Email inválido")
   private String email;
 
