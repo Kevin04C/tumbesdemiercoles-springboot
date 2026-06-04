@@ -39,6 +39,13 @@ public interface CategoryControllerApi {
             @Parameter(description = "ID único de la categoría", required = true) @PathVariable UUID id
     );
 
+    @Operation(summary = "Obtener categoría por slug", description = "Busca y retorna una categoría por su slug único.")
+    @GetMapping("/slug/{slug}")
+    @ResponseStatus(HttpStatus.OK)
+    Mono<ApiResponse<CategoryResponse>> getCategoryBySlug(
+            @Parameter(description = "Slug único de la categoría", required = true) @PathVariable String slug
+    );
+
     @Operation(summary = "Actualizar categoría", description = "Modifica los datos de una categoría identificada por su ID.")
     @PutMapping("/{id}")
     Mono<ApiResponse<CategoryResponse>> updateCategory(

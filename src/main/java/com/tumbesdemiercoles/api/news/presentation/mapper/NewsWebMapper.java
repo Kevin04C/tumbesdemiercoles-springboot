@@ -34,6 +34,8 @@ public interface NewsWebMapper extends PageMapper<NewsResponseDto, NewsResponse>
   @Mapping(target = "sortDirection", source = "sortDir")
   NewsFilter toFilterByCategorySlug(NewsByCategorySlugFilterRequest request);
 
+  List<NewsResponse> toListResponse(List<NewsResponseDto> dtos);
+
   RelatedNewsResponse toRelatedResponse(RelatedNewsResponseDto dto);
 
   List<RelatedNewsResponse> toRelatedResponseList(List<RelatedNewsResponseDto> dtos);

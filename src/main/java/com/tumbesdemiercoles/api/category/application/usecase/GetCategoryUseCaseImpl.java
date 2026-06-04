@@ -26,6 +26,12 @@ public class GetCategoryUseCaseImpl implements GetCategoryUseCase {
         .map(this::toResponse);
   }
 
+  public Mono<CategoryResponseDto> getBySlug(String slug) {
+    return categoryRepository.findBySlug(slug)
+        .switchIfEmpty(Mono.error(ResourceNotFoundException.forSlug("Category", slug)))
+        .map(this::toResponse);
+  }
+
   @Override
   public Mono<PageResponseDto<CategoryResponseDto>> findCategories(CategoryFilter filter) {
     return categoryRepository.findCategories(filter)

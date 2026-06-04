@@ -81,6 +81,13 @@ public class NewsController implements NewsControllerApi {
   }
 
   @Override
+  public Mono<ApiResponse<List<NewsResponse>>> getLatestNews(int limit) {
+    return getNewsUseCase.getLatestNews(limit)
+        .map(webMapper::toListResponse)
+        .map(ApiResponse::success);
+  }
+
+  @Override
   public Mono<ApiResponse<List<RelatedNewsResponse>>> getRelatedNews(UUID id) {
     return getRelatedNewsUseCase.getRelated(id, 10)
         .map(webMapper::toRelatedResponseList)

@@ -6,6 +6,7 @@ import com.tumbesdemiercoles.api.news.application.ports.in.UpdateNewsUseCase;
 import com.tumbesdemiercoles.api.news.domain.model.News;
 import com.tumbesdemiercoles.api.news.domain.repository.NewsRepository;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
+import com.tumbesdemiercoles.api.shared.utils.SlugUtils;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class UpdateNewsUseCaseImpl implements UpdateNewsUseCase {
             .content(dto.getContent() != null ? dto.getContent() : existing.getContent())
             .isCarousel(dto.getIsCarousel() != null ? dto.getIsCarousel() : existing.getIsCarousel())
             .headline(dto.getHeadline() != null ? dto.getHeadline() : existing.getHeadline())
-            .slug(dto.getSlug() != null ? dto.getSlug() : existing.getSlug())
+            .slug(dto.getTitle() != null ? SlugUtils.toSlug(dto.getTitle()) : existing.getSlug())
             .isPremium(dto.getIsPremium() != null ? dto.getIsPremium() : existing.getIsPremium())
             .categoryId(dto.getCategoryId() != null ? dto.getCategoryId() : existing.getCategoryId())
             .title(dto.getTitle() != null ? dto.getTitle() : existing.getTitle())

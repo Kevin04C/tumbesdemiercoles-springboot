@@ -5,6 +5,7 @@ import com.tumbesdemiercoles.api.news.application.dto.NewsResponseDto;
 import com.tumbesdemiercoles.api.news.application.ports.in.CreateNewsUseCase;
 import com.tumbesdemiercoles.api.news.domain.model.News;
 import com.tumbesdemiercoles.api.news.domain.repository.NewsRepository;
+import com.tumbesdemiercoles.api.shared.utils.SlugUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -21,7 +22,7 @@ public class CreateNewsUseCaseImpl implements CreateNewsUseCase {
         .content(dto.getContent())
         .isCarousel(dto.getIsCarousel())
         .headline(dto.getHeadline())
-        .slug(dto.getSlug())
+        .slug(SlugUtils.toSlug(dto.getTitle()))
         .isPremium(dto.getIsPremium() != null ? dto.getIsPremium() : false)
         .categoryId(dto.getCategoryId())
         .title(dto.getTitle())

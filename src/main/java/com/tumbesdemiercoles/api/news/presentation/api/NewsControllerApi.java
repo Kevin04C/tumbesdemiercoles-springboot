@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import reactor.core.publisher.Mono;
 
@@ -58,6 +59,13 @@ public interface NewsControllerApi {
   Mono<ApiResponse<List<NewsResponse>>> getNewsByCategorySlug(
       @Parameter(description = "Slug de la categoría", required = true) @PathVariable String categorySlug,
       @Valid NewsByCategorySlugFilterRequest filter);
+
+  @Operation(summary = "Obtener últimas noticias", description = "Retorna una lista de las últimas noticias destacadas como 'latest news'.")
+  @GetMapping("/latest")
+  @ResponseStatus(HttpStatus.OK)
+  Mono<ApiResponse<List<NewsResponse>>> getLatestNews(
+      @Parameter(description = "Cantidad máxima de noticias a retornar", required = false)
+      @RequestParam(defaultValue = "10") int limit);
 
   @Operation(summary = "Obtener noticias relacionadas", description = "Retorna una lista de noticias similares a la noticia especificada, basadas en categoría y similitud textual.")
   @GetMapping("/{id}/related")

@@ -5,6 +5,7 @@ import com.tumbesdemiercoles.api.category.application.dto.CategoryResponseDto;
 import com.tumbesdemiercoles.api.category.application.ports.in.CreateCategoryUseCase;
 import com.tumbesdemiercoles.api.category.domain.model.Category;
 import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
+import com.tumbesdemiercoles.api.shared.utils.SlugUtils;
 import com.tumbesdemiercoles.api.user.application.ports.in.CreateUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class CreateCategoryUseCaseImpl implements CreateCategoryUseCase {
   public Mono<CategoryResponseDto> execute(CategoryRequestDto dto) {
     Category category = Category.builder()
         .description(dto.getDescription())
-        .slug(dto.getSlug())
+        .slug(SlugUtils.toSlug(dto.getDescription()))
         .isActive(dto.getIsActive() != null ? dto.getIsActive() : true)
         .build();
 

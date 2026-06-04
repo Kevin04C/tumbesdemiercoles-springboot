@@ -15,7 +15,6 @@ public class NewsUpdateRequest {
   private String content;
   private Boolean isCarousel;
   private String headline;
-  private String slug;
   private Boolean isPremium;
   private UUID categoryId;
   private String title;

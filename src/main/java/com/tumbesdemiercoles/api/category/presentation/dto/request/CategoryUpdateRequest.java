@@ -15,5 +15,4 @@ public class CategoryUpdateRequest {
     private String descripcion;
     private boolean isActive;
     private UUID categoryId;
-    private String slug;
 }

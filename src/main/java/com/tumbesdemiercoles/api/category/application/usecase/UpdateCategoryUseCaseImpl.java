@@ -6,6 +6,7 @@ import com.tumbesdemiercoles.api.category.application.ports.in.UpdateCategoryUse
 import com.tumbesdemiercoles.api.category.domain.model.Category;
 import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
+import com.tumbesdemiercoles.api.shared.utils.SlugUtils;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class UpdateCategoryUseCaseImpl implements UpdateCategoryUseCase {
         .map(existing -> Category.builder()
             .id(existing.getId())
             .description(dto.getDescription() != null ? dto.getDescription() : existing.getDescription())
-            .slug(dto.getSlug() != null ? dto.getSlug() : existing.getSlug())
+            .slug(dto.getDescription() != null ? SlugUtils.toSlug(dto.getDescription()) : existing.getSlug())
             .isActive(dto.getIsActive() != null ? dto.getIsActive() : existing.getIsActive())
             .statusRegistry(existing.getStatusRegistry())
             .build())

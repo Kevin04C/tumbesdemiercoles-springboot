@@ -9,6 +9,7 @@ import com.tumbesdemiercoles.api.news.domain.repository.NewsRepository;
 import com.tumbesdemiercoles.api.shared.application.dto.PageResponseDto;
 import com.tumbesdemiercoles.api.shared.domain.model.PaginatedResult;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,11 @@ public class GetNewsUseCaseImpl implements GetNewsUseCase {
     return newsRepository.findBySlug(slug)
         .switchIfEmpty(Mono.error(ResourceNotFoundException.forSlug("News", slug)))
         .map(this::toResponse);
+  }
+
+  public Mono<List<NewsResponseDto>> getLatestNews(int limit) {
+    return newsRepository.findTopByIsLatestNews(limit)
+        .map(list -> list.stream().map(this::toResponse).toList());
   }
 
   @Override

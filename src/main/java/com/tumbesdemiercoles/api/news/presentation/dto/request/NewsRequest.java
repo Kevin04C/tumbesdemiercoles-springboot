@@ -21,9 +21,6 @@ public class NewsRequest {
 
   private String headline;
 
-  @NotBlank(message = "El slug no puede estar vacío")
-  private String slug;
-
   private Boolean isPremium;
 
   @NotNull(message = "La categoría es obligatoria")

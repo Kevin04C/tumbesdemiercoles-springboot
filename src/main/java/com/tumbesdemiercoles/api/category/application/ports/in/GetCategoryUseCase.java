@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono;
 
 public interface GetCategoryUseCase {
     Mono<CategoryResponseDto> getById(UUID id);
+    Mono<CategoryResponseDto> getBySlug(String slug);
     Mono<PageResponseDto<CategoryResponseDto>> findCategories(CategoryFilter filter);
     Mono<List<CategoryResponseDto>> findAllActiveCategories();
 }

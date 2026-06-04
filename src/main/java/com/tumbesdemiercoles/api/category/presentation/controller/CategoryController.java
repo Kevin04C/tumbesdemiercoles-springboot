@@ -60,6 +60,13 @@ public class CategoryController implements CategoryControllerApi {
   }
 
   @Override
+  public Mono<ApiResponse<CategoryResponse>> getCategoryBySlug(String slug) {
+    return getCategoryUseCase.getBySlug(slug)
+            .map(webMapper::toResponse)
+            .map(ApiResponse::success);
+  }
+
+  @Override
   public Mono<ApiResponse<CategoryResponse>> updateCategory(UUID id, CategoryUpdateRequest categoryUpdateRequest) {
     return updateCategoryUseCase.execute(id, webMapper.toUpdateDto(categoryUpdateRequest))
             .map(webMapper::toResponse)

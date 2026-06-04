@@ -20,7 +20,6 @@ public class FeedResponseDto {
 
   private List<NewsResponseDto> inCarousel;
   private List<NewsResponseDto> peruDailyNews;
-  private List<NewsResponseDto> latestNews;
   private List<CategoryFeedItemDto> byCategory;
   private List<ColumnistResponseDto> columnists;
   private DigitalWeeklyResponseDto digitalWeekly;
