@@ -5,11 +5,13 @@ import com.tumbesdemiercoles.api.auth.application.dto.AuthTokenReponseDto;
 import com.tumbesdemiercoles.api.auth.application.dto.LoginRequestDto;
 import com.tumbesdemiercoles.api.auth.application.dto.RefreshTokenRequestDto;
 import com.tumbesdemiercoles.api.auth.application.dto.RegisterRequestDto;
+import com.tumbesdemiercoles.api.auth.application.dto.UserAuthDto;
 import com.tumbesdemiercoles.api.auth.presentation.dto.request.LoginRequest;
 import com.tumbesdemiercoles.api.auth.presentation.dto.request.RefreshTokenRequest;
 import com.tumbesdemiercoles.api.auth.presentation.dto.request.RegisterRequest;
 import com.tumbesdemiercoles.api.auth.presentation.dto.response.AuthCreateTokenResponse;
 import com.tumbesdemiercoles.api.auth.presentation.dto.response.AuthTokenResponse;
+import com.tumbesdemiercoles.api.auth.presentation.dto.response.UserAuthResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
@@ -26,4 +28,6 @@ public interface AuthWebMapper {
   AuthCreateTokenResponse toWebResponse(AuthResponseDto responseDto);
 
   AuthTokenResponse toTokenWebResponse(AuthTokenReponseDto responseDto);
+
+  UserAuthResponse toUserWebResponse(UserAuthDto userDto);
 }

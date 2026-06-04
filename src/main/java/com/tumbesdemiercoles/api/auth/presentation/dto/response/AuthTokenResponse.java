@@ -23,6 +23,5 @@ public class AuthTokenResponse {
   @JsonProperty("expires_in")
   private Long expiresIn;   // Tiempo en segundos (ej. 3600)
 
-  // Opcional: Si quieres pasarle los datos básicos del usuario de una vez
-  //private UserWebResponse user;
+  private UserAuthResponse user;
 }

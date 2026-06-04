@@ -3,6 +3,7 @@ package com.tumbesdemiercoles.api.auth.application.usecase;
 import com.tumbesdemiercoles.api.auth.application.dto.AuthTokenReponseDto;
 import com.tumbesdemiercoles.api.auth.application.dto.AuthUserDetailsDto;
 import com.tumbesdemiercoles.api.auth.application.dto.LoginRequestDto;
+import com.tumbesdemiercoles.api.auth.application.dto.UserAuthDto;
 import com.tumbesdemiercoles.api.auth.application.ports.In.LoginUseCase;
 import com.tumbesdemiercoles.api.auth.application.ports.out.JwtProviderPort;
 import com.tumbesdemiercoles.api.auth.application.ports.out.PasswordEncoderPort;
@@ -35,6 +36,13 @@ public class LoginUseCaseImpl implements LoginUseCase {
                 .refreshToken(tokenPair.getRefreshToken())
                 .expiresIn(tokenPair.getExpiresIn())
                 .tokenType("Bearer")
+                .user(UserAuthDto.builder()
+                    .id(userDetails.getId())
+                    .email(userDetails.getEmail())
+                    .userName(userDetails.getUserName())
+                    .roles(tokenPair.getRoles())
+                    .build()
+                )
                 .build()
             )
         );

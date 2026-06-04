@@ -7,6 +7,7 @@ import com.tumbesdemiercoles.api.auth.application.ports.out.TokenProviderPort;
 import com.tumbesdemiercoles.api.auth.application.ports.out.dto.TokenPairDto;
 import com.tumbesdemiercoles.api.security.model.UserPrincipal;
 import com.tumbesdemiercoles.api.security.utils.JwtUtil;
+import java.util.ArrayList;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -53,6 +54,7 @@ public class JwtAdapter implements TokenProviderPort {
               .accessToken(accessToken)
               .refreshToken(refreshToken)
               .expiresIn(expiresIn)
+              .roles(new ArrayList<>(rolesList))
               .build();
         });
   }

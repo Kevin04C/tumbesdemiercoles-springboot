@@ -55,6 +55,7 @@ public class UserIdentityAdapter implements UserIdentityPort {
         .map(user -> AuthUserDetailsDto.builder()
             .id(user.getId())
             .email(user.getEmail())
+            .userName(user.getUserName())
             .passwordHash(user.getPasswordHash())
             .isActive(user.getIsActive())
             .build());
@@ -66,6 +67,7 @@ public class UserIdentityAdapter implements UserIdentityPort {
         .map(user -> AuthUserDetailsDto.builder()
             .id(user.getId())
             .email(user.getEmail())
+            .userName(user.getUserName())
             .passwordHash(user.getPasswordHash())
             .isActive(user.getIsActive())
             .build());

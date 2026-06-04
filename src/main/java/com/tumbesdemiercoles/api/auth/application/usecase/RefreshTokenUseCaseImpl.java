@@ -2,6 +2,7 @@ package com.tumbesdemiercoles.api.auth.application.usecase;
 
 import com.tumbesdemiercoles.api.auth.application.dto.AuthTokenReponseDto;
 import com.tumbesdemiercoles.api.auth.application.dto.RefreshTokenRequestDto;
+import com.tumbesdemiercoles.api.auth.application.dto.UserAuthDto;
 import com.tumbesdemiercoles.api.auth.application.ports.In.RefreshTokenUseCase;
 import com.tumbesdemiercoles.api.auth.application.ports.out.TokenProviderPort;
 import com.tumbesdemiercoles.api.auth.application.ports.out.UserIdentityPort;
@@ -33,6 +34,13 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
                 .refreshToken(tokenPair.getRefreshToken())
                 .expiresIn(tokenPair.getExpiresIn())
                 .tokenType("Bearer")
+                .user(UserAuthDto.builder()
+                    .id(userDetails.getId())
+                    .email(userDetails.getEmail())
+                    .userName(userDetails.getUserName())
+                    .roles(tokenPair.getRoles())
+                    .build()
+                )
                 .build()
             )
         );
