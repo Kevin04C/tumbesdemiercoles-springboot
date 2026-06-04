@@ -6,6 +6,7 @@ import com.tumbesdemiercoles.api.auth.application.ports.out.UserIdentityPort;
 import com.tumbesdemiercoles.api.user.application.dto.UserRequestDto;
 import com.tumbesdemiercoles.api.user.application.ports.in.CreateUserUseCase;
 import com.tumbesdemiercoles.api.user.domain.repository.UserRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -54,6 +55,19 @@ public class UserIdentityAdapter implements UserIdentityPort {
         .map(user -> AuthUserDetailsDto.builder()
             .id(user.getId())
             .email(user.getEmail())
+            .userName(user.getUserName())
+            .passwordHash(user.getPasswordHash())
+            .isActive(user.getIsActive())
+            .build());
+  }
+
+  @Override
+  public Mono<AuthUserDetailsDto> findById(UUID id) {
+    return userRepository.findById(id)
+        .map(user -> AuthUserDetailsDto.builder()
+            .id(user.getId())
+            .email(user.getEmail())
+            .userName(user.getUserName())
             .passwordHash(user.getPasswordHash())
             .isActive(user.getIsActive())
             .build());

@@ -2,6 +2,7 @@ package com.tumbesdemiercoles.api.auth.application.ports.out;
 
 import com.tumbesdemiercoles.api.auth.application.dto.AuthUserDetailsDto;
 import com.tumbesdemiercoles.api.auth.application.dto.AuthUserResponseDto;
+import java.util.UUID;
 import reactor.core.publisher.Mono;
 
 public interface UserIdentityPort {
@@ -11,5 +12,7 @@ public interface UserIdentityPort {
   Mono<Boolean> existsByEmail(String email);
 
   Mono<AuthUserDetailsDto> findByEmailForLogin(String email);
+
+  Mono<AuthUserDetailsDto> findById(UUID id);
 
 }

@@ -9,6 +9,7 @@ import lombok.Data;
 public class AuthUserDetailsDto {
   private UUID id;
   private String email;
+  private String userName;
   private String passwordHash;
   private Boolean isActive;
 }

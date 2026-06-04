@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthTokenReponseDto {
-  private String accessToken;
+public class RefreshTokenRequestDto {
   private String refreshToken;
-  private String tokenType;
-  private Long expiresIn;
-  private UserAuthDto user;
 }

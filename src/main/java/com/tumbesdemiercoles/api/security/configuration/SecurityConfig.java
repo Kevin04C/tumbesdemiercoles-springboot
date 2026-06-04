@@ -14,6 +14,13 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtClaimValidator;
+import org.springframework.security.oauth2.jwt.JwtTimestampValidator;
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverter;
@@ -72,6 +79,7 @@ public class SecurityConfig {
             .pathMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()
                 .pathMatchers(HttpMethod.POST,API_V1 + "/auth/register").permitAll()
                 .pathMatchers(HttpMethod.POST,API_V1 + "/auth/login").permitAll()
+                .pathMatchers(HttpMethod.POST, API_V1 + "/auth/refresh").permitAll()
                 .pathMatchers("/actuator/health").permitAll()
             .anyExchange().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2
@@ -100,8 +108,17 @@ public class SecurityConfig {
    */
   @Bean
   public ReactiveJwtDecoder jwtDecoder() {
-    return NimbusReactiveJwtDecoder.withSecretKey(
+    NimbusReactiveJwtDecoder jwtDecoder = NimbusReactiveJwtDecoder.withSecretKey(
         Keys.hmacShaKeyFor(Base64.getDecoder().decode(secret))).build();
+
+    OAuth2TokenValidator<Jwt> timestampValidator = new JwtTimestampValidator();
+    OAuth2TokenValidator<Jwt> typeValidator = new JwtClaimValidator<>(
+        "token_type",
+        claimValue -> "access".equals(claimValue)
+    );
+    OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(timestampValidator, typeValidator);
+    jwtDecoder.setJwtValidator(validator);
+    return jwtDecoder;
   }
 
 }

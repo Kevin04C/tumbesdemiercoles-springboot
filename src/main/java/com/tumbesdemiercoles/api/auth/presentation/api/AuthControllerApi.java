@@ -1,6 +1,7 @@
 package com.tumbesdemiercoles.api.auth.presentation.api;
 
 import com.tumbesdemiercoles.api.auth.presentation.dto.request.LoginRequest;
+import com.tumbesdemiercoles.api.auth.presentation.dto.request.RefreshTokenRequest;
 import com.tumbesdemiercoles.api.auth.presentation.dto.request.RegisterRequest;
 import com.tumbesdemiercoles.api.auth.presentation.dto.response.AuthCreateTokenResponse;
 import com.tumbesdemiercoles.api.auth.presentation.dto.response.AuthTokenResponse;
@@ -29,6 +30,9 @@ public interface AuthControllerApi {
   @ResponseStatus(HttpStatus.CREATED)
   Mono<ApiResponse<AuthCreateTokenResponse>> register(@Valid @RequestBody RegisterRequest request);
 
+  @Operation(summary = "Solicitar un nuevo token", description = "Solicita un nuevo token y la retorna. Requiere un refresh token válido.")
+  @PostMapping("/refresh")
+  public Mono<ApiResponse<AuthTokenResponse>> refreshSession(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest);
 
 //  @PostMapping
 //  @ResponseStatus(HttpStatus.CREATED)
