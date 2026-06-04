@@ -34,7 +34,9 @@ public class EmailProps {
 
   private int resetPasswordTokenTtlMinutes = 15;
   private int tokenUserTtlHours = 24;
+  private int tokenUserTtlMinutes = 15;
   private int verificationEmailTokenTtlHours = 2;
+  private int refreshTokenTtlDays = 7;
 
   public String getFrom() {
     return from;
@@ -90,5 +92,21 @@ public class EmailProps {
 
   public void setVerificationEmailTokenTtlHours(int verificationEmailTokenTtlhour) {
     this.verificationEmailTokenTtlHours = verificationEmailTokenTtlhour;
+  }
+
+  public int getTokenUserTtlMinutes() {
+    return tokenUserTtlMinutes;
+  }
+
+  public void setTokenUserTtlMinutes(int tokenUserTtlMinutes) {
+    this.tokenUserTtlMinutes = tokenUserTtlMinutes;
+  }
+
+  public int getRefreshTokenTtlDays() {
+    return refreshTokenTtlDays;
+  }
+
+  public void setRefreshTokenTtlDays(int refreshTokenTtlDays) {
+    this.refreshTokenTtlDays = refreshTokenTtlDays;
   }
 }

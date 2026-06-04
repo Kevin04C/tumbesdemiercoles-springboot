@@ -1,5 +1,6 @@
-package com.tumbesdemiercoles.api.auth.application.dto;
+package com.tumbesdemiercoles.api.auth.application.ports.out.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,10 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthTokenReponseDto {
+public class TokenPairDto {
   private String accessToken;
   private String refreshToken;
-  private String tokenType;
   private Long expiresIn;
-  private UserAuthDto user;
+  private List<String> roles;
 }

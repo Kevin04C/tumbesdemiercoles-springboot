@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthTokenReponseDto {
-  private String accessToken;
-  private String refreshToken;
-  private String tokenType;
-  private Long expiresIn;
-  private UserAuthDto user;
+public class UserAuthDto {
+  private UUID id;
+  private String email;
+  private String userName;
+  private List<String> roles;
 }
