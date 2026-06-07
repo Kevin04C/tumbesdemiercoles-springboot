@@ -80,6 +80,8 @@ public class SecurityConfig {
                 .pathMatchers(HttpMethod.POST,API_V1 + "/auth/register").permitAll()
                 .pathMatchers(HttpMethod.POST,API_V1 + "/auth/login").permitAll()
                 .pathMatchers(HttpMethod.POST, API_V1 + "/auth/refresh").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/feed").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/news/latest").permitAll()
                 .pathMatchers("/actuator/health").permitAll()
             .anyExchange().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2

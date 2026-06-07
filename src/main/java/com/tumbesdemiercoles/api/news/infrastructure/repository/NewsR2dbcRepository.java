@@ -29,4 +29,10 @@ public interface NewsR2dbcRepository extends ReactiveCrudRepository<NewsEntity, 
 
   @Query("SELECT * FROM news WHERE slug = :slug")
   Mono<NewsEntity> findBySlug(String slug);
+
+  @Query("SELECT COUNT(*) FROM news WHERE slug = :slug")
+  Mono<Long> countBySlug(String slug);
+
+  @Query("SELECT COUNT(*) FROM news WHERE slug = :slug AND id != :excludeId")
+  Mono<Long> countBySlugAndIdNot(String slug, UUID excludeId);
 }

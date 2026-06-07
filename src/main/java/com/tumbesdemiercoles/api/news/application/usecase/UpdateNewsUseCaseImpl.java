@@ -22,21 +22,37 @@ public class UpdateNewsUseCaseImpl implements UpdateNewsUseCase {
   public Mono<NewsResponseDto> execute(UUID id, NewsRequestDto dto) {
     return newsRepository.findById(id)
         .switchIfEmpty(Mono.error(ResourceNotFoundException.forEntity("News", id)))
-        .map(existing -> existing.toBuilder()
-            .content(dto.getContent() != null ? dto.getContent() : existing.getContent())
-            .isCarousel(dto.getIsCarousel() != null ? dto.getIsCarousel() : existing.getIsCarousel())
-            .headline(dto.getHeadline() != null ? dto.getHeadline() : existing.getHeadline())
-            .slug(dto.getTitle() != null ? SlugUtils.toSlug(dto.getTitle()) : existing.getSlug())
-            .isPremium(dto.getIsPremium() != null ? dto.getIsPremium() : existing.getIsPremium())
-            .categoryId(dto.getCategoryId() != null ? dto.getCategoryId() : existing.getCategoryId())
-            .title(dto.getTitle() != null ? dto.getTitle() : existing.getTitle())
-            .isActive(dto.getIsActive() != null ? dto.getIsActive() : existing.getIsActive())
-            .imageUrl(dto.getImageUrl() != null ? dto.getImageUrl() : existing.getImageUrl())
-            .isPeruDailyNews(dto.getIsPeruDailyNews() != null ? dto.getIsPeruDailyNews() : existing.getIsPeruDailyNews())
-            .isLatestNews(dto.getIsLatestNews() != null ? dto.getIsLatestNews() : existing.getIsLatestNews())
-            .build())
+        .flatMap(existing -> {
+          if (dto.getTitle() == null) {
+            return Mono.just(buildUpdated(existing, dto, existing.getSlug()));
+          }
+          String baseSlug = SlugUtils.toSlug(dto.getTitle());
+          return newsRepository.existsBySlugAndIdNot(baseSlug, id)
+              .map(exists -> exists ? baseSlug + "-" + randomHex(6) : baseSlug)
+              .map(slug -> buildUpdated(existing, dto, slug));
+        })
         .flatMap(newsRepository::save)
         .map(this::toResponse);
+  }
+
+  private static String randomHex(int length) {
+    return UUID.randomUUID().toString().replace("-", "").substring(0, length);
+  }
+
+  private News buildUpdated(News existing, NewsRequestDto dto, String slug) {
+    return existing.toBuilder()
+        .slug(slug)
+        .content(dto.getContent() != null ? dto.getContent() : existing.getContent())
+        .isCarousel(dto.getIsCarousel() != null ? dto.getIsCarousel() : existing.getIsCarousel())
+        .headline(dto.getHeadline() != null ? dto.getHeadline() : existing.getHeadline())
+        .isPremium(dto.getIsPremium() != null ? dto.getIsPremium() : existing.getIsPremium())
+        .categoryId(dto.getCategoryId() != null ? dto.getCategoryId() : existing.getCategoryId())
+        .title(dto.getTitle() != null ? dto.getTitle() : existing.getTitle())
+        .isActive(dto.getIsActive() != null ? dto.getIsActive() : existing.getIsActive())
+        .imageUrl(dto.getImageUrl() != null ? dto.getImageUrl() : existing.getImageUrl())
+        .isPeruDailyNews(dto.getIsPeruDailyNews() != null ? dto.getIsPeruDailyNews() : existing.getIsPeruDailyNews())
+        .isLatestNews(dto.getIsLatestNews() != null ? dto.getIsLatestNews() : existing.getIsLatestNews())
+        .build();
   }
 
   private NewsResponseDto toResponse(News news) {

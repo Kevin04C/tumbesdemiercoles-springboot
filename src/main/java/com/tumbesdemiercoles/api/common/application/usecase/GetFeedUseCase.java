@@ -14,6 +14,8 @@ import com.tumbesdemiercoles.api.news.domain.model.News;
 import com.tumbesdemiercoles.api.news.domain.repository.NewsRepository;
 import com.tumbesdemiercoles.api.shared.constants.categories.CategoriesSlugConst;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -24,6 +26,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class GetFeedUseCase {
+
+  private static final Logger log = LoggerFactory.getLogger(GetFeedUseCase.class);
 
   private final NewsRepository newsRepository;
   private final CategoryRepository categoryRepository;
@@ -38,7 +42,7 @@ public class GetFeedUseCase {
       CategoriesSlugConst.FRONTERA,
       CategoriesSlugConst.TUMBES,
       CategoriesSlugConst.CONTRALMIRANTE_VILLAR,
-      CategoriesSlugConst.ZORRITOS
+      CategoriesSlugConst.ZARUMILLA
   );
 
   public Mono<FeedResponseDto> execute() {
@@ -52,6 +56,10 @@ public class GetFeedUseCase {
         .flatMapMany(categoriesMap -> Flux.fromIterable(BY_CATEGORY_SLUGS)
             .flatMap(slug -> {
               var category = categoriesMap.get(slug);
+              if (category == null) {
+                log.warn("Category slug '{}' not found in database, skipping in feed", slug);
+                return Mono.empty();
+              }
               return newsRepository.findTopByCategoryId(category.getId(), 8)
                   .map(news -> CategoryFeedItemDto.builder()
                       .category(category.getDescription())

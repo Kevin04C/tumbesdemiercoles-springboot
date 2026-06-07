@@ -16,6 +16,10 @@ public interface NewsRepository {
 
   Mono<News> findBySlug(String slug);
 
+  Mono<Boolean> existsBySlug(String slug);
+
+  Mono<Boolean> existsBySlugAndIdNot(String slug, UUID excludeId);
+
   Flux<News> findAll();
 
   Mono<News> deleteById(UUID id);
