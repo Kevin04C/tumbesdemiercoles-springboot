@@ -1,5 +1,7 @@
 package com.tumbesdemiercoles.api.news.infrastructure.repository;
 
+import com.tumbesdemiercoles.api.news.application.dto.SitemapGeneralDto;
+import com.tumbesdemiercoles.api.news.application.dto.SitemapNewsDto;
 import com.tumbesdemiercoles.api.news.domain.model.News;
 import com.tumbesdemiercoles.api.news.domain.model.NewsFilter;
 import com.tumbesdemiercoles.api.news.domain.repository.NewsRepository;
@@ -129,6 +131,12 @@ public class NewsRepositoryImpl implements NewsRepository {
   }
 
   @Override
+  public Flux<News> findTopByCategoryIds(List<UUID> categoryIds, int limit) {
+    return r2dbcRepository.findTopByCategoryIds(categoryIds, limit)
+        .map(mapper::toDomain);
+  }
+
+  @Override
   public Mono<List<News>> findRelatedCandidates(UUID excludeId, UUID categoryId, int sameCategoryLimit, int otherCategoryLimit) {
     if (categoryId == null) {
       return r2dbcRepository.findRecentExcludingCategory(excludeId, null, sameCategoryLimit + otherCategoryLimit)
@@ -150,5 +158,21 @@ public class NewsRepositoryImpl implements NewsRepository {
           combined.addAll(tuple.getT2());
           return combined;
         });
+  }
+
+  @Override
+  public Flux<SitemapGeneralDto> findSitemapGeneral() {
+    return r2dbcRepository.findSitemapGeneral();
+  }
+
+  @Override
+  public Flux<SitemapNewsDto> findSitemapNews() {
+    return r2dbcRepository.findSitemapNews();
+  }
+
+  @Override
+  public Mono<List<SitemapNewsDto>> findLatestSitemapNews(int limit) {
+    return r2dbcRepository.findLatestSitemapNews(limit)
+        .collectList();
   }
 }

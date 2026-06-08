@@ -10,5 +10,6 @@ public class CategoryFeedItem {
 
   private String category;
   private String slug;
+  private int order;
   private List<NewsResponse> news;
 }

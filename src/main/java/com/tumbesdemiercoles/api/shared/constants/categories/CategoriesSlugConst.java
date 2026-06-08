@@ -10,4 +10,6 @@ public class CategoriesSlugConst {
     public static final String TUMBES = "tumbes";
     public static final String CONTRALMIRANTE_VILLAR = "contralmirante-villar";
     public static final String ZARUMILLA = "zarumilla";
+    public static final String MUNDO = "mundo";
+    public static final String REGION = "region";
 }

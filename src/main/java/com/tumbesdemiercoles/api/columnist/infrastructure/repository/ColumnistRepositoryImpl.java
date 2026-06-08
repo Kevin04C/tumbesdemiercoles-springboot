@@ -62,6 +62,18 @@ public class ColumnistRepositoryImpl implements ColumnistRepository {
   }
 
   @Override
+  public Mono<Boolean> existsBySlug(String slug) {
+    return r2dbcRepository.countBySlug(slug)
+        .map(count -> count > 0);
+  }
+
+  @Override
+  public Mono<Boolean> existsBySlugAndIdNot(String slug, UUID excludeId) {
+    return r2dbcRepository.countBySlugAndIdNot(slug, excludeId)
+        .map(count -> count > 0);
+  }
+
+  @Override
   public Mono<Boolean> existsById(UUID id) {
     return r2dbcRepository.existsById(id);
   }

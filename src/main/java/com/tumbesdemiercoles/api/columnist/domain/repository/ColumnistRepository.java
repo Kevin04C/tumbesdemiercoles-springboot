@@ -25,4 +25,8 @@ public interface ColumnistRepository {
   Mono<List<Columnist>> findLatestColumnists();
 
   Mono<Columnist> findBySlug(String slug);
+
+  Mono<Boolean> existsBySlug(String slug);
+
+  Mono<Boolean> existsBySlugAndIdNot(String slug, UUID excludeId);
 }

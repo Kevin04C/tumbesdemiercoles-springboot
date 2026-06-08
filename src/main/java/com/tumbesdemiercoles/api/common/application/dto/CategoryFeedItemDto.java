@@ -18,5 +18,6 @@ public class CategoryFeedItemDto {
 
   private String category;
   private String slug;
+  private int order;
   private List<NewsResponseDto> news;
 }

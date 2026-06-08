@@ -36,6 +36,7 @@ public class FeedWebMapper {
     CategoryFeedItem item = new CategoryFeedItem();
     item.setCategory(dto.getCategory());
     item.setSlug(dto.getSlug());
+    item.setOrder(dto.getOrder());
     item.setNews(dto.getNews().stream().map(newsWebMapper::toResponse).toList());
     return item;
   }

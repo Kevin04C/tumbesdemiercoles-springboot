@@ -21,17 +21,33 @@ public class UpdateColumnistUseCaseImpl implements UpdateColumnistUseCase {
   public Mono<ColumnistResponseDto> execute(UUID id, ColumnistRequestDto dto) {
     return columnistRepository.findById(id)
         .switchIfEmpty(Mono.error(ResourceNotFoundException.forEntity("Columnist", id)))
-        .map(existing -> existing.toBuilder()
-            .content(dto.getContent() != null ? dto.getContent() : existing.getContent())
-            .author(dto.getAuthor() != null ? dto.getAuthor() : existing.getAuthor())
-            .title(dto.getTitle() != null ? dto.getTitle() : existing.getTitle())
-            .slug(dto.getTitle() != null ? SlugUtils.toSlug(dto.getTitle()) : existing.getSlug())
-            .headline(dto.getHeadline() != null ? dto.getHeadline() : existing.getHeadline())
-            .authorImageUrl(dto.getAuthorImageUrl() != null ? dto.getAuthorImageUrl() : existing.getAuthorImageUrl())
-            .isActive(dto.getIsActive() != null ? dto.getIsActive() : existing.getIsActive())
-            .build())
+        .flatMap(existing -> {
+          if (dto.getTitle() == null) {
+            return Mono.just(buildUpdated(existing, dto, existing.getSlug()));
+          }
+          String baseSlug = SlugUtils.toSlug(dto.getTitle());
+          return columnistRepository.existsBySlugAndIdNot(baseSlug, id)
+              .map(exists -> exists ? baseSlug + "-" + randomHex(6) : baseSlug)
+              .map(slug -> buildUpdated(existing, dto, slug));
+        })
         .flatMap(columnistRepository::save)
         .map(this::toResponse);
+  }
+
+  private static String randomHex(int length) {
+    return UUID.randomUUID().toString().replace("-", "").substring(0, length);
+  }
+
+  private Columnist buildUpdated(Columnist existing, ColumnistRequestDto dto, String slug) {
+    return existing.toBuilder()
+        .slug(slug)
+        .content(dto.getContent() != null ? dto.getContent() : existing.getContent())
+        .author(dto.getAuthor() != null ? dto.getAuthor() : existing.getAuthor())
+        .title(dto.getTitle() != null ? dto.getTitle() : existing.getTitle())
+        .headline(dto.getHeadline() != null ? dto.getHeadline() : existing.getHeadline())
+        .authorImageUrl(dto.getAuthorImageUrl() != null ? dto.getAuthorImageUrl() : existing.getAuthorImageUrl())
+        .isActive(dto.getIsActive() != null ? dto.getIsActive() : existing.getIsActive())
+        .build();
   }
 
   private ColumnistResponseDto toResponse(Columnist columnist) {

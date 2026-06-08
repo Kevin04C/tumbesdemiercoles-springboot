@@ -13,4 +13,10 @@ public interface ColumnistR2dbcRepository extends ReactiveCrudRepository<Columni
   Flux<ColumnistEntity> findLatestColumnists();
 
    Mono<ColumnistEntity> findBySlug(String slug);
+
+  @Query("SELECT COUNT(*) FROM columnist WHERE slug = :slug")
+  Mono<Long> countBySlug(String slug);
+
+  @Query("SELECT COUNT(*) FROM columnist WHERE slug = :slug AND id != :excludeId")
+  Mono<Long> countBySlugAndIdNot(String slug, UUID excludeId);
 }

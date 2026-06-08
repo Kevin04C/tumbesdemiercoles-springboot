@@ -80,8 +80,18 @@ public class SecurityConfig {
                 .pathMatchers(HttpMethod.POST,API_V1 + "/auth/register").permitAll()
                 .pathMatchers(HttpMethod.POST,API_V1 + "/auth/login").permitAll()
                 .pathMatchers(HttpMethod.POST, API_V1 + "/auth/refresh").permitAll()
+
+                // GETS
                 .pathMatchers(HttpMethod.GET, API_V1 + "/feed").permitAll()
                 .pathMatchers(HttpMethod.GET, API_V1 + "/news/latest").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/digital-weekly/{id:[a-f0-9-]+}").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/categories/slug/{slug:[a-z0-9-]+}").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/news/by-category/{categorySlug:[a-z0-9-]+}").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/news/slug/{slug:[a-z0-9-]+}").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/columnist").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/columnist/slug/{slug:[a-z0-9-]+}").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/sitemap/general").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/sitemap/news").permitAll()
                 .pathMatchers("/actuator/health").permitAll()
             .anyExchange().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2

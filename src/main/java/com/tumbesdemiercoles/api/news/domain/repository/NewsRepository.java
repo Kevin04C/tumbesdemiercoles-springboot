@@ -1,5 +1,7 @@
 package com.tumbesdemiercoles.api.news.domain.repository;
 
+import com.tumbesdemiercoles.api.news.application.dto.SitemapGeneralDto;
+import com.tumbesdemiercoles.api.news.application.dto.SitemapNewsDto;
 import com.tumbesdemiercoles.api.news.domain.model.News;
 import com.tumbesdemiercoles.api.news.domain.model.NewsFilter;
 import com.tumbesdemiercoles.api.shared.domain.model.PaginatedResult;
@@ -35,6 +37,14 @@ public interface NewsRepository {
   Mono<List<News>> findTopByCategoryId(UUID categoryId, int limit);
 
   Mono<List<News>> findTopByIsLatestNews(int limit);
+
+  Flux<News> findTopByCategoryIds(List<UUID> categoryIds, int limit);
+
+  Flux<SitemapGeneralDto> findSitemapGeneral();
+
+  Flux<SitemapNewsDto> findSitemapNews();
+
+  Mono<List<SitemapNewsDto>> findLatestSitemapNews(int limit);
 
   Mono<List<News>> findRelatedCandidates(UUID excludeId, UUID categoryId, int sameCategoryLimit, int otherCategoryLimit);
 }

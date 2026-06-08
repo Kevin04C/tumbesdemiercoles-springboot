@@ -1,5 +1,6 @@
 package com.tumbesdemiercoles.api.common.application.usecase;
 
+import com.tumbesdemiercoles.api.category.domain.model.Category;
 import com.tumbesdemiercoles.api.category.domain.repository.CategoryRepository;
 import com.tumbesdemiercoles.api.columnist.application.dto.ColumnistResponseDto;
 import com.tumbesdemiercoles.api.columnist.domain.model.Columnist;
@@ -17,11 +18,14 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -29,20 +33,33 @@ public class GetFeedUseCase {
 
   private static final Logger log = LoggerFactory.getLogger(GetFeedUseCase.class);
 
+  private static final Map<String, Integer> CATEGORY_ORDER = Map.of(
+      CategoriesSlugConst.TUMBES, 1,
+      CategoriesSlugConst.ZARUMILLA, 2,
+      CategoriesSlugConst.CONTRALMIRANTE_VILLAR, 3,
+      CategoriesSlugConst.POLITICA, 4,
+      CategoriesSlugConst.MUNDO, 5,
+      CategoriesSlugConst.REGION, 6,
+      CategoriesSlugConst.DEPORTIVAS, 7,
+      CategoriesSlugConst.POLICIALES, 8,
+      CategoriesSlugConst.PERU, 10
+  );
+
   private final NewsRepository newsRepository;
   private final CategoryRepository categoryRepository;
   private final ColumnistRepository columnistRepository;
   private final DigitalWeeklyRepository digitalWeeklyRepository;
 
   private static final List<String> BY_CATEGORY_SLUGS = List.of(
-      CategoriesSlugConst.POLITICA,
-      CategoriesSlugConst.POLICIALES,
-      CategoriesSlugConst.PERU,
-      CategoriesSlugConst.DEPORTIVAS,
-      CategoriesSlugConst.FRONTERA,
       CategoriesSlugConst.TUMBES,
+      CategoriesSlugConst.ZARUMILLA,
       CategoriesSlugConst.CONTRALMIRANTE_VILLAR,
-      CategoriesSlugConst.ZARUMILLA
+      CategoriesSlugConst.POLITICA,
+      CategoriesSlugConst.MUNDO,
+      CategoriesSlugConst.REGION,
+      CategoriesSlugConst.DEPORTIVAS,
+      CategoriesSlugConst.POLICIALES,
+      CategoriesSlugConst.PERU
   );
 
   public Mono<FeedResponseDto> execute() {
@@ -53,21 +70,31 @@ public class GetFeedUseCase {
         .map(list -> list.stream().map(this::toDto).toList());
 
     Mono<List<CategoryFeedItemDto>> byCategory = categoryRepository.findBySlugIn(BY_CATEGORY_SLUGS)
-        .flatMapMany(categoriesMap -> Flux.fromIterable(BY_CATEGORY_SLUGS)
-            .flatMap(slug -> {
-              var category = categoriesMap.get(slug);
-              if (category == null) {
-                log.warn("Category slug '{}' not found in database, skipping in feed", slug);
-                return Mono.empty();
-              }
-              return newsRepository.findTopByCategoryId(category.getId(), 8)
-                  .map(news -> CategoryFeedItemDto.builder()
+        .flatMap(categoriesMap -> {
+          List<UUID> categoryIds = BY_CATEGORY_SLUGS.stream()
+              .map(categoriesMap::get)
+              .filter(Objects::nonNull)
+              .map(Category::getId)
+              .toList();
+
+          log.debug("Fetching top {} news for category IDs: {}", 8, categoryIds);
+
+          return newsRepository.findTopByCategoryIds(categoryIds, 8)
+              .collectMultimap(News::getCategoryId, Function.identity())
+              .map(groupedNews -> BY_CATEGORY_SLUGS.stream()
+                  .map(categoriesMap::get)
+                  .filter(Objects::nonNull)
+                  .map(category -> CategoryFeedItemDto.builder()
                       .category(category.getDescription())
                       .slug(category.getSlug())
-                      .news(news.stream().map(this::toDto).toList())
-                      .build());
-            }))
-        .collectList();
+                      .order(CATEGORY_ORDER.getOrDefault(category.getSlug(), 99))
+                      .news(groupedNews.getOrDefault(category.getId(), List.of())
+                          .stream()
+                          .map(this::toDto)
+                          .toList())
+                      .build())
+                  .toList());
+        });
 
     Mono<List<ColumnistResponseDto>> columnists = columnistRepository.findLatestColumnists()
         .map(list -> list.stream().map(this::toColumnistDto).toList());
