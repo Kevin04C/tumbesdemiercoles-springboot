@@ -3,20 +3,24 @@ package com.tumbesdemiercoles.api.news.application.usecase;
 import com.tumbesdemiercoles.api.news.application.dto.NewsRequestDto;
 import com.tumbesdemiercoles.api.news.application.dto.NewsResponseDto;
 import com.tumbesdemiercoles.api.news.application.ports.in.UpdateNewsUseCase;
+import com.tumbesdemiercoles.api.news.application.ports.out.NewsSearchPort;
 import com.tumbesdemiercoles.api.news.domain.model.News;
 import com.tumbesdemiercoles.api.news.domain.repository.NewsRepository;
 import com.tumbesdemiercoles.api.shared.exception.ResourceNotFoundException;
 import com.tumbesdemiercoles.api.shared.utils.SlugUtils;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UpdateNewsUseCaseImpl implements UpdateNewsUseCase {
 
   private final NewsRepository newsRepository;
+  private final NewsSearchPort newsSearchPort;
 
   @Override
   public Mono<NewsResponseDto> execute(UUID id, NewsRequestDto dto) {
@@ -32,6 +36,12 @@ public class UpdateNewsUseCaseImpl implements UpdateNewsUseCase {
               .map(slug -> buildUpdated(existing, dto, slug));
         })
         .flatMap(newsRepository::save)
+        .flatMap(saved -> newsSearchPort.updateIndexedNews(saved)
+            .onErrorResume(e -> {
+              log.error("Failed to update indexed news {}: {}", saved.getId(), e.getMessage());
+              return Mono.empty();
+            })
+            .thenReturn(saved))
         .map(this::toResponse);
   }
 

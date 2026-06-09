@@ -12,6 +12,9 @@ services:
       resources:
         limits:
           memory: 1G
+    networks:
+      - default
+      - tumbesdemiercoles_network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 30s
@@ -26,6 +29,7 @@ services:
     environment:
       - MEILI_ENV=production
       - MEILI_SNAPSHOT_INTERVAL_SEC=86400
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     ports:
       # 3. SEGURIDAD: Expuesto solo a localhost. El tráfico externo debe pasar por tu proxy (Nginx/Traefik)
       - "7700:7700"
@@ -34,15 +38,20 @@ services:
     deploy:
       resources:
         limits:
-          # CONTROL DE RAM: Fundamental en un VPS. Ajusta este valor según la capacidad total de tu servidor.
+          # CONTROL DE RAM:Ajusta este valor según la capacidad total de tu servidor.
           memory: 1G
     healthcheck:
-      # 5. MONITOREO INTERNO: Permite que Docker sepa si el buscador está realmente vivo
+      # MONITOREO INTERNO: Permite que Docker sepa si el buscador está realmente vivo
       test: ["CMD", "wget", "--no-verbose", "--spider", "http://localhost:7700/health"]
       interval: 30s
       timeout: 5s
       retries: 5
       start_period: 10s
+
+networks:
+  tumbesdemiercoles_network:
+    name: tumbesdemiercoles_network
+    driver: bridge
 
 volumes:
   meili_data:

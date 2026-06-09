@@ -32,20 +32,17 @@ public interface NewsControllerApi {
   @Operation(summary = "Crear artículo de noticia", description = "Publica una nueva noticia en el sistema con su contenido, categoría, imagen e indicación de si es premium.")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  Mono<ApiResponse<NewsResponse>> createNews(
-      @Valid @RequestBody NewsRequest request);
+  Mono<ApiResponse<NewsResponse>> createNews(@Valid @RequestBody NewsRequest request);
 
   @Operation(summary = "Listar noticias", description = "Retorna una página de noticias filtradas por parámetros de búsqueda (categoría, estado, premium, etc.).")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  Mono<ApiResponse<List<NewsResponse>>> findNewsList(
-      @Valid NewsFilterRequest filter);
+  Mono<ApiResponse<List<NewsResponse>>> findNewsList(@Valid NewsFilterRequest filter);
 
   @Operation(summary = "Obtener noticia por ID", description = "Busca y retorna la información detallada de una noticia determinada mediante su ID único.")
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  Mono<ApiResponse<NewsResponse>> getNewsById(
-      @Parameter(description = "ID único del artículo de noticia", required = true) @PathVariable UUID id);
+  Mono<ApiResponse<NewsResponse>> getNewsById(@Parameter(description = "ID único del artículo de noticia", required = true) @PathVariable UUID id);
 
   @Operation(summary = "Obtener noticia por slug", description = "Busca y retorna la información detallada de una noticia determinada mediante su slug.")
   @GetMapping("/slug/{slug}")
