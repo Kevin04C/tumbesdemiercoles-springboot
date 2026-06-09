@@ -18,8 +18,12 @@ public class MeiliSearchIndexer {
   public Mono<Void> reindexAll() {
     log.info("Starting MeiliSearch full reindex...");
     return newsRepository.findAll()
+        .doOnNext(news -> log.debug("Found news {} for indexing", news.getId()))
         .buffer(50)
-        .flatMap(batch -> newsSearchPort.indexAll(batch))
+        .flatMap(batch -> {
+          log.info("Processing batch of {} news", batch.size());
+          return newsSearchPort.indexAll(batch);
+        })
         .doOnComplete(() -> log.info("MeiliSearch full reindex completed"))
         .doOnError(e -> log.error("MeiliSearch full reindex failed", e))
         .then();
