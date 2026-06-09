@@ -3,19 +3,23 @@ package com.tumbesdemiercoles.api.news.application.usecase;
 import com.tumbesdemiercoles.api.news.application.dto.NewsRequestDto;
 import com.tumbesdemiercoles.api.news.application.dto.NewsResponseDto;
 import com.tumbesdemiercoles.api.news.application.ports.in.CreateNewsUseCase;
+import com.tumbesdemiercoles.api.news.application.ports.out.NewsSearchPort;
 import com.tumbesdemiercoles.api.news.domain.model.News;
 import com.tumbesdemiercoles.api.news.domain.repository.NewsRepository;
 import com.tumbesdemiercoles.api.shared.utils.SlugUtils;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreateNewsUseCaseImpl implements CreateNewsUseCase {
 
   private final NewsRepository newsRepository;
+  private final NewsSearchPort newsSearchPort;
 
   @Override
   public Mono<NewsResponseDto> execute(NewsRequestDto dto) {
@@ -36,7 +40,13 @@ public class CreateNewsUseCaseImpl implements CreateNewsUseCase {
               .isPeruDailyNews(dto.getIsPeruDailyNews() != null ? dto.getIsPeruDailyNews() : false)
               .isLatestNews(dto.getIsLatestNews() != null ? dto.getIsLatestNews() : false)
               .build();
-          return newsRepository.save(news);
+          return newsRepository.save(news)
+              .flatMap(saved -> newsSearchPort.indexNews(saved)
+                  .onErrorResume(e -> {
+                    log.error("Failed to index news {}: {}", saved.getId(), e.getMessage());
+                    return Mono.empty();
+                  })
+                  .thenReturn(saved));
         })
         .map(this::toResponse);
   }
