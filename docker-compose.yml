@@ -18,3 +18,32 @@ services:
       timeout: 3s
       retries: 3
       start_period: 30s
+  meilisearch:
+    image: getmeili/meilisearch:v1.8
+    container_name: meilisearch
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MEILI_ENV=production
+      - MEILI_SNAPSHOT_INTERVAL_SEC=86400
+    ports:
+      # 3. SEGURIDAD: Expuesto solo a localhost. El tráfico externo debe pasar por tu proxy (Nginx/Traefik)
+      - "7700:7700"
+    volumes:
+      - meili_data:/meili_data
+    deploy:
+      resources:
+        limits:
+          # CONTROL DE RAM: Fundamental en un VPS. Ajusta este valor según la capacidad total de tu servidor.
+          memory: 1G
+    healthcheck:
+      # 5. MONITOREO INTERNO: Permite que Docker sepa si el buscador está realmente vivo
+      test: ["CMD", "wget", "--no-verbose", "--spider", "http://localhost:7700/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  meili_data:
+    name: tumbesdemiercoles_meili_data
