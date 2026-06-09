@@ -93,6 +93,7 @@ public class SecurityConfig {
                 .pathMatchers(HttpMethod.GET, API_V1 + "/columnist/slug/{slug:[a-z0-9-]+}").permitAll()
                 .pathMatchers(HttpMethod.GET, API_V1 + "/sitemap/general").permitAll()
                 .pathMatchers(HttpMethod.GET, API_V1 + "/sitemap/news").permitAll()
+                .pathMatchers(HttpMethod.POST, API_V1 + "/admin/reindex").permitAll()
                 .pathMatchers("/actuator/health").permitAll()
             .anyExchange().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2
