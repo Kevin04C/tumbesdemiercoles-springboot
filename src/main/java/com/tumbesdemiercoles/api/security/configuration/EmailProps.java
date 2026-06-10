@@ -34,9 +34,9 @@ public class EmailProps {
 
   private int resetPasswordTokenTtlMinutes = 15;
   private int tokenUserTtlHours = 24;
-  private int tokenUserTtlMinutes = 15;
+  private int tokenUserTtlMinutes = 60;
   private int verificationEmailTokenTtlHours = 2;
-  private int refreshTokenTtlDays = 7;
+  private int refreshTokenTtlDays = 30;
 
   public String getFrom() {
     return from;
