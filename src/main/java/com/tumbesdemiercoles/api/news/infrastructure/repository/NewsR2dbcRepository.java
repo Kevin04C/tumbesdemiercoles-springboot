@@ -13,10 +13,10 @@ import reactor.core.publisher.Mono;
 
 public interface NewsR2dbcRepository extends ReactiveCrudRepository<NewsEntity, UUID> {
 
-  @Query("SELECT * FROM news WHERE is_carousel = true ORDER BY created_at DESC LIMIT :limit")
+  @Query("SELECT * FROM news WHERE is_carousel = true AND is_active = true ORDER BY created_at DESC LIMIT :limit")
   Flux<NewsEntity> findTopByIsCarousel(int limit);
 
-  @Query("SELECT * FROM news WHERE is_peru_daily_news = true ORDER BY created_at DESC LIMIT :limit")
+  @Query("SELECT * FROM news WHERE is_peru_daily_news = true AND is_active = true ORDER BY created_at DESC LIMIT :limit")
   Flux<NewsEntity> findTopByIsPeruDailyNews(int limit);
 
   @Query("SELECT * FROM news WHERE category_id = :categoryId ORDER BY created_at DESC LIMIT :limit")
@@ -40,7 +40,7 @@ public interface NewsR2dbcRepository extends ReactiveCrudRepository<NewsEntity, 
   @Query("SELECT COUNT(*) FROM news WHERE slug = :slug AND id != :excludeId")
   Mono<Long> countBySlugAndIdNot(String slug, UUID excludeId);
 
-  @Query("SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY category_id ORDER BY created_at DESC) AS rn FROM news WHERE category_id IN (:categoryIds)) sub WHERE rn <= :limit")
+  @Query("SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY category_id ORDER BY created_at DESC) AS rn FROM news WHERE category_id IN (:categoryIds) AND is_active = true) sub WHERE rn <= :limit")
   Flux<NewsEntity> findTopByCategoryIds(List<UUID> categoryIds, int limit);
 
   @Query("SELECT slug, updated_at FROM news WHERE is_active = true ORDER BY created_at DESC")
