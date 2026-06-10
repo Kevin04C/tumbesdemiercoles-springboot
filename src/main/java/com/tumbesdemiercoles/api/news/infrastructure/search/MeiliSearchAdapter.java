@@ -24,18 +24,18 @@ public class MeiliSearchAdapter implements NewsSearchPort {
 
   private final Client client;
 
-//  @PostConstruct
-//  void configureIndex() {
-//    Mono.<Void>fromRunnable(() -> {
-//          var index = client.index(INDEX_NAME);
-//          index.updateSearchableAttributesSettings(new String[]{"title", "headline", "content"});
-//          index.updateFilterableAttributesSettings(new String[]{"categoryId", "isActive", "isPremium"});
-//          index.updateSortableAttributesSettings(new String[]{"createdAt"});
-//          log.info("MeiliSearch index '{}' configured", INDEX_NAME);
-//        })
-//        .subscribeOn(Schedulers.boundedElastic())
-//        .subscribe();
-//  }
+  @PostConstruct
+  void configureIndex() {
+    Mono.<Void>fromRunnable(() -> {
+          var index = client.index(INDEX_NAME);
+          index.updateSearchableAttributesSettings(new String[]{"title", "headline", "content"});
+          index.updateFilterableAttributesSettings(new String[]{"categoryId", "isActive", "isPremium"});
+          index.updateSortableAttributesSettings(new String[]{"createdAt"});
+          log.info("MeiliSearch index '{}' configured", INDEX_NAME);
+        })
+        .subscribeOn(Schedulers.boundedElastic())
+        .subscribe();
+  }
 
   @Override
   public Mono<Void> indexNews(News news) {
