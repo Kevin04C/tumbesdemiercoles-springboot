@@ -2,14 +2,12 @@ package com.tumbesdemiercoles.api.news.presentation.mapper;
 
 import com.tumbesdemiercoles.api.news.application.dto.NewsRequestDto;
 import com.tumbesdemiercoles.api.news.application.dto.NewsResponseDto;
-import com.tumbesdemiercoles.api.news.application.dto.RelatedNewsResponseDto;
 import com.tumbesdemiercoles.api.news.domain.model.NewsFilter;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsByCategorySlugFilterRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsFilterRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsUpdateRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.response.NewsResponse;
-import com.tumbesdemiercoles.api.news.presentation.dto.response.RelatedNewsResponse;
 import com.tumbesdemiercoles.api.shared.presentation.mapper.PageMapper;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -35,8 +33,4 @@ public interface NewsWebMapper extends PageMapper<NewsResponseDto, NewsResponse>
   NewsFilter toFilterByCategorySlug(NewsByCategorySlugFilterRequest request);
 
   List<NewsResponse> toListResponse(List<NewsResponseDto> dtos);
-
-  RelatedNewsResponse toRelatedResponse(RelatedNewsResponseDto dto);
-
-  List<RelatedNewsResponse> toRelatedResponseList(List<RelatedNewsResponseDto> dtos);
 }

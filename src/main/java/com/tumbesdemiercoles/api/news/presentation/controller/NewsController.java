@@ -11,7 +11,6 @@ import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsFilterRequest
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsUpdateRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.response.NewsResponse;
-import com.tumbesdemiercoles.api.news.presentation.dto.response.RelatedNewsResponse;
 import com.tumbesdemiercoles.api.news.presentation.mapper.NewsWebMapper;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import java.util.List;
@@ -88,9 +87,9 @@ public class NewsController implements NewsControllerApi {
   }
 
   @Override
-  public Mono<ApiResponse<List<RelatedNewsResponse>>> getRelatedNews(UUID id) {
+  public Mono<ApiResponse<List<NewsResponse>>> getRelatedNews(UUID id) {
     return getRelatedNewsUseCase.getRelated(id, 10)
-        .map(webMapper::toRelatedResponseList)
+        .map(webMapper::toListResponse)
         .map(response -> ApiResponse.success(response, "Noticias relacionadas encontradas"));
   }
 }

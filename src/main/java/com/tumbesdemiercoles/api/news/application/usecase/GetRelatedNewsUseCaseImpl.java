@@ -1,6 +1,6 @@
 package com.tumbesdemiercoles.api.news.application.usecase;
 
-import com.tumbesdemiercoles.api.news.application.dto.RelatedNewsResponseDto;
+import com.tumbesdemiercoles.api.news.application.dto.NewsResponseDto;
 import com.tumbesdemiercoles.api.news.application.ports.in.GetRelatedNewsUseCase;
 import com.tumbesdemiercoles.api.news.domain.model.News;
 import com.tumbesdemiercoles.api.news.domain.repository.NewsRepository;
@@ -24,7 +24,7 @@ public class GetRelatedNewsUseCaseImpl implements GetRelatedNewsUseCase {
   private final NewsSimilarityScorer similarityScorer;
 
   @Override
-  public Mono<List<RelatedNewsResponseDto>> getRelated(UUID newsId, int limit) {
+  public Mono<List<NewsResponseDto>> getRelated(UUID newsId, int limit) {
     return newsRepository.findById(newsId)
         .switchIfEmpty(Mono.error(ResourceNotFoundException.forEntity("News", newsId)))
         .flatMap(sourceNews -> newsRepository.findRelatedCandidates(
@@ -36,7 +36,7 @@ public class GetRelatedNewsUseCaseImpl implements GetRelatedNewsUseCase {
             .map(candidates -> scoreAndSort(sourceNews, candidates, limit)));
   }
 
-  private List<RelatedNewsResponseDto> scoreAndSort(News source, List<News> candidates, int limit) {
+  private List<NewsResponseDto> scoreAndSort(News source, List<News> candidates, int limit) {
     return candidates.stream()
         .map(candidate -> new ScoredCandidate(candidate, similarityScorer.score(source, candidate)))
         .filter(scored -> scored.score > 0)
@@ -46,14 +46,22 @@ public class GetRelatedNewsUseCaseImpl implements GetRelatedNewsUseCase {
         .toList();
   }
 
-  private RelatedNewsResponseDto toResponse(News news) {
-    return RelatedNewsResponseDto.builder()
+  private NewsResponseDto toResponse(News news) {
+    return NewsResponseDto.builder()
         .id(news.getId())
         .title(news.getTitle())
         .slug(news.getSlug())
         .headline(news.getHeadline())
         .imageUrl(news.getImageUrl())
+        .content(news.getContent())
+        .isPremium(news.getIsPremium())
+        .categoryId(news.getCategoryId())
+        .isActive(news.getIsActive())
+        .isCarousel(news.getIsCarousel())
+        .isPeruDailyNews(news.getIsPeruDailyNews())
+        .isLatestNews(news.getIsLatestNews())
         .createdAt(news.getCreatedAt())
+        .updatedAt(news.getUpdatedAt())
         .build();
   }
 

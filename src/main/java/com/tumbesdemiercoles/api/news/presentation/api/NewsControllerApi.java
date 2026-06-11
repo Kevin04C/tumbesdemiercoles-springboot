@@ -5,7 +5,6 @@ import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsFilterRequest
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.request.NewsUpdateRequest;
 import com.tumbesdemiercoles.api.news.presentation.dto.response.NewsResponse;
-import com.tumbesdemiercoles.api.news.presentation.dto.response.RelatedNewsResponse;
 import com.tumbesdemiercoles.api.shared.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -67,7 +66,7 @@ public interface NewsControllerApi {
   @Operation(summary = "Obtener noticias relacionadas", description = "Retorna una lista de noticias similares a la noticia especificada, basadas en categoría y similitud textual.")
   @GetMapping("/{id}/related")
   @ResponseStatus(HttpStatus.OK)
-  Mono<ApiResponse<List<RelatedNewsResponse>>> getRelatedNews(
+  Mono<ApiResponse<List<NewsResponse>>> getRelatedNews(
       @Parameter(description = "ID único del artículo de noticia", required = true) @PathVariable UUID id);
 
   @Operation(summary = "Actualizar noticia", description = "Modifica los campos editables de un artículo de noticia identificado por su ID.")
