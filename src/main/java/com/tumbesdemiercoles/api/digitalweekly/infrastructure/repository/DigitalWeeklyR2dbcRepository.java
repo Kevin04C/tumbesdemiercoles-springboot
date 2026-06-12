@@ -11,5 +11,5 @@ import reactor.core.publisher.Mono;
  */
 public interface DigitalWeeklyR2dbcRepository extends ReactiveCrudRepository<DigitalWeeklyEntity, UUID> {
 
-  Mono<DigitalWeeklyEntity> findFirstByOrderByCreatedAtDesc();
+  Mono<DigitalWeeklyEntity> findFirstByIsActiveTrueOrderByCreatedAtDesc();
 }

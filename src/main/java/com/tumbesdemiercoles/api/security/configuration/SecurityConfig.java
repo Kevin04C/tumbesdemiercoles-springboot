@@ -85,6 +85,7 @@ public class SecurityConfig {
                 .pathMatchers(HttpMethod.GET, API_V1 + "/feed").permitAll()
                 .pathMatchers(HttpMethod.GET, API_V1 + "/news/latest").permitAll()
                 .pathMatchers(HttpMethod.GET, API_V1 + "/news/{id:[a-f0-9-]+}/related").permitAll()
+                .pathMatchers(HttpMethod.GET, API_V1 + "/digital-weekly/latest").permitAll()
                 .pathMatchers(HttpMethod.GET, API_V1 + "/digital-weekly/{id:[a-f0-9-]+}").permitAll()
                 .pathMatchers(HttpMethod.GET, API_V1 + "/digital-weekly").permitAll()
                 .pathMatchers(HttpMethod.GET, API_V1 + "/categories/slug/{slug:[a-z0-9-]+}").permitAll()

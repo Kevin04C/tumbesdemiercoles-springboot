@@ -44,6 +44,13 @@ public class DigitalWeeklyController implements DigitalWeeklyControllerApi {
 
 
   @Override
+  public Mono<ApiResponse<DigitalWeeklyResponse>> getLatestDigitalWeekly() {
+    return getDigitalWeeklyUseCase.getLatest()
+        .map(webMapper::toResponse)
+        .map(ApiResponse::success);
+  }
+
+  @Override
   public Mono<ApiResponse<DigitalWeeklyResponse>> getDigitalWeeklyById(UUID id) {
     return getDigitalWeeklyUseCase.getById(id)
         .map(webMapper::toResponse)

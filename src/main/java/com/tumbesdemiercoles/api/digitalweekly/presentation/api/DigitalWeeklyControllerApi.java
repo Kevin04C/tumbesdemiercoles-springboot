@@ -38,6 +38,11 @@ public interface DigitalWeeklyControllerApi {
   Mono<ApiResponse<List<DigitalWeeklyResponse>>> findDigitalWeeklies(
       @Valid DigitalWeeklyFilterRequest filter);
 
+  @Operation(summary = "Obtener última edición activa", description = "Recupera la edición más reciente del semanario digital que se encuentra activa.")
+  @GetMapping("/latest")
+  @ResponseStatus(HttpStatus.OK)
+  Mono<ApiResponse<DigitalWeeklyResponse>> getLatestDigitalWeekly();
+
   @Operation(summary = "Obtener edición por ID", description = "Recupera la información de una edición del semanario digital por su ID único.")
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)

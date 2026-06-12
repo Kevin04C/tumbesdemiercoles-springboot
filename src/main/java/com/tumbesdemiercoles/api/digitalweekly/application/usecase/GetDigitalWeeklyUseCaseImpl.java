@@ -26,6 +26,13 @@ public class GetDigitalWeeklyUseCaseImpl implements GetDigitalWeeklyUseCase {
   }
 
   @Override
+  public Mono<DigitalWeeklyResponseDto> getLatest() {
+    return digitalWeeklyRepository.findLatest()
+        .switchIfEmpty(Mono.error(ResourceNotFoundException.forEntity("DigitalWeekly", "latest")))
+        .map(this::toResponse);
+  }
+
+  @Override
   public Mono<PageResponseDto<DigitalWeeklyResponseDto>> findDigitalWeeklies(DigitalWeeklyFilter filter) {
     return digitalWeeklyRepository.findDigitalWeeklies(filter)
         .map(paginatedResult -> PageResponseDto.<DigitalWeeklyResponseDto>builder()

@@ -9,4 +9,5 @@ import reactor.core.publisher.Mono;
 public interface GetDigitalWeeklyUseCase {
   Mono<DigitalWeeklyResponseDto> getById(UUID id);
   Mono<PageResponseDto<DigitalWeeklyResponseDto>> findDigitalWeeklies(DigitalWeeklyFilter filter);
+  Mono<DigitalWeeklyResponseDto> getLatest();
 }
