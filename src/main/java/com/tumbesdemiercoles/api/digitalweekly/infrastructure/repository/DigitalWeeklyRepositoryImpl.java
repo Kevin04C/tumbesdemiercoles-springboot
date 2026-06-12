@@ -58,7 +58,7 @@ public class DigitalWeeklyRepositoryImpl implements DigitalWeeklyRepository {
 
   @Override
   public Mono<DigitalWeekly> findLatest() {
-    return r2dbcRepository.findFirstByOrderByCreatedAtDesc()
+    return r2dbcRepository.findFirstByIsActiveTrueOrderByCreatedAtDesc()
         .map(mapper::toDomain);
   }
 
