@@ -15,3 +15,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: GET_EFFECTIVE_PERMISSIONS
+  
+  ## 📝 Descripción
+  Funde reactivamente los permisos predeterminados de los roles del usuario con las excepciones (user_permission) configuradas, retornando la lista exacta de permisos vigentes en tiempo real.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/users/48b3965b-9ca9-4c18-a936-0126754e52bd/permissions/effective"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Admin / Usuario actual)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `userId` (Path Variable): ID del usuario a consultar.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Lista de permisos finales activos del usuario.

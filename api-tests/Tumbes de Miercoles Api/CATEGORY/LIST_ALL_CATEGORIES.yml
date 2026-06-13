@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{url}}/api/categories"
+  url: "{{url}}/api/v1/categories"
   auth: inherit
 
 settings:
@@ -13,3 +13,25 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: LIST_ALL_CATEGORIES
+  
+  ## 📝 Descripción
+  Busca y pagina las categorías del sistema aplicando filtros de búsqueda y ordenamiento.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/categories"`
+  - **Autenticación**: Público / Lectura general
+  
+  ## ⚙️ Parámetros y Filtros
+  - `descripcion` (Query, Opcional): Filtro textual de búsqueda.
+  - `isActive` (Query, Opcional): Filtrar por categorías activas/inactivas.
+  - `page` / `size` / `sortBy` / `sortDir` (Paginación)
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno (Petición GET)
+  
+  ## 📤 Respuesta (Response)
+  Lista paginada de categorías encontradas.

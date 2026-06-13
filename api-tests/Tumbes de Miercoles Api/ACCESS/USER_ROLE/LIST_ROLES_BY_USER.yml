@@ -15,3 +15,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: LIST_ROLES_BY_USER
+  
+  ## 📝 Descripción
+  Lista todos los roles asignados actualmente a un usuario.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/users/48b3965b-9ca9-4c18-a936-0126754e52bd/roles"`
+  - **Autenticación**: Requerido (Bearer Token)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `userId` (Path Variable): ID del usuario.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Lista de roles del usuario.

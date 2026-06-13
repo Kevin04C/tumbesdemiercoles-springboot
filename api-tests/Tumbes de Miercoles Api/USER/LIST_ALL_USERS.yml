@@ -19,3 +19,24 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: LIST_ALL_USERS
+  
+  ## 📝 Descripción
+  Lista y filtra usuarios del sistema con paginación y ordenamiento.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/users?email=gavino_21@hotmail.es"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Admin / Editor)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `email` / `firstName` / `lastName` (Query Params opcionales para filtrado).
+  - Parámetros de paginación.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Página de usuarios registrados.

@@ -21,3 +21,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: ASSIGN_ROLE_PERMISSIONS
+  
+  ## 📝 Descripción
+  Asigna una lista de permisos por defecto a un rol específico.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `POST`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/roles/30ecc70b-533d-41a9-917f-1c8e1bda6f03/permissions"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol SuperAdmin)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `roleId` (Path Variable): ID del Rol destino.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Lista de UUIDs correspondientes a los permisos deseados.
+  
+  ## 📤 Respuesta (Response)
+  Respuesta exitosa.

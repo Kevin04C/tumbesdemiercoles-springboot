@@ -1,0 +1,49 @@
+info:
+  name: CREATE_DIGITAL_WEEKLY
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{url}}/api/v1/digital-weekly"
+  body:
+    type: json
+    data: |-
+      {
+        "descripcion": "Edición Semanal 29",
+        "pdfUrl": "/f/a1f6292a-1a02-4255-a9cf-03937ec68ee5",
+        "frontPageImageUrl": "/f/826588a8-e3f5-45cb-8995-5a1aa77ee262",
+        "isActive": true,
+        "isPremium": false,
+        "url": ""
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: CREATE_DIGITAL_WEEKLY
+  
+  ## 📝 Descripción
+  Publica una nueva edición del semanario digital PDF en la plataforma.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `POST`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/digital-weekly"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Admin / Editor)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ninguno
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  - `pdfUrl`: Enlace de descarga del PDF.
+  - `frontPageImageUrl`: Enlace de la imagen de portada.
+  - `descripcion`: Número de edición o título descriptivo.
+  - `isActive` / `isPremium` / `url` (Enlaces secundarios).
+  
+  ## 📤 Respuesta (Response)
+  Detalles del semanario registrado.

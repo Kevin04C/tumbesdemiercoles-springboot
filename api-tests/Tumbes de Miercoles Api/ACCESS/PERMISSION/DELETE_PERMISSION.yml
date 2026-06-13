@@ -16,3 +16,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: DELETE_PERMISSION
+  
+  ## 📝 Descripción
+  Inactiva o elimina un permiso del sistema por ID.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `DELETE`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/permissions/FDSFFSD"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol SuperAdmin)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID del permiso.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Confirmación.

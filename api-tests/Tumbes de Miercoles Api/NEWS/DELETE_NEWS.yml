@@ -1,0 +1,35 @@
+info:
+  name: DELETE_NEWS
+  type: http
+  seq: 9
+
+http:
+  method: DELETE
+  url: "{{url}}/api/v1/news/2f27c649-cfe6-4999-a187-a0f9cda923b5"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: DELETE_NEWS
+  
+  ## 📝 Descripción
+  Elimina permanentemente o inactiva una noticia de la plataforma.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `DELETE`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/news/2f27c649-cfe6-4999-a187-a0f9cda923b5"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Administrador)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID del artículo a borrar.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Confirmación de eliminación.

@@ -16,3 +16,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: "UPDATE_PERMISSION "
+  
+  ## 📝 Descripción
+  Endpoint para la operación "UPDATE_PERMISSION ".
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `PATCH`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/permissions/FDSFFSD"`
+  - **Autenticación**: Requerido (Bearer Token JWT)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ver URL / Path Variables.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  N/A
+  
+  ## 📤 Respuesta (Response)
+  Respuesta exitosa de la API en formato ApiResponse.

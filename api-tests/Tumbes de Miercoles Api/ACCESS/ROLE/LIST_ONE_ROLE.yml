@@ -13,3 +13,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: LIST_ONE_ROLE
+  
+  ## 📝 Descripción
+  Obtiene información de un rol por su ID.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/roles/00000000-0000-0000-0000-000000000000"`
+  - **Autenticación**: Requerido (Bearer Token)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): UUID del rol.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Detalle del rol.

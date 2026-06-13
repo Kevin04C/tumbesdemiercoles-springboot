@@ -1,0 +1,35 @@
+info:
+  name: VERIFY_EMAIL
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{url}}/auth/verify-email?token=tu_token_aqui"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: VERIFY_EMAIL
+  
+  ## 📝 Descripción
+  Activa la cuenta del usuario validando el token de registro recibido por correo electrónico.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/auth/verify-email?token=tu_token_aqui"`
+  - **Autenticación**: Público (Ninguna)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `token` (Query Parameter): Token enviado al email del usuario.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno (Petición GET)
+  
+  ## 📤 Respuesta (Response)
+  Respuesta en formato HTML/Texto indicando éxito o fracaso de la activación de cuenta.

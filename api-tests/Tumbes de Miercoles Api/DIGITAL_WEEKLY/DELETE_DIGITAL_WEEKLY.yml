@@ -1,0 +1,35 @@
+info:
+  name: DELETE_DIGITAL_WEEKLY
+  type: http
+  seq: 6
+
+http:
+  method: DELETE
+  url: "{{url}}/api/v1/digital-weekly/25dec80c-c531-47d5-96aa-f7397bf933d7"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: DELETE_DIGITAL_WEEKLY
+  
+  ## 📝 Descripción
+  Elimina una edición de semanario del sistema.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `DELETE`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/digital-weekly/25dec80c-c531-47d5-96aa-f7397bf933d7"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Administrador)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID del semanario a eliminar.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Confirmación del éxito.

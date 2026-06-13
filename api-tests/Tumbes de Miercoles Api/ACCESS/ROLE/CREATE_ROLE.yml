@@ -20,3 +20,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: CREATE_ROLE
+  
+  ## 📝 Descripción
+  Declara un nuevo Rol del sistema.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `POST`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/roles"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol SuperAdmin)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ninguno
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  - `name`: Nombre del rol (ej: `REDACTOR`).
+  
+  ## 📤 Respuesta (Response)
+  Detalles del Rol creado.

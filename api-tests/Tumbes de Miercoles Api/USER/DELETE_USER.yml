@@ -13,3 +13,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: DELETE_USER
+  
+  ## 📝 Descripción
+  Elimina de forma lógica (inactiva) o física a un usuario por ID.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `DELETE`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/users/6b1b814b-5f86-471f-aa93-5984556ea63f"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Administrador)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID del usuario.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Confirmación de éxito.

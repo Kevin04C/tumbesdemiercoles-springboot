@@ -24,3 +24,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: "UPDATE_USER_PERMISSION_EXCEPTIONS"
+  
+  ## 📝 Descripción
+  Endpoint para la operación "UPDATE_USER_PERMISSION_EXCEPTIONS".
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `PUT`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/users/00000000-0000-0000-0000-000000000000/permissions/exceptions"`
+  - **Autenticación**: Requerido (Bearer Token JWT)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ver URL / Path Variables.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  N/A
+  
+  ## 📤 Respuesta (Response)
+  Respuesta exitosa de la API en formato ApiResponse.

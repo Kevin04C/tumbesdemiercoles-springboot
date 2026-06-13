@@ -1,0 +1,38 @@
+info:
+  name: ADMIN_REINDEX
+  type: http
+  seq: 10
+
+http:
+  method: POST
+  url: "{{url}}/api/v1/admin/reindex"
+  headers:
+    - name: X-API-Key
+      value: admin_super_secret_key
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: ADMIN_REINDEX
+  
+  ## 📝 Descripción
+  Sincroniza y reindexa manualmente todas las noticias de la base de datos hacia MeiliSearch.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `POST`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/admin/reindex"`
+  - **Autenticación**: Requerido (Cabecera `X-API-Key` configurada con el token privado administrativo)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ninguno
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Status 202 Accepted indicando que el proceso de reindexado se inició en segundo plano.

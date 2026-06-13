@@ -1,0 +1,35 @@
+info:
+  name: GET_COLUMNIST_BY_SLUG
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{url}}/api/v1/columnist/slug/algo"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: GET_COLUMNIST_BY_SLUG
+  
+  ## 📝 Descripción
+  Recupera una columna de opinión mediante su slug único.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/columnist/slug/algo"`
+  - **Autenticación**: Público
+  
+  ## ⚙️ Parámetros y Filtros
+  - `slug` (Path Variable): Slug único de la columna.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Detalle y contenido completo de la columna de opinión.

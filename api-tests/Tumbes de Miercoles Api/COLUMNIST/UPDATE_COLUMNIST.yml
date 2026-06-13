@@ -1,0 +1,46 @@
+info:
+  name: UPDATE_COLUMNIST
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{url}}/api/v1/columnist/a82288d6-01c0-458d-a729-9a1e5cf907e4"
+  body:
+    type: json
+    data: |-
+      {
+        "content": "<p>Columna de opinión sobre la situación política actual en la región (Modificado).</p>",
+        "author": "Gino Rossi",
+        "title": "Renovación de Votos Electorales (Modificado)",
+        "headline": "Lo que nos depara el futuro político local",
+        "authorImageUrl": "/f/rossi_mod.png",
+        "isActive": true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: UPDATE_COLUMNIST
+  
+  ## 📝 Descripción
+  Edita el contenido o autoría de una columna de opinión existente.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `PUT`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/columnist/a82288d6-01c0-458d-a729-9a1e5cf907e4"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Editor / Admin)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID de la columna.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Campos de columna (content, author, title, headline, authorImageUrl, isActive).
+  
+  ## 📤 Respuesta (Response)
+  Columna modificada.

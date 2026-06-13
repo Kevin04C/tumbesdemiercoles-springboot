@@ -20,3 +20,26 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: LOGIN_USER
+  
+  ## 📝 Descripción
+  Autentica un usuario en el sistema con correo electrónico y contraseña.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `POST`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/auth/login"`
+  - **Autenticación**: Público (Ninguna)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ninguno
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  - `email`: Correo electrónico del usuario (ej: `gavino_10@hotmail.es`)
+  - `password`: Contraseña del usuario (ej: `franz123`)
+  
+  ## 📤 Respuesta (Response)
+  Tokens JWT:
+  - `accessToken`: Token de corta duración para llamadas a la API.
+  - `refreshToken`: Token de larga duración para refrescar la sesión.

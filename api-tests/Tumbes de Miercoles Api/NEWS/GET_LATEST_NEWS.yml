@@ -1,0 +1,35 @@
+info:
+  name: GET_LATEST_NEWS
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: "{{url}}/api/v1/news/latest?limit=5"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: GET_LATEST_NEWS
+  
+  ## 📝 Descripción
+  Obtiene los últimos artículos de noticias configurados en el sistema como novedades o alertas de último minuto.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/news/latest?limit=5"`
+  - **Autenticación**: Público
+  
+  ## ⚙️ Parámetros y Filtros
+  - `limit` (Query, Opcional, default = 10): Cantidad máxima a traer.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Colección de noticias destacadas recientes.

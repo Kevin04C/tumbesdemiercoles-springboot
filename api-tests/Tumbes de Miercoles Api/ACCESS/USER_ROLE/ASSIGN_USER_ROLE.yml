@@ -21,3 +21,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: ASSIGN_USER_ROLE
+  
+  ## 📝 Descripción
+  Asigna un rol a un usuario determinado.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `POST`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/users/48b3965b-9ca9-4c18-a936-0126754e52bd/roles"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol SuperAdmin)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `userId` (Path Variable): ID del usuario.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  - `roleId`: UUID del rol a otorgar.
+  
+  ## 📤 Respuesta (Response)
+  Respuesta con la asignación realizada.

@@ -1,0 +1,35 @@
+info:
+  name: DELETE_CATEGORY
+  type: http
+  seq: 7
+
+http:
+  method: DELETE
+  url: "{{url}}/api/v1/categories/b38740e3-c409-4916-9a28-090d220256ab"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: DELETE_CATEGORY
+  
+  ## 📝 Descripción
+  Realiza la inactivación o eliminación lógica de una categoría de noticias.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `DELETE`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/categories/b38740e3-c409-4916-9a28-090d220256ab"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Administrador)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID de la categoría a eliminar.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Mensaje de confirmación del éxito de la eliminación.

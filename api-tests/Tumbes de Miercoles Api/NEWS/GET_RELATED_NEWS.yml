@@ -1,0 +1,35 @@
+info:
+  name: GET_RELATED_NEWS
+  type: http
+  seq: 7
+
+http:
+  method: GET
+  url: "{{url}}/api/v1/news/2f27c649-cfe6-4999-a187-a0f9cda923b5/related"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: GET_RELATED_NEWS
+  
+  ## 📝 Descripción
+  Recomienda noticias relacionadas basadas en el artículo actual (mismo tema/categoría).
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/news/2f27c649-cfe6-4999-a187-a0f9cda923b5/related"`
+  - **Autenticación**: Público
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID del artículo base.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Lista de artículos recomendados.

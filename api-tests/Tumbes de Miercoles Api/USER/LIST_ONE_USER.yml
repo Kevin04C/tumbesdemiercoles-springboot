@@ -13,3 +13,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: LIST_ONE_USER
+  
+  ## 📝 Descripción
+  Obtiene la información de perfil de un usuario específico por ID.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/users/48b3965b-9ca9-4c18-a936-0126754e52bd"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Admin o usuario dueño del perfil)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID del usuario.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Detalle del usuario.

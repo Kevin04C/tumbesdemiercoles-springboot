@@ -1,0 +1,35 @@
+info:
+  name: DELETE_COLUMNIST
+  type: http
+  seq: 6
+
+http:
+  method: DELETE
+  url: "{{url}}/api/v1/columnist/a82288d6-01c0-458d-a729-9a1e5cf907e4"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: DELETE_COLUMNIST
+  
+  ## 📝 Descripción
+  Elimina una columna de opinión de la base de datos.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `DELETE`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/columnist/a82288d6-01c0-458d-a729-9a1e5cf907e4"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Administrador)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID de la columna a borrar.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Confirmación de eliminación.

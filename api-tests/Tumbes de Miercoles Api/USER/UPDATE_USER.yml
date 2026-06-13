@@ -20,3 +20,26 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: UPDATE_USER
+  
+  ## 📝 Descripción
+  Modifica la información básica del perfil del usuario.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `PATCH`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/users/6b28b118-6a66-4bf5-a909-f3fb0510a58f"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Admin o usuario actual)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID del usuario.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  - `firstName`: Nombres.
+  - `lastName`: Apellidos.
+  - `imageUrl` (Opcional): Foto de perfil.
+  - `userName`: Alias único.
+  
+  ## 📤 Respuesta (Response)
+  Usuario modificado.

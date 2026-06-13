@@ -8,7 +8,10 @@ http:
   url: "{{url}}/api/v1/roles/00000000-0000-0000-0000-000000000000"
   body:
     type: json
-    data: "{\n  \"name\": \"ROLE_USER\",\n  \"description\": \"User role\"\n}"
+    data: "{
+    \"name\": \"ROLE_USER\",
+    \"description\": \"User role\"
+  }"
   auth: inherit
 
 settings:
@@ -16,3 +19,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: "UPDATE_ROLE"
+  
+  ## 📝 Descripción
+  Endpoint para la operación "UPDATE_ROLE".
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `PATCH`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/roles/00000000-0000-0000-0000-000000000000"`
+  - **Autenticación**: Requerido (Bearer Token JWT)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ver URL / Path Variables.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  N/A
+  
+  ## 📤 Respuesta (Response)
+  Respuesta exitosa de la API en formato ApiResponse.

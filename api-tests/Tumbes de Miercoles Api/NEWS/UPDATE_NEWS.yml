@@ -1,0 +1,50 @@
+info:
+  name: UPDATE_NEWS
+  type: http
+  seq: 8
+
+http:
+  method: PUT
+  url: "{{url}}/api/v1/news/2f27c649-cfe6-4999-a187-a0f9cda923b5"
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Noticia de prueba en Tumbes Modificada",
+        "headline": "Alerta por fuerte oleaje en las playas de Zorritos",
+        "content": "<p>Contenido detallado sobre las mareas y oleajes anómalos registrados el día de hoy.</p>",
+        "categoryId": "b38740e3-c409-4916-9a28-090d220256ab",
+        "isCarousel": true,
+        "isPremium": false,
+        "isActive": true,
+        "imageUrl": "https://storage.app.tumbes/noticias/zorritos.jpg",
+        "isPeruDailyNews": false,
+        "isLatestNews": true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: UPDATE_NEWS
+  
+  ## 📝 Descripción
+  Modifica un artículo de noticia.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `PUT`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/news/2f27c649-cfe6-4999-a187-a0f9cda923b5"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Redactor / Admin)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID de la noticia a modificar.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Campos del artículo a actualizar (título, contenido, categoría, imagen, banderas de visibilidad).
+  
+  ## 📤 Respuesta (Response)
+  Detalle del artículo modificado.

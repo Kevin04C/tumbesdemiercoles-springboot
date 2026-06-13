@@ -1,0 +1,35 @@
+info:
+  name: GET_NEWS_BY_SLUG
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{url}}/api/v1/news/slug/en-el-vecino-pais-aseguran-que-la-enfermedad-esta-controlada"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: GET_NEWS_BY_SLUG
+  
+  ## 📝 Descripción
+  Busca una noticia por su slug amigable.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/news/slug/en-el-vecino-pais-aseguran-que-la-enfermedad-esta-controlada"`
+  - **Autenticación**: Público
+  
+  ## ⚙️ Parámetros y Filtros
+  - `slug` (Path Variable): Slug único del artículo.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Detalle completo de la noticia.

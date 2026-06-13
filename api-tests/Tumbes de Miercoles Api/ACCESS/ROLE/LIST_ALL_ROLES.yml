@@ -13,3 +13,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: LIST_ALL_ROLES
+  
+  ## 📝 Descripción
+  Obtiene todos los roles registrados en el sistema.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/roles"`
+  - **Autenticación**: Requerido (Bearer Token)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ninguno
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Lista de roles.

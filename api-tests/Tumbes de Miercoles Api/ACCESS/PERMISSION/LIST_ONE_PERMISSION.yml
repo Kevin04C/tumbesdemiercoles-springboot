@@ -13,3 +13,23 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: "LIST_ONE_PERMISSION "
+  
+  ## 📝 Descripción
+  Endpoint para la operación "LIST_ONE_PERMISSION ".
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/permissions/44d4263a-d64c-45b4-98fb-48e91242b2cd"`
+  - **Autenticación**: Requerido (Bearer Token JWT)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ver URL / Path Variables.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  N/A
+  
+  ## 📤 Respuesta (Response)
+  Respuesta exitosa de la API en formato ApiResponse.

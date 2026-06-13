@@ -1,0 +1,55 @@
+info:
+  name: CREATE_NEWS
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{url}}/api/v1/news"
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Noticia de prueba en Tumbes",
+        "headline": "Alerta por fuerte oleaje en las playas de Zorritos",
+        "content": "<p>Contenido detallado sobre las mareas y oleajes anómalos registrados el día de hoy.</p>",
+        "categoryId": "b38740e3-c409-4916-9a28-090d220256ab",
+        "isCarousel": true,
+        "isPremium": false,
+        "isActive": true,
+        "imageUrl": "https://storage.app.tumbes/noticias/zorritos.jpg",
+        "isPeruDailyNews": false,
+        "isLatestNews": true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: CREATE_NEWS
+  
+  ## 📝 Descripción
+  Publica un artículo de noticia en el portal.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `POST`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/news"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Redactor / Editor / Admin)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ninguno
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  - `title`: Título de la noticia.
+  - `headline`: Subtítulo o bajada.
+  - `content`: Cuerpo de la noticia (soporta HTML).
+  - `categoryId`: UUID de la categoría a la que pertenece.
+  - `imageUrl` (Opcional): Imagen destacada.
+  - `isCarousel` / `isPremium` / `isPeruDailyNews` / `isLatestNews` (Configuraciones de visibilidad y posicionamiento).
+  
+  ## 📤 Respuesta (Response)
+  Detalles del artículo publicado (incluyendo el slug auto-generado).

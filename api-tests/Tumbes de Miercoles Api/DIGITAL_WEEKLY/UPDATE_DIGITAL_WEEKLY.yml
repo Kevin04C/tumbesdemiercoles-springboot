@@ -1,0 +1,46 @@
+info:
+  name: UPDATE_DIGITAL_WEEKLY
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{url}}/api/v1/digital-weekly/25dec80c-c531-47d5-96aa-f7397bf933d7"
+  body:
+    type: json
+    data: |-
+      {
+        "descripcion": "Edición Semanal 28 Modificada",
+        "pdfUrl": "/f/a1f6292a-1a02-4255-a9cf-03937ec68ee5",
+        "frontPageImageUrl": "/f/826588a8-e3f5-45cb-8995-5a1aa77ee262",
+        "isActive": true,
+        "isPremium": true,
+        "url": ""
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: UPDATE_DIGITAL_WEEKLY
+  
+  ## 📝 Descripción
+  Actualiza la información, portadas o enlaces de una edición de semanario.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `PUT`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/digital-weekly/25dec80c-c531-47d5-96aa-f7397bf933d7"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Administrador)
+  
+  ## ⚙️ Parámetros y Filtros
+  - `id` (Path Variable): ID del semanario a editar.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Campos del semanario (pdfUrl, frontPageImageUrl, descripcion, isActive, isPremium).
+  
+  ## 📤 Respuesta (Response)
+  Edición modificada.

@@ -1,0 +1,35 @@
+info:
+  name: GET_ALL_ACTIVE_CATEGORIES
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: "{{url}}/api/v1/categories/all"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: GET_ALL_ACTIVE_CATEGORIES
+  
+  ## 📝 Descripción
+  Recupera un listado plano de todas las categorías activas en el sistema.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/categories/all"`
+  - **Autenticación**: Público / Lectura general
+  
+  ## ⚙️ Parámetros y Filtros
+  Ninguno
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Lista de objetos de categorías activas.

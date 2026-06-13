@@ -1,0 +1,35 @@
+info:
+  name: LIST_DIGITAL_WEEKLIES
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{url}}/api/v1/digital-weekly?page=0&size=10&sortDir=DESC&sortBy=createdAt"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: LIST_DIGITAL_WEEKLIES
+  
+  ## 📝 Descripción
+  Lista paginada y ordenada por fecha de todas las ediciones de semanarios PDF.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/digital-weekly?page=0&size=10&sortDir=DESC&sortBy=createdAt"`
+  - **Autenticación**: Público (La descarga del PDF puede bloquearse en base a si es premium y si el usuario está autenticado/pagado)
+  
+  ## ⚙️ Parámetros y Filtros
+  Parámetros de paginación (`page`, `size`, `sortBy`, `sortDir`).
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Lista de ediciones semanales registradas.

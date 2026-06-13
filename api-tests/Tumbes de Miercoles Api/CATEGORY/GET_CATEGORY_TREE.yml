@@ -1,0 +1,35 @@
+info:
+  name: GET_CATEGORY_TREE
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{url}}/api/v1/categories/tree"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: GET_CATEGORY_TREE
+  
+  ## 📝 Descripción
+  Recupera la estructura jerárquica de árbol de categorías activas (categorías padres con sus subcategorías anidadas).
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/categories/tree"`
+  - **Autenticación**: Público / Lectura general
+  
+  ## ⚙️ Parámetros y Filtros
+  Ninguno
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno (Petición GET)
+  
+  ## 📤 Respuesta (Response)
+  Lista de categorías principales conteniendo recursivamente su lista de subcategorías.

@@ -1,0 +1,35 @@
+info:
+  name: GET_CATEGORY_BY_SLUG
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: "{{url}}/api/v1/categories/slug/locales"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: GET_CATEGORY_BY_SLUG
+  
+  ## 📝 Descripción
+  Busca una categoría activa a través de su slug único.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `GET`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/categories/slug/locales"`
+  - **Autenticación**: Público / Lectura general
+  
+  ## ⚙️ Parámetros y Filtros
+  - `slug` (Path Variable): Slug URL amigable de la categoría.
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  Ninguno
+  
+  ## 📤 Respuesta (Response)
+  Detalle de la categoría solicitada.

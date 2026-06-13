@@ -1,0 +1,51 @@
+info:
+  name: CREATE_COLUMNIST
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{url}}/api/v1/columnist"
+  body:
+    type: json
+    data: |-
+      {
+        "content": "<p>Columna de opinión sobre la situación política actual en la región.</p>",
+        "author": "Gino Rossi",
+        "title": "Renovación de Votos Electorales",
+        "headline": "Lo que nos depara el futuro político local",
+        "authorImageUrl": "/f/rossi.png",
+        "isActive": true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  # 📌 Endpoint: CREATE_COLUMNIST
+  
+  ## 📝 Descripción
+  Publica una nueva columna de opinión de un columnista invitado.
+  
+  ## 🌐 Detalles Técnicos
+  - **Método HTTP**: `POST`
+  - **Ruta/Endpoint**: `"{{url}}/api/v1/columnist"`
+  - **Autenticación**: Requerido (Bearer Token JWT - Rol Admin / Editor)
+  
+  ## ⚙️ Parámetros y Filtros
+  Ninguno
+  
+  ## 📦 Cuerpo de la Petición (Request Body)
+  - `content`: Texto e imágenes de la columna (HTML).
+  - `author`: Nombre del autor.
+  - `title`: Título de la columna.
+  - `headline`: Bajada o resumen corto.
+  - `authorImageUrl`: Imagen del perfil del columnista.
+  - `isActive`: Estado activo.
+  
+  ## 📤 Respuesta (Response)
+  Detalle de la columna creada.
