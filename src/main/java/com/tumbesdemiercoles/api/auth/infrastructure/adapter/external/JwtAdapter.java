@@ -1,4 +1,4 @@
-package com.tumbesdemiercoles.api.auth.infrastructure.adapter;
+package com.tumbesdemiercoles.api.auth.infrastructure.adapter.external;
 
 import com.tumbesdemiercoles.api.auth.application.dto.AuthUserDetailsDto;
 import com.tumbesdemiercoles.api.auth.application.dto.AuthUserResponseDto;

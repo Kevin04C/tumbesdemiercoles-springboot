@@ -71,13 +71,15 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(RuntimeException.class)
   public ResponseEntity<ApiResponse<Void>> handleRuntimeException(RuntimeException ex) {
     log.error("Runtime exception: {}", ex.getMessage(), ex);
-    return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Error interno del servidor", ex.getMessage());
+    return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Error interno del servidor",
+        "Por favor, contacte a soporte si el error persiste.");
   }
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
     log.error("Unexpected exception: {}", ex.getMessage(), ex);
-    return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Error inesperado", null);
+    return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "Error inesperado",
+        "Por favor, contacte a soporte si el error persiste.");
   }
   // ===================================================================================
   // NUEVOS MANEJADORES PARA EL DOMINIO PURO

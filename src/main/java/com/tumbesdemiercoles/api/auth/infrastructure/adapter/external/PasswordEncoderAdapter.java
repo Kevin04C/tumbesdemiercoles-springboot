@@ -1,7 +1,6 @@
-package com.tumbesdemiercoles.api.auth.infrastructure.adapter;
+package com.tumbesdemiercoles.api.auth.infrastructure.adapter.external;
 
 import com.tumbesdemiercoles.api.auth.application.ports.out.PasswordEncoderPort;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
